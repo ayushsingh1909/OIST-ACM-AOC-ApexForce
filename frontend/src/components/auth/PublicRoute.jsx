@@ -1,0 +1,24 @@
+import { Navigate, useLocation } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+
+const PublicRoute = ({ children }) => {
+  const { user, loading } = useAuth();
+  const location = useLocation();
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[60vh]">
+        <div className="w-10 h-10 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin" />
+      </div>
+    );
+  }
+
+  if (user) {
+    const redirectTo = location.state?.from?.pathname || "/";
+    return <Navigate to={redirectTo} replace />;
+  }
+
+  return children;
+};
+
+export default PublicRoute;

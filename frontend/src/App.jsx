@@ -1,132 +1,74 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
-import { AuthProvider, useAuth } from "./context/AuthContext";
+import { AuthProvider } from "./context/AuthContext";
+import { NotificationProvider } from "./context/NotificationContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
+import PublicRoute from "./components/auth/PublicRoute";
+import SessionTimeoutWatcher from "./components/auth/SessionTimeoutWatcher";
+import Navbar from "./components/layout/Navbar";
+
+// Page imports
 import Login from "./pages/auth/Login";
 import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import ProfileSettings from "./pages/ProfileSettings";
+import StudentDashboard from "./pages/StudentDashboard";
 import ResumeIntelligence from "./pages/ResumeIntelligence";
+import QuizDashboard from "./pages/quiz/QuizDashboard";
+import QuizTaking from "./pages/quiz/QuizTaking";
+import QuizResults from "./pages/quiz/QuizResults";
 import Assignments from "./pages/Assignments";
-import { FiUser, FiLogOut } from "react-icons/fi";
+import AssignmentSubmit from "./pages/assignment/AssignmentSubmit";
+import AssignmentFeedback from "./pages/assignment/AssignmentFeedback";
 
-// Simple nav shown for authenticated users
-const Navbar = () => {
-  const { user, logout } = useAuth();
-  if (!user) return null;
+// Interview Simulation Engine pages
+import InterviewOnboarding from "./pages/interview/InterviewOnboarding";
+import InterviewActive from "./pages/interview/InterviewActive";
+import InterviewReport from "./pages/interview/InterviewReport";
+import InterviewHistory from "./pages/interview/InterviewHistory";
 
-  return (
-    <nav className="flex items-center justify-between px-6 py-4 bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
-      <Link to="/" className="text-lg font-bold bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent tracking-tight">
-        ACIE
-      </Link>
-      <div className="flex items-center gap-3">
-        <Link
-          to="/assignments"
-          className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-slate-300 hover:text-white border border-slate-800 hover:border-slate-700 rounded-xl transition-all"
-        >
-          Assignments
-        </Link>
-        <Link
-          to="/profile"
-          className="flex items-center gap-2 px-3 py-1.5 text-sm text-slate-300 hover:text-white border border-slate-800 hover:border-slate-700 rounded-xl transition-all"
-        >
-          <FiUser className="w-4 h-4" />
-          {user.name}
-        </Link>
-        <button
-          onClick={logout}
-          className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-rose-400 hover:text-rose-300 border border-rose-500/20 hover:bg-rose-500/10 rounded-xl transition-all"
-        >
-          <FiLogOut className="w-4 h-4" /> Sign Out
-        </button>
-      </div>
-    </nav>
-  );
-};
+const AppRoutes = () => (
+  <div className="min-h-screen bg-slate-950 text-slate-100">
+    <Navbar />
+    <SessionTimeoutWatcher />
+    <main>
+      <Routes>
+        {/* Public Auth Routes */}
+        <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />
+        <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password" element={<ResetPassword />} />
 
-// Minimal dashboard placeholder (other modules will replace this)
-const Dashboard = () => {
-  const { user } = useAuth();
-  return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh] px-4 text-center">
-      <div className="w-20 h-20 mb-6 rounded-full bg-gradient-to-br from-violet-500 to-indigo-500 flex items-center justify-center text-3xl font-bold text-white shadow-2xl shadow-violet-600/20">
-        {user?.name?.charAt(0).toUpperCase()}
-      </div>
-      <h1 className="text-4xl font-extrabold text-white mb-3 bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">
-        Welcome to ACIE
-      </h1>
-      <p className="text-slate-400 max-w-md">
-        Hello, <span className="text-violet-400 font-semibold">{user?.name}</span>! Your AI Career Intelligence Engine workspace is ready.
-        Other modules will be built here.
-      </p>
-      <div className="mt-4 px-3 py-1 rounded-full text-xs font-semibold border text-violet-400 border-violet-400/30 bg-violet-400/10">
-        Role: {user?.role}
-      </div>
-    </div>
-  );
-};
+        {/* Protected Routes */}
+        <Route path="/" element={<ProtectedRoute><StudentDashboard /></ProtectedRoute>} />
+        <Route path="/profile" element={<ProtectedRoute><ProfileSettings /></ProtectedRoute>} />
+        <Route path="/resume" element={<ProtectedRoute><ResumeIntelligence /></ProtectedRoute>} />
+        <Route path="/quiz" element={<ProtectedRoute><QuizDashboard /></ProtectedRoute>} />
+        <Route path="/quiz/:attemptId" element={<ProtectedRoute><QuizTaking /></ProtectedRoute>} />
+        <Route path="/quiz/:attemptId/results" element={<ProtectedRoute><QuizResults /></ProtectedRoute>} />
+        <Route path="/assignments" element={<ProtectedRoute><Assignments /></ProtectedRoute>} />
+        <Route path="/assignments/:assignmentId/submit" element={<ProtectedRoute><AssignmentSubmit /></ProtectedRoute>} />
+        <Route path="/assignments/:submissionId/feedback" element={<ProtectedRoute><AssignmentFeedback /></ProtectedRoute>} />
+        
+        {/* Interview Simulation Routes */}
+        <Route path="/interview" element={<ProtectedRoute><InterviewOnboarding /></ProtectedRoute>} />
+        <Route path="/interview/session/:id" element={<ProtectedRoute><InterviewActive /></ProtectedRoute>} />
+        <Route path="/interview/session/:id/report" element={<ProtectedRoute><InterviewReport /></ProtectedRoute>} />
+        <Route path="/interview/history" element={<ProtectedRoute><InterviewHistory /></ProtectedRoute>} />
 
-const AppRoutes = () => {
-  const { user } = useAuth();
+        {/* Fallback */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </main>
+  </div>
+);
 
-  return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
-      <Navbar />
-      <main>
-        <Routes>
-          {/* Public Auth Routes */}
-          <Route
-            path="/login"
-            element={user ? <Navigate to="/" replace /> : <Login />}
-          />
-          <Route
-            path="/register"
-            element={user ? <Navigate to="/" replace /> : <Register />}
-          />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-
-          {/* Protected Routes */}
-          <Route
-            path="/"
-            element={
-              <ProtectedRoute>
-                <ResumeIntelligence />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute>
-                <ProfileSettings />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/assignments"
-            element={
-              <ProtectedRoute>
-                <Assignments />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Fallback */}
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
-      </main>
-    </div>
-  );
-};
-
-const App = () => {
-  return (
-    <BrowserRouter>
-      <AuthProvider>
+const App = () => (
+  <BrowserRouter>
+    <AuthProvider>
+      <NotificationProvider>
         <Toaster
           position="top-right"
           toastOptions={{
@@ -137,18 +79,14 @@ const App = () => {
               borderRadius: "12px",
               fontSize: "14px",
             },
-            success: {
-              iconTheme: { primary: "#8b5cf6", secondary: "#1e1f2e" },
-            },
-            error: {
-              iconTheme: { primary: "#f43f5e", secondary: "#1e1f2e" },
-            },
+            success: { iconTheme: { primary: "#8b5cf6", secondary: "#1e1f2e" } },
+            error: { iconTheme: { primary: "#f43f5e", secondary: "#1e1f2e" } },
           }}
         />
         <AppRoutes />
-      </AuthProvider>
-    </BrowserRouter>
-  );
-};
+      </NotificationProvider>
+    </AuthProvider>
+  </BrowserRouter>
+);
 
 export default App;
