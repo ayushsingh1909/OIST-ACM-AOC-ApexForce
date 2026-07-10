@@ -41,14 +41,14 @@ const runApiTests = async () => {
       })
     });
     
-    const regData = await regRes.json();
+        const regData = await regRes.json();
     console.log("Status:", regRes.status);
     
-    if (regRes.status !== 201 || !regData.token) {
+    if (regRes.status !== 201 || (!regData.token && !regData.data?.accessToken)) {
       throw new Error(`Registration failed: ${JSON.stringify(regData)}`);
     }
     
-    const token = regData.token;
+    const token = regData.token || regData.data?.accessToken;
     console.log("Successfully registered! Token acquired.");
 
     // 2. Login User
@@ -65,7 +65,7 @@ const runApiTests = async () => {
     const loginData = await loginRes.json();
     console.log("Status:", loginRes.status);
     
-    if (loginRes.status !== 200 || !loginData.token) {
+    if (loginRes.status !== 200 || (!loginData.token && !loginData.data?.accessToken)) {
       throw new Error(`Login failed: ${JSON.stringify(loginData)}`);
     }
     console.log("Successfully logged in!");
