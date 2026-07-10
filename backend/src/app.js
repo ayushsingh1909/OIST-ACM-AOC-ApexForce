@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import authRoutes from "./routes/auth.route.js";
 import resumeRoutes from "./routes/resume.route.js";
+import assignmentRoutes from "./routes/assignment.route.js";
 import { protect } from "./middleware/auth.middleware.js";
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(morgan("dev"));
 // API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/resume", resumeRoutes);
+app.use("/api/assignments", assignmentRoutes);
 
 // Default API
 app.get("/", protect, (req, res) => {

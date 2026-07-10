@@ -9,6 +9,7 @@ import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import ProfileSettings from "./pages/ProfileSettings";
 import ResumeIntelligence from "./pages/ResumeIntelligence";
+import Assignments from "./pages/Assignments";
 import { FiUser, FiLogOut } from "react-icons/fi";
 
 // Simple nav shown for authenticated users
@@ -22,6 +23,12 @@ const Navbar = () => {
         ACIE
       </Link>
       <div className="flex items-center gap-3">
+        <Link
+          to="/assignments"
+          className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-slate-300 hover:text-white border border-slate-800 hover:border-slate-700 rounded-xl transition-all"
+        >
+          Assignments
+        </Link>
         <Link
           to="/profile"
           className="flex items-center gap-2 px-3 py-1.5 text-sm text-slate-300 hover:text-white border border-slate-800 hover:border-slate-700 rounded-xl transition-all"
@@ -96,6 +103,14 @@ const AppRoutes = () => {
             element={
               <ProtectedRoute>
                 <ProfileSettings />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/assignments"
+            element={
+              <ProtectedRoute>
+                <Assignments />
               </ProtectedRoute>
             }
           />
