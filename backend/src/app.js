@@ -3,11 +3,12 @@ import cors from "cors";
 import cookieParser from "cookie-parser";
 import morgan from "morgan";
 import authRoutes from "./routes/auth.route.js";
+import resumeRoutes from "./routes/resume.route.js";
 import { protect } from "./middleware/auth.middleware.js";
 
 const app = express();
 
-// middleware
+// Global Middleware setup
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 app.use(express.json());
 app.use(cookieParser());
@@ -15,20 +16,26 @@ app.use(morgan("dev"));
 
 // API Routes
 app.use("/api/auth", authRoutes);
+app.use("/api/resume", resumeRoutes);
 
 // Default API
 app.get("/", protect, (req, res) => {
     res.json({ 
         success: true,
-        message: "Welcome to ACIE API Gateway",
+        message: "Welcome to the AI Career Intelligence Engine (ACIE)",
         data: {
-            user: req.user
+            user: {
+                id: req.user._id,
+                name: req.user.name,
+                email: req.user.email
+            }
         }
     });
 });
 
 // Default Error handler
 app.use((err, req, res, next) => {
+    console.error("Unhandled Error:", err.stack || err.message);
     const ErrMessage = err.message || "Internal Server Error";
     const ErrStatusCode = err.statusCode || 500;
 
@@ -39,6 +46,7 @@ app.use((err, req, res, next) => {
     });
 });
 
+// 404 Route handler
 app.use((req, res) => {
     res.status(404).json({
         success: false,
