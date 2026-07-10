@@ -28,6 +28,7 @@ import InterviewOnboarding from "./pages/interview/InterviewOnboarding";
 import InterviewActive from "./pages/interview/InterviewActive";
 import InterviewReport from "./pages/interview/InterviewReport";
 import InterviewHistory from "./pages/interview/InterviewHistory";
+import InterviewPortal from "./pages/InterviewPortal";
 
 const AppRoutes = () => (
   <div className="min-h-screen bg-slate-950 text-slate-100">
@@ -57,6 +58,7 @@ const AppRoutes = () => (
         <Route path="/interview/session/:id" element={<ProtectedRoute><InterviewActive /></ProtectedRoute>} />
         <Route path="/interview/session/:id/report" element={<ProtectedRoute><InterviewReport /></ProtectedRoute>} />
         <Route path="/interview/history" element={<ProtectedRoute><InterviewHistory /></ProtectedRoute>} />
+        <Route path="/interviews" element={<ProtectedRoute><InterviewPortal /></ProtectedRoute>} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />

@@ -44,6 +44,7 @@ app.use("/api/quiz", quizRoutes);
 app.use("/api/assignments", assignmentRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/interview", interviewRoutes);
+app.use("/api/interviews", interviewRoutes);
 
 app.get("/", protect, (req, res) => {
   res.json({

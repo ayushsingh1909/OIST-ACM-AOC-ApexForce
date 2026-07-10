@@ -7,7 +7,7 @@ const navItems = [
   { to: "/resume", label: "Resume", icon: FiFileText },
   { to: "/quiz", label: "Quiz", icon: FiHelpCircle },
   { to: "/assignments", label: "Assignments", icon: FiClipboard },
-  { to: "/interview", label: "Interview", icon: FiActivity },
+  { to: "/interviews", label: "Interview", icon: FiActivity },
 ];
 
 const Navbar = () => {

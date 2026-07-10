@@ -1,29 +1,19 @@
 import express from "express";
-import {
-  getRoles,
-  startSession,
-  getSession,
-  submitAnswer,
-  completeSession,
-  getUserHistory
-} from "../controllers/interview.controller.js";
+import { startInterview, submitAnswer, getHistory, getReport } from "../controller/interview.controller.js";
 import { protect } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-// Apply auth middleware to protect all simulator APIs
-router.use(protect);
+// POST /api/interviews/start - Initialize mock interview session
+router.post("/start", protect, startInterview);
 
-// Configuration and onboarding queries
-router.get("/roles", getRoles);
+// POST /api/interviews/:id/submit - Submit answer for active question
+router.post("/:id/submit", protect, submitAnswer);
 
-// Session lifecycle routes
-router.post("/start", startSession);
-router.get("/session/:id", getSession);
-router.post("/session/:id/answer", submitAnswer);
-router.post("/session/:id/complete", completeSession);
+// GET /api/interviews/history - Get brief session logs of previous attempts
+router.get("/history", protect, getHistory);
 
-// Session history route
-router.get("/history", getUserHistory);
+// GET /api/interviews/:id/report - Get full detail report breakdown of session
+router.get("/:id/report", protect, getReport);
 
 export default router;

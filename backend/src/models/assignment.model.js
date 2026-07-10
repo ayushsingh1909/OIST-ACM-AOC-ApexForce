@@ -82,4 +82,41 @@ const assignmentSchema = new mongoose.Schema(
 );
 
 const Assignment = mongoose.model("Assignment", assignmentSchema);
+
+const assignmentSubmissionSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
+    assignment: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Assignment",
+      required: true,
+    },
+    status: {
+      type: String,
+      enum: ["pending", "completed", "evaluated"],
+      default: "pending",
+    },
+    dueDate: {
+      type: Date,
+    },
+    submittedAt: {
+      type: Date,
+    },
+    evaluation: {
+      overallScore: { type: Number },
+      conceptCoverage: [mongoose.Schema.Types.Mixed],
+      mistakeBreakdown: [mongoose.Schema.Types.Mixed],
+      improvementSuggestions: [String],
+    },
+  },
+  { timestamps: true }
+);
+
+const AssignmentSubmission = mongoose.model("AssignmentSubmission", assignmentSubmissionSchema);
+
+export { Assignment, AssignmentSubmission };
 export default Assignment;

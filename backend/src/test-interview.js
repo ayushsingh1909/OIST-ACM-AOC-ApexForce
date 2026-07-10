@@ -3,28 +3,23 @@ dotenv.config();
 import mongoose from "mongoose";
 import app from "./app.js";
 import User from "./models/user.model.js";
-import InterviewQuestion from "./models/interviewQuestion.model.js";
 import InterviewSession from "./models/interviewSession.model.js";
 import connectDB from "./config/db.config.js";
-import { seedQuestions } from "./services/questionBank.service.js";
 
-const PORT = 5002;
+const PORT = 5003;
 
-const runTests = async () => {
+const runInterviewTests = async () => {
   let server;
   try {
-    console.log("=== Running Interview Simulation Module API Integration Tests ===");
-    
+    console.log("=== Running Interview Simulation Engine API Integration Tests ===");
+
     // Connect to DB
     await connectDB();
-    
-    // Seed questions
-    await seedQuestions();
-    
-    // Clean database before starting
-    await User.deleteMany({ email: "test-interview@example.com" });
+
+    // Cleanup existing data
+    await User.deleteMany({ email: "test-interview-dev@example.com" });
     await InterviewSession.deleteMany({});
-    console.log("Cleaned up existing test users and interview sessions from database.");
+    console.log("Cleaned database.");
 
     // Start server
     server = app.listen(PORT, () => {
@@ -32,143 +27,131 @@ const runTests = async () => {
     });
 
     const baseUrl = `http://localhost:${PORT}/api`;
-    
+
     // 1. Register User
     console.log("\n1. Testing User Registration (POST /api/auth/register)...");
     const regRes = await fetch(`${baseUrl}/auth/register`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        name: "Test Interviewee",
-        email: "test-interview@example.com",
+        name: "Interview Candidate",
+        email: "test-interview-dev@example.com",
         password: "securepassword123",
-        role: "student"
+        targetRole: "Full-Stack Developer"
       })
     });
-    
+
     const regData = await regRes.json();
-    console.log("Status:", regRes.status);
-    
-    if (regRes.status !== 201 || (!regData.token && !regData.data?.accessToken)) {
+    console.log("Reg Status:", regRes.status);
+    if (regRes.status !== 201 || !regData.data?.accessToken) {
       throw new Error(`Registration failed: ${JSON.stringify(regData)}`);
     }
-    
-    const token = regData.token || regData.data?.accessToken;
-    console.log("Successfully registered! Token acquired.");
+    const token = regData.data.accessToken;
 
-    // 2. Fetch Roles Configuration
-    console.log("\n2. Testing Get Roles (GET /api/interview/roles)...");
-    const rolesRes = await fetch(`${baseUrl}/interview/roles`, {
-      method: "GET",
-      headers: {
-        "Authorization": `Bearer ${token}`
-      }
-    });
-    const rolesData = await rolesRes.json();
-    console.log("Status:", rolesRes.status);
-    if (rolesRes.status !== 200 || !rolesData.success) {
-      throw new Error(`Get roles failed: ${JSON.stringify(rolesData)}`);
-    }
-    console.log("Available roles:", Object.keys(rolesData.data));
-
-    // 3. Start Interview Session
-    console.log("\n3. Testing Start Session (POST /api/interview/start)...");
-    const startRes = await fetch(`${baseUrl}/interview/start`, {
+    // 2. Start Interview Session
+    console.log("\n2. Testing Interview Init (POST /api/interviews/start)...");
+    const startRes = await fetch(`${baseUrl}/interviews/start`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${token}`
       },
       body: JSON.stringify({
-        role: "Full-Stack Developer",
-        skillStack: ["React", "Node.js", "MongoDB"],
-        difficulty: "Medium",
-        timeLimitPerQuestion: 120
+        targetRole: "Full-Stack Developer",
+        skillStack: ["React", "Node.js"]
       })
     });
-    const startData = await startRes.json();
-    console.log("Status:", startRes.status);
-    if (startRes.status !== 201 || !startData.success) {
-      throw new Error(`Start session failed: ${JSON.stringify(startData)}`);
-    }
-    
-    const sessionId = startData.data.sessionId;
-    console.log(`Successfully started session! SessionID: ${sessionId}`);
-    console.log(`Loaded ${startData.data.questions.length} questions.`);
-    
-    // Verify security: questions do not leak evaluation/ideal keywords
-    const firstQ = startData.data.questions[0];
-    if (firstQ.idealKeywords || firstQ.sampleAnswer || firstQ.score) {
-      throw new Error("Security check failed: questions leaked answer evaluation details in active phase!");
-    }
-    console.log("Security verification passed: Question metadata is masked.");
 
-    // 4. Submit Answers for all questions
-    console.log("\n4. Testing Answer Submissions (POST /api/interview/session/:id/answer)...");
-    const sampleAnswers = [
-      "React Virtual DOM is an in-memory representation of real DOM components. When changes happen, React diffs the old virtual tree with the new virtual tree. Using Fiber reconciliation, it schedules and updates the changes to the real DOM with key props, achieving O(n) performance.",
-      "The Cache-Aside strategy involves checking the cache (Redis) first. On a hit, return. On a miss, read from the database, write back to Redis, and return. To prevent invalidation issues we delete cache key on updates. To mitigate cache stampede we use mutex locking, and Bloom Filters for cache penetration.",
-      "To optimize the query, I would run EXPLAIN ANALYZE to review the SQL execution plan and look for table scans. I will create indexes on JOIN and WHERE conditions. I will fix N+1 queries by replacing loops with eager loading or JOINs, specify columns in SELECT, and use Redis connection pooling.",
-      "I was in a project where a team member and I had a conflict choosing between SQL and NoSQL. I set up a design meeting to actively listen to constraints. We compared requirements, compromised on PostgreSQL with JSONB columns for document data, and achieved consensus and alignment."
+    const startData = await startRes.json();
+    console.log("Start Status:", startRes.status);
+    console.log("Session ID:", startData.data?._id);
+    console.log("Questions Selected Count:", startData.data?.questions?.length);
+    if (startRes.status !== 201 || startData.data?.questions?.length !== 4) {
+      throw new Error(`Interview init failed: ${JSON.stringify(startData)}`);
+    }
+    const sessionId = startData.data._id;
+    const questions = startData.data.questions;
+
+    // 3. Submit Answers for all 4 questions sequentially (optimizing latency)
+    console.log("\n3. Submitting Answers (POST /api/interviews/:id/submit)...");
+
+    // Answers containing transitional phrases and keywords
+    const answersPool = [
+      "Firstly, the virtual DOM is a lightweight representation in memory. React compares it with the previous tree which is called diffing. For example, key props help reconciliation identify changed components.",
+      "Secondly, the Node.js event loop handles I/O using libuv. It is non-blocking. To prevent bottlenecks, worker threads handle CPU bound tasks in polling phase.",
+      "Thirdly, I disagree with stakeholders respectfully. However, we communicate and align using data-driven objective criteria to reach compromise.",
+      "Finally, we design a rate limiter middleware using Redis for token buckets. To prevent spikes, sliding window log checks IP headers for throttling."
     ];
 
-    for (let i = 0; i < startData.data.questions.length; i++) {
-      const q = startData.data.questions[i];
-      console.log(`\nSubmitting answer for question ${i + 1} (${q.vertical}): "${q.questionText.substring(0, 50)}..."`);
-      const ansRes = await fetch(`${baseUrl}/interview/session/${sessionId}/answer`, {
+    for (let i = 0; i < questions.length; i++) {
+      const q = questions[i];
+      const answer = answersPool[i];
+
+      console.log(`\nSubmitting Answer for Q${i + 1} (${q.category}):`);
+      const startTime = Date.now();
+
+      const submitRes = await fetch(`${baseUrl}/interviews/${sessionId}/submit`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           "Authorization": `Bearer ${token}`
         },
         body: JSON.stringify({
-          answerText: sampleAnswers[i],
-          timeSpent: 30
+          questionId: q._id,
+          answerText: answer
         })
       });
-      const ansData = await ansRes.json();
-      console.log("Status:", ansRes.status);
-      if (ansRes.status !== 200 || !ansData.success) {
-        throw new Error(`Submit answer failed on question ${i+1}: ${JSON.stringify(ansData)}`);
+
+      const submitData = await submitRes.json();
+      const duration = Date.now() - startTime;
+
+      console.log(`Grade: ${submitData.data?.lastEvaluation?.score} | Duration: ${duration}ms`);
+      if (submitRes.status !== 200) {
+        throw new Error(`Submission failed at Q${i + 1}: ${JSON.stringify(submitData)}`);
       }
-      console.log(`Score achieved: ${ansData.data.score}/100`);
-      console.log(`Feedback snippet: ${ansData.data.evaluation.feedback.substring(0, 80)}...`);
+
+      // Assert under 3 seconds
+      if (duration > 3000) {
+        throw new Error(`Latency SLA breached! Submission took ${duration}ms`);
+      }
+
+      if (i === questions.length - 1) {
+        // Assert session completed
+        if (submitData.data.status !== "completed") {
+          throw new Error("Expected session status to change to completed");
+        }
+        console.log("Overall Score Calculated:", submitData.data.overallScore);
+        console.log("Overall Feedback:", submitData.data.feedback);
+      }
     }
 
-    // 5. Complete Session
-    console.log("\n5. Testing Complete Session (POST /api/interview/session/:id/complete)...");
-    const compRes = await fetch(`${baseUrl}/interview/session/${sessionId}/complete`, {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${token}`
-      }
-    });
-    const compData = await compRes.json();
-    console.log("Status:", compRes.status);
-    if (compRes.status !== 200 || !compData.success) {
-      throw new Error(`Complete session failed: ${JSON.stringify(compData)}`);
-    }
-    
-    console.log(`Overall Session Score: ${compData.data.overallScore}/100`);
-    console.log(`Missing Concepts Detected: ${compData.data.missingConceptsBreakdown.join(", ")}`);
-    console.log(`Overall Feedback: ${compData.data.overallFeedback}`);
-
-    // 6. Retrieve History
-    console.log("\n6. Testing Retrieve History (GET /api/interview/history)...");
-    const histRes = await fetch(`${baseUrl}/interview/history`, {
+    // 4. Retrieve History
+    console.log("\n4. Testing Retrieve History (GET /api/interviews/history)...");
+    const histRes = await fetch(`${baseUrl}/interviews/history`, {
       method: "GET",
-      headers: {
-        "Authorization": `Bearer ${token}`
-      }
+      headers: { "Authorization": `Bearer ${token}` }
     });
     const histData = await histRes.json();
-    console.log("Status:", histRes.status);
-    if (histRes.status !== 200 || !histData.success || histData.count === 0) {
-      throw new Error(`Retrieve history failed: ${JSON.stringify(histData)}`);
+    console.log("History Status:", histRes.status);
+    console.log("History Count:", histData.count);
+    if (histRes.status !== 200 || histData.count !== 1) {
+      throw new Error(`History fetch failed: ${JSON.stringify(histData)}`);
     }
-    console.log(`Records fetched: ${histData.count}. Latest session ID: ${histData.data[0]._id}`);
 
-    console.log("\n=== ALL INTERVIEW ENGINE TESTS PASSED SUCCESSFULLY! ===");
+    // 5. Retrieve Report
+    console.log("\n5. Testing Retrieve Report (GET /api/interviews/:id/report)...");
+    const reportRes = await fetch(`${baseUrl}/interviews/${sessionId}/report`, {
+      method: "GET",
+      headers: { "Authorization": `Bearer ${token}` }
+    });
+    const reportData = await reportRes.json();
+    console.log("Report Status:", reportRes.status);
+    console.log("Questions Evaluated Count:", reportData.data?.questions?.filter(q => q.userAnswer).length);
+    if (reportRes.status !== 200 || !reportData.data?.overallScore) {
+      throw new Error(`Report fetch failed: ${JSON.stringify(reportData)}`);
+    }
+
+    console.log("\n=== ALL INTERVIEW SIMULATION TESTS PASSED SUCCESSFULLY! ===");
   } catch (error) {
     console.error("\nTEST RUN FAILED:", error.stack || error.message);
     process.exitCode = 1;
@@ -183,4 +166,4 @@ const runTests = async () => {
   }
 };
 
-runTests();
+runInterviewTests();

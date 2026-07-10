@@ -1,52 +1,40 @@
 import mongoose from "mongoose";
 
-const sessionQuestionSchema = new mongoose.Schema({
-  questionId: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "InterviewQuestion",
-    required: true,
-  },
-  vertical: {
-    type: String,
-    required: true,
-  },
+const interviewQuestionSchema = new mongoose.Schema({
   questionText: {
     type: String,
-    required: true,
+    required: true
+  },
+  category: {
+    type: String,
+    enum: ["Technical", "Behavioral", "System Design", "Project Deep-Dive"],
+    required: true
   },
   difficulty: {
     type: String,
-    required: true,
+    enum: ["Easy", "Medium", "Hard"],
+    required: true
   },
-  idealKeywords: [String],
-  sampleAnswer: String,
-  answerText: {
+  userAnswer: {
     type: String,
-    default: "",
-  },
-  timeSpent: {
-    type: Number,
-    default: 0, // in seconds
-  },
-  isAnswered: {
-    type: Boolean,
-    default: false,
+    default: ""
   },
   score: {
     type: Number,
-    default: 0,
     min: 0,
-    max: 100,
+    max: 100
   },
-  evaluation: {
-    keywordRelevance: { type: Number, default: 0 },
-    technicalDepth: { type: Number, default: 0 },
-    logicalStructure: { type: Number, default: 0 },
-    domainTerminology: { type: Number, default: 0 },
-    completeness: { type: Number, default: 0 },
-    feedback: { type: String, default: "" },
-    missingConcepts: [String],
+  feedback: {
+    type: String
   },
+  missingConcepts: [
+    {
+      type: String
+    }
+  ],
+  evaluatedAt: {
+    type: Date
+  }
 });
 
 const interviewSessionSchema = new mongoose.Schema(
@@ -54,59 +42,35 @@ const interviewSessionSchema = new mongoose.Schema(
     user: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required: true,
+      required: true
     },
-    role: {
+    targetRole: {
       type: String,
-      required: true,
-      default: "Full-Stack Developer",
+      required: true
     },
-    skillStack: {
-      type: [String],
-      default: [],
-    },
-    difficulty: {
-      type: String,
-      required: true,
-      enum: ["Easy", "Medium", "Hard"],
-      default: "Medium",
-    },
+    skillStack: [
+      {
+        type: String
+      }
+    ],
     status: {
       type: String,
-      required: true,
-      enum: ["Created", "In-Progress", "Completed", "Evaluating"],
-      default: "Created",
+      enum: ["ongoing", "completed", "expired"],
+      default: "ongoing"
     },
-    currentQuestionIndex: {
-      type: Number,
-      default: 0,
+    expiresAt: {
+      type: Date,
+      required: true
     },
-    timeLimitPerQuestion: {
-      type: Number,
-      default: 120, // default 2 minutes (in seconds), 0 = unlimited
-    },
-    questions: [sessionQuestionSchema],
     overallScore: {
       type: Number,
-      default: 0,
       min: 0,
-      max: 100,
+      max: 100
     },
-    overallFeedback: {
-      type: String,
-      default: "",
+    feedback: {
+      type: String
     },
-    missingConceptsBreakdown: {
-      type: [String],
-      default: [],
-    },
-    startedAt: {
-      type: Date,
-      default: Date.now,
-    },
-    endedAt: {
-      type: Date,
-    },
+    questions: [interviewQuestionSchema]
   },
   { timestamps: true }
 );
