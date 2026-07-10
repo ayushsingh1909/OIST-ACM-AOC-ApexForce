@@ -5,6 +5,8 @@ import morgan from "morgan";
 import authRoutes from "./routes/auth.route.js";
 import resumeRoutes from "./routes/resume.route.js";
 import assignmentRoutes from "./routes/assignment.route.js";
+import careerIntelligenceRoutes from "./routes/careerIntelligence.routes.js";
+import adminRoutes from "./routes/admin.routes.js";
 import { protect } from "./middleware/auth.middleware.js";
 
 const app = express();
@@ -18,6 +20,8 @@ app.use(morgan("dev"));
 // API Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/resume", resumeRoutes);
+app.use("/api/career-intelligence", careerIntelligenceRoutes); // Module 7
+app.use("/api/admin", adminRoutes);                           // Module 8
 app.use("/api/assignments", assignmentRoutes);
 
 // Default API
