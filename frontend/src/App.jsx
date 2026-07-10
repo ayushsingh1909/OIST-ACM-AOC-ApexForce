@@ -10,7 +10,13 @@ import ResetPassword from "./pages/auth/ResetPassword";
 import ProfileSettings from "./pages/ProfileSettings";
 import ResumeIntelligence from "./pages/ResumeIntelligence";
 import Assignments from "./pages/Assignments";
-import { FiUser, FiLogOut } from "react-icons/fi";
+import CareerDashboard from "./pages/career-intelligence/CareerDashboard";
+import GrowthTrend from "./pages/career-intelligence/GrowthTrend";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import UserManagement from "./pages/admin/UserManagement";
+import ContentManagement from "./pages/admin/ContentManagement";
+import Reports from "./pages/admin/Reports";
+import { FiUser, FiLogOut, FiLayout, FiActivity, FiSettings, FiBriefcase } from "react-icons/fi";
 
 // Simple nav shown for authenticated users
 const Navbar = () => {
@@ -18,17 +24,66 @@ const Navbar = () => {
   if (!user) return null;
 
   return (
-    <nav className="flex items-center justify-between px-6 py-4 bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
+    <nav className="flex flex-wrap items-center justify-between gap-4 px-6 py-4 bg-slate-900/80 backdrop-blur-md border-b border-slate-800 sticky top-0 z-50">
       <Link to="/" className="text-lg font-bold bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent tracking-tight">
         ACIE
       </Link>
-      <div className="flex items-center gap-3">
+      <div className="flex flex-wrap items-center gap-3">
+        <Link
+          to="/"
+          className="px-3 py-1.5 text-sm text-slate-300 hover:text-white border border-slate-800 hover:border-slate-700 rounded-xl transition-all"
+        >
+          Resume
+        </Link>
         <Link
           to="/assignments"
-          className="flex items-center gap-1.5 px-3 py-1.5 text-sm text-slate-300 hover:text-white border border-slate-800 hover:border-slate-700 rounded-xl transition-all"
+          className="px-3 py-1.5 text-sm text-slate-300 hover:text-white border border-slate-800 hover:border-slate-700 rounded-xl transition-all"
         >
           Assignments
         </Link>
+        <Link
+          to="/career-dashboard"
+          className="px-3 py-1.5 text-sm text-slate-300 hover:text-white border border-slate-800 hover:border-slate-700 rounded-xl transition-all"
+        >
+          Readiness
+        </Link>
+        <Link
+          to="/growth-trend"
+          className="px-3 py-1.5 text-sm text-slate-300 hover:text-white border border-slate-800 hover:border-slate-700 rounded-xl transition-all"
+        >
+          Growth Trend
+        </Link>
+        
+        {user.role === "admin" && (
+          <div className="flex items-center gap-1.5 border border-rose-500/20 bg-rose-500/5 px-2 py-1 rounded-xl">
+            <span className="text-[10px] uppercase font-bold text-rose-400 px-1.5">Admin:</span>
+            <Link
+              to="/admin"
+              className="px-2 py-0.5 text-xs text-rose-300 hover:text-rose-100 transition-colors"
+            >
+              Dashboard
+            </Link>
+            <Link
+              to="/admin/users"
+              className="px-2 py-0.5 text-xs text-rose-300 hover:text-rose-100 transition-colors"
+            >
+              Users
+            </Link>
+            <Link
+              to="/admin/content"
+              className="px-2 py-0.5 text-xs text-rose-300 hover:text-rose-100 transition-colors"
+            >
+              Content
+            </Link>
+            <Link
+              to="/admin/reports"
+              className="px-2 py-0.5 text-xs text-rose-300 hover:text-rose-100 transition-colors"
+            >
+              Reports
+            </Link>
+          </div>
+        )}
+
         <Link
           to="/profile"
           className="flex items-center gap-2 px-3 py-1.5 text-sm text-slate-300 hover:text-white border border-slate-800 hover:border-slate-700 rounded-xl transition-all"
@@ -111,6 +166,56 @@ const AppRoutes = () => {
             element={
               <ProtectedRoute>
                 <Assignments />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/career-dashboard"
+            element={
+              <ProtectedRoute>
+                <CareerDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/growth-trend"
+            element={
+              <ProtectedRoute>
+                <GrowthTrend />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Admin Protected Routes */}
+          <Route
+            path="/admin"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <AdminDashboard />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/users"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <UserManagement />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/content"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <ContentManagement />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/admin/reports"
+            element={
+              <ProtectedRoute adminOnly={true}>
+                <Reports />
               </ProtectedRoute>
             }
           />
