@@ -19,22 +19,22 @@ const HeroScoreCard = ({
   // Status mapping to technical ochre/forest/oxide theme
   const statusColors = {
     ready: {
-      text: "text-[#0F5132]",
-      bg: "bg-[#E8F5E9]",
-      border: "border-[#0F5132]/20",
-      accent: "#0F5132"
+      text: "text-black",
+      bg: "bg-[#FFFFFF]",
+      border: "border border-black",
+      accent: "#000000"
     },
     developing: {
-      text: "text-[#855800]",
-      bg: "bg-[#FFF9E6]",
-      border: "border-[#855800]/20",
-      accent: "#855800"
+      text: "text-black",
+      bg: "bg-[#FFFFFF]",
+      border: "border border-black",
+      accent: "#000000"
     },
     risk: {
-      text: "text-[#B30006]",
-      bg: "bg-[#FFEBEE]",
-      border: "border-[#B30006]/20",
-      accent: "#B30006"
+      text: "text-black",
+      bg: "bg-[#FFFFFF]",
+      border: "border border-black",
+      accent: "#000000"
     }
   };
 
@@ -65,29 +65,28 @@ const HeroScoreCard = ({
   }, [score, isReduced]);
 
   return (
-    <div className="bg-white border border-[#111111]/10 rounded-2xl p-8 flex flex-col justify-between h-[340px] shadow-[0_4px_20px_rgba(17,17,17,0.015)] relative overflow-hidden">
+    <div className="bg-[#FFFFFF] border border-black/10 p-8 flex flex-col justify-between h-[340px] relative overflow-hidden">
       
       {/* Top Header */}
       <div className="flex justify-between items-start">
         <div className="space-y-1.5">
-          <span className="text-[10px] font-bold text-[#555555] uppercase tracking-widest block font-mono">
+          <span className="text-[10px] font-bold text-[#000000] uppercase tracking-widest block font-sans">
             {title}
           </span>
           <span
             ref={badgeRef}
-            className={`inline-block text-[10px] font-bold px-2.5 py-0.5 rounded border uppercase tracking-wider font-mono ${currentTheme.text} ${currentTheme.bg} ${currentTheme.border}`}
+            className={`inline-block text-[10px] font-bold px-3 py-1 uppercase tracking-widest font-sans ${currentTheme.text} ${currentTheme.bg} ${currentTheme.border}`}
           >
             {classification}
           </span>
         </div>
-        <div className="w-1.5 h-1.5 rounded-full bg-[#635BFF]" /> {/* Signature Pip */}
       </div>
 
       {/* Numerical Metric Display */}
       <div className="my-auto">
-        <div className="flex items-baseline text-[#111111]">
-          <span ref={countRef} className="text-7xl font-semibold tracking-tight font-mono leading-none">0</span>
-          <span className="text-3xl font-normal ml-1 font-mono">%</span>
+        <div className="flex items-baseline text-[#000000]">
+          <span ref={countRef} className="text-8xl font-bold tracking-tighter font-sans leading-none">0</span>
+          <span className="text-4xl font-bold ml-1 font-sans">%</span>
         </div>
 
         {/* Calibration Slide Dial (Direction A Signature element) */}
@@ -95,26 +94,26 @@ const HeroScoreCard = ({
           {/* Diagnostic tick markings */}
           <div className="absolute inset-x-0 bottom-3 h-2 flex justify-between select-none">
             {[...Array(11)].map((_, i) => (
-              <span key={i} className="w-[1px] h-full bg-[#111111]/20 font-mono text-[8px] text-[#555555] flex flex-col justify-between items-center">
-                <span className="w-[1px] h-1.5 bg-[#111111]/20" />
+              <span key={i} className="w-[1px] h-full bg-black/20 font-sans font-bold text-[8px] text-black flex flex-col justify-between items-center">
+                <span className="w-[1px] h-1.5 bg-black/20" />
                 <span className="mt-1">{i * 10}</span>
               </span>
             ))}
           </div>
           {/* Main gauge track */}
-          <div className="w-full h-[2px] bg-[#111111]/10 absolute bottom-3" />
+          <div className="w-full h-[2px] bg-black/10 absolute bottom-3" />
           
           {/* Slider Pip */}
           <div
             ref={indicatorRef}
             style={{ left: "0%" }}
-            className="absolute bottom-[9px] w-2.5 h-2.5 bg-[#111111] rounded-full border-2 border-white -ml-1.25 shadow"
+            className="absolute bottom-[9px] w-2.5 h-2.5 bg-[#000000] border-2 border-white -ml-1.25"
           />
         </div>
       </div>
 
       {/* Footer Info */}
-      <div className="flex justify-between items-center border-t border-[#111111]/5 pt-4 text-[10px] text-[#555555] font-semibold uppercase tracking-wider font-mono">
+      <div className="flex justify-between items-center border-t border-black/10 pt-4 text-[10px] text-[#000000] font-bold uppercase tracking-widest font-sans">
         <span>{subtitle}</span>
         <span>{rankText}</span>
       </div>

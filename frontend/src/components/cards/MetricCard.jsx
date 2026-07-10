@@ -19,7 +19,7 @@ const MetricCard = ({
     if (!val) return null;
     const isPositive = val.toString().startsWith("+");
     return {
-      text: isPositive ? "text-[#0F5132]" : "text-[#B30006]",
+      text: isPositive ? "text-black" : "text-black",
       label: isPositive ? `↑ ${val}` : `↓ ${val}`
     };
   };
@@ -29,42 +29,42 @@ const MetricCard = ({
   return (
     <div
       ref={hoverRef}
-      className="bg-white border border-[#111111]/7 rounded-2xl p-8 flex flex-col justify-between h-[320px] shadow-[0_4px_30px_rgba(17,17,17,0.015)] cursor-pointer transition-all overflow-hidden"
+      className="bg-[#FFFFFF] border border-black/10 p-8 flex flex-col justify-between h-[320px] cursor-pointer transition-all overflow-hidden"
     >
       {/* Header */}
       <div className="flex justify-between items-start">
         <div className="space-y-1">
-          <h4 className="text-[10px] font-bold text-[#555555] uppercase tracking-widest font-mono">
+          <h4 className="text-[10px] font-bold text-[#000000] uppercase tracking-widest font-sans">
             {title}
           </h4>
           {classification && (
-            <span className="text-[9px] font-mono font-bold text-[#111111]/60 block uppercase">
+            <span className="text-[9px] font-sans font-bold text-[#000000]/60 block uppercase">
               {classification}
             </span>
           )}
         </div>
-        <span className="hover-arrow text-sm font-semibold transition-transform">→</span>
+        <span className="hover-arrow text-lg font-bold transition-transform">→</span>
       </div>
 
       {/* Metric Middle */}
       <div className="my-auto">
-        <div className="flex items-baseline text-[#111111]">
-          <span ref={countRef} className="text-6xl font-semibold tracking-tight font-mono leading-none">0</span>
-          <span className="text-xl font-normal ml-0.5 font-mono">{suffix}</span>
+        <div className="flex items-baseline text-[#000000]">
+          <span ref={countRef} className="text-7xl font-bold tracking-tighter font-sans leading-none">0</span>
+          <span className="text-2xl font-bold ml-0.5 font-sans">{suffix}</span>
           
           {trend && (
-            <span className={`text-[10px] font-bold font-mono ml-3 ${trend.text}`}>
+            <span className={`text-[10px] font-bold font-sans ml-3 ${trend.text}`}>
               {trend.label}
             </span>
           )}
         </div>
         {description && (
-          <p className="text-[11px] text-[#555555] mt-2.5 leading-relaxed font-sans">{description}</p>
+          <p className="text-[11px] text-[#000000] mt-3 leading-relaxed font-sans">{description}</p>
         )}
       </div>
 
       {/* Footer Divider */}
-      <div className="flex justify-between items-center border-t border-[#111111]/5 pt-4 text-[10px] text-[#555555] font-semibold uppercase tracking-wider font-mono">
+      <div className="flex justify-between items-center border-t border-black/10 pt-4 text-[10px] text-[#000000] font-bold uppercase tracking-widest font-sans">
         <span>{footerLeft}</span>
         <span>{footerRight}</span>
       </div>

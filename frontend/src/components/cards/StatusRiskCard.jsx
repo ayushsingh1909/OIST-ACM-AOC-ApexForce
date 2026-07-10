@@ -14,19 +14,19 @@ const StatusRiskCard = ({
   // Mapping urgency to blueprint functional colors
   const priorityThemes = {
     High: {
-      border: "border-l-4 border-l-[#B30006]",
-      bg: "bg-[#FFEBEE]/20",
-      badge: "bg-[#FFEBEE] text-[#B30006] border-[#B30006]/20"
+      border: "border-l-[6px] border-l-[#B30006]",
+      bg: "bg-[#FFFFFF]",
+      badge: "bg-[#B30006]/10 text-[#B30006] border-[#B30006]"
     },
     Medium: {
-      border: "border-l-4 border-l-[#855800]",
-      bg: "bg-[#FFF9E6]/25",
-      badge: "bg-[#FFF9E6] text-[#855800] border-[#855800]/20"
+      border: "border-l-[6px] border-l-black",
+      bg: "bg-[#FFFFFF]",
+      badge: "bg-black/5 text-black border-black"
     },
     Low: {
-      border: "border-l-4 border-l-[#0F5132]",
-      bg: "bg-[#E8F5E9]/20",
-      badge: "bg-[#E8F5E9] text-[#0F5132] border-[#0F5132]/20"
+      border: "border-l-[6px] border-l-black/50",
+      bg: "bg-[#FFFFFF]",
+      badge: "bg-[#FFFFFF] text-black border-black/50"
     }
   };
 
@@ -47,19 +47,19 @@ const StatusRiskCard = ({
   return (
     <div
       ref={cardRef}
-      className={`p-5 rounded-2xl bg-white border border-[#111111]/7 ${theme.border} ${theme.bg} shadow-[0_2px_15px_rgba(17,17,17,0.01)] flex items-start justify-between gap-4 transition-all`}
+      className={`p-5 bg-[#FFFFFF] border border-black/10 ${theme.border} ${theme.bg} flex items-start justify-between gap-4 transition-all`}
     >
       <div className="space-y-1">
-        <span className="text-[10px] font-bold text-[#111111] font-mono tracking-tight block">
+        <span className="text-[12px] font-bold text-[#000000] font-sans tracking-wide block">
           {title}
         </span>
         {description && (
-          <p className="text-[11px] text-[#555555] leading-relaxed font-sans">{description}</p>
+          <p className="text-[11px] text-[#000000] leading-relaxed font-sans">{description}</p>
         )}
       </div>
 
       {badgeText && (
-        <span className={`text-[9px] font-mono font-bold px-2 py-0.5 rounded border uppercase tracking-wider ${theme.badge}`}>
+        <span className={`text-[9px] font-sans font-bold px-2 py-0.5 border uppercase tracking-widest ${theme.badge}`}>
           {badgeText}
         </span>
       )}

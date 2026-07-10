@@ -1,12 +1,12 @@
 import React from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, Outlet } from "react-router-dom";
 import { Toaster } from "react-hot-toast";
 import { AuthProvider } from "./context/AuthContext";
 import { NotificationProvider } from "./context/NotificationContext";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import PublicRoute from "./components/auth/PublicRoute";
 import SessionTimeoutWatcher from "./components/auth/SessionTimeoutWatcher";
-import Navbar from "./components/layout/Navbar";
+import LMSLayout from "./components/layout/LMSLayout";
 
 // Page imports
 import Login from "./pages/auth/Login";
@@ -14,7 +14,7 @@ import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import ProfileSettings from "./pages/ProfileSettings";
-import StudentDashboard from "./pages/StudentDashboard";
+import Dashboard from "./pages/dashboard/Dashboard";
 import ResumeIntelligence from "./pages/ResumeIntelligence";
 import QuizDashboard from "./pages/quiz/QuizDashboard";
 import QuizTaking from "./pages/quiz/QuizTaking";
@@ -31,14 +31,21 @@ import InterviewHistory from "./pages/interview/InterviewHistory";
 import InterviewPortal from "./pages/InterviewPortal";
 
 // Modules 7 & 8 pages
-import CareerDashboard from "./pages/career-intelligence/CareerDashboard";
+import Readiness from "./pages/career-intelligence/Readiness";
 import GrowthTrend from "./pages/career-intelligence/GrowthTrend";
 import AnimationDemo from "./pages/AnimationDemo";
 import LMSDemo from "./pages/LMSDemo";
 
+const ProtectedLayout = () => (
+  <ProtectedRoute>
+    <LMSLayout>
+      <Outlet />
+    </LMSLayout>
+  </ProtectedRoute>
+);
+
 const AppRoutes = () => (
-  <div className="min-h-screen bg-slate-950 text-slate-100">
-    <Navbar />
+  <div className="min-h-screen bg-[#FAFAFA] text-[#111111] font-sans">
     <SessionTimeoutWatcher />
     <main>
       <Routes>
@@ -50,28 +57,29 @@ const AppRoutes = () => (
         <Route path="/animation-demo" element={<AnimationDemo />} />
         <Route path="/lms-demo" element={<LMSDemo />} />
 
-        {/* Protected Student Routes */}
-        <Route path="/" element={<ProtectedRoute><StudentDashboard /></ProtectedRoute>} />
-        <Route path="/profile" element={<ProtectedRoute><ProfileSettings /></ProtectedRoute>} />
-        <Route path="/resume" element={<ProtectedRoute><ResumeIntelligence /></ProtectedRoute>} />
-        <Route path="/quiz" element={<ProtectedRoute><QuizDashboard /></ProtectedRoute>} />
-        <Route path="/quiz/:attemptId" element={<ProtectedRoute><QuizTaking /></ProtectedRoute>} />
-        <Route path="/quiz/:attemptId/results" element={<ProtectedRoute><QuizResults /></ProtectedRoute>} />
-        <Route path="/assignments" element={<ProtectedRoute><Assignments /></ProtectedRoute>} />
-        <Route path="/assignments/:assignmentId/submit" element={<ProtectedRoute><AssignmentSubmit /></ProtectedRoute>} />
-        <Route path="/assignments/:submissionId/feedback" element={<ProtectedRoute><AssignmentFeedback /></ProtectedRoute>} />
-        
-        {/* Interview Simulation Routes */}
-        <Route path="/interview" element={<ProtectedRoute><InterviewOnboarding /></ProtectedRoute>} />
-        <Route path="/interview/session/:id" element={<ProtectedRoute><InterviewActive /></ProtectedRoute>} />
-        <Route path="/interview/session/:id/report" element={<ProtectedRoute><InterviewReport /></ProtectedRoute>} />
-        <Route path="/interview/history" element={<ProtectedRoute><InterviewHistory /></ProtectedRoute>} />
-        <Route path="/interviews" element={<ProtectedRoute><InterviewPortal /></ProtectedRoute>} />
+        {/* Protected LMS Routes */}
+        <Route element={<ProtectedLayout />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/profile" element={<ProfileSettings />} />
+          <Route path="/resume" element={<ResumeIntelligence />} />
+          <Route path="/quiz" element={<QuizDashboard />} />
+          <Route path="/quiz/:attemptId" element={<QuizTaking />} />
+          <Route path="/quiz/:attemptId/results" element={<QuizResults />} />
+          <Route path="/assignments" element={<Assignments />} />
+          <Route path="/assignments/:assignmentId/submit" element={<AssignmentSubmit />} />
+          <Route path="/assignments/:submissionId/feedback" element={<AssignmentFeedback />} />
+          
+          {/* Interview Simulation Routes */}
+          <Route path="/interview" element={<InterviewOnboarding />} />
+          <Route path="/interview/session/:id" element={<InterviewActive />} />
+          <Route path="/interview/session/:id/report" element={<InterviewReport />} />
+          <Route path="/interview/history" element={<InterviewHistory />} />
+          <Route path="/interviews" element={<InterviewPortal />} />
 
-        {/* Career Intelligence Routes */}
-        <Route path="/career-dashboard" element={<ProtectedRoute><CareerDashboard /></ProtectedRoute>} />
-        <Route path="/growth-trend" element={<ProtectedRoute><GrowthTrend /></ProtectedRoute>} />
-
+          {/* Career Intelligence Routes */}
+          <Route path="/readiness" element={<Readiness />} />
+          <Route path="/growth-trend" element={<GrowthTrend />} />
+        </Route>
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />

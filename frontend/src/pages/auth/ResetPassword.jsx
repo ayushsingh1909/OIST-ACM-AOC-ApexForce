@@ -78,25 +78,22 @@ const ResetPassword = () => {
 
   return (
     <div className="flex items-center justify-center min-h-[80vh] px-4">
-      <div className="w-full max-w-md p-8 bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-2xl shadow-2xl relative overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-violet-600/10 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
-
+      <div className="w-full max-w-md p-10 bg-[#FFFFFF] border border-black/10 relative overflow-hidden">
         {!isDone ? (
           <>
-            <div className="text-center mb-8">
-              <h2 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">
+            <div className="text-center mb-10">
+              <h2 className="text-5xl font-bold tracking-tighter text-[#000000]">
                 Reset Password
               </h2>
-              <p className="mt-2 text-sm text-slate-400">Enter your new secure password below</p>
+              <p className="mt-4 text-xs font-sans text-[#000000] tracking-wide">Enter your new secure password below</p>
             </div>
 
-            <form onSubmit={handleSubmit} className="space-y-5">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div>
-                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">New Password</label>
+                <label className="block text-[10px] font-bold text-[#000000] uppercase tracking-widest mb-2 font-sans">New Password</label>
                 <div className="relative">
-                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
-                    <FiLock className="w-5 h-5" />
+                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-[#000000]">
+                    <FiLock className="w-4 h-4" />
                   </span>
                   <input
                     type={showPassword ? "text" : "password"}
@@ -104,10 +101,10 @@ const ResetPassword = () => {
                     value={formData.password}
                     onChange={handleChange}
                     placeholder="min. 6 chars with a letter and number"
-                    className={`w-full pl-10 pr-10 py-2.5 bg-slate-950/50 border rounded-xl text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-violet-500/50 transition-all ${errors.password ? "border-rose-500" : "border-slate-800 focus:border-violet-500"}`}
+                    className={`w-full pl-10 pr-10 py-3 bg-[#FFFFFF] border text-[#000000] text-sm placeholder-[#000000]/30 focus:outline-none transition-all ${errors.password ? "border-rose-500 focus:ring-1 focus:ring-rose-500" : "border-black/20 focus:border-black focus:ring-1 focus:ring-black"}`}
                   />
-                  <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-slate-300">
-                    {showPassword ? <FiEyeOff className="w-5 h-5" /> : <FiEye className="w-5 h-5" />}
+                  <button type="button" onClick={() => setShowPassword(!showPassword)} className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#000000] hover:text-[#000000]/70">
+                    {showPassword ? <FiEyeOff className="w-4 h-4" /> : <FiEye className="w-4 h-4" />}
                   </button>
                 </div>
                 {formData.password && (
@@ -127,10 +124,10 @@ const ResetPassword = () => {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Confirm Password</label>
+                <label className="block text-[10px] font-bold text-[#000000] uppercase tracking-widest mb-2 font-sans">Confirm Password</label>
                 <div className="relative">
-                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-500">
-                    <FiLock className="w-5 h-5" />
+                  <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-[#000000]">
+                    <FiLock className="w-4 h-4" />
                   </span>
                   <input
                     type={showConfirm ? "text" : "password"}
@@ -138,10 +135,10 @@ const ResetPassword = () => {
                     value={formData.confirmPassword}
                     onChange={handleChange}
                     placeholder="••••••••"
-                    className={`w-full pl-10 pr-10 py-2.5 bg-slate-950/50 border rounded-xl text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-violet-500/50 transition-all ${errors.confirmPassword ? "border-rose-500" : "border-slate-800 focus:border-violet-500"}`}
+                    className={`w-full pl-10 pr-10 py-3 bg-[#FFFFFF] border text-[#000000] text-sm placeholder-[#000000]/30 focus:outline-none transition-all ${errors.confirmPassword ? "border-rose-500 focus:ring-1 focus:ring-rose-500" : "border-black/20 focus:border-black focus:ring-1 focus:ring-black"}`}
                   />
-                  <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-500 hover:text-slate-300">
-                    {showConfirm ? <FiEyeOff className="w-5 h-5" /> : <FiEye className="w-5 h-5" />}
+                  <button type="button" onClick={() => setShowConfirm(!showConfirm)} className="absolute inset-y-0 right-0 pr-3 flex items-center text-[#000000] hover:text-[#000000]/70">
+                    {showConfirm ? <FiEyeOff className="w-4 h-4" /> : <FiEye className="w-4 h-4" />}
                   </button>
                 </div>
                 {errors.confirmPassword && <p className="mt-1 text-xs text-rose-500 font-medium flex items-center gap-1"><FiAlertCircle className="w-3 h-3" /> {errors.confirmPassword}</p>}
@@ -150,11 +147,11 @@ const ResetPassword = () => {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="w-full py-3 mt-2 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-violet-600/30 hover:shadow-violet-600/40 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full py-4 mt-4 bg-[#000000] hover:bg-[#000000]/80 text-white font-bold transition-all duration-300 disabled:opacity-50 font-sans tracking-wide text-sm"
               >
                 {isSubmitting ? (
                   <span className="flex items-center justify-center">
-                    <span className="w-5 h-5 border-2 border-white/20 border-t-white rounded-full animate-spin mr-2"></span>
+                    <span className="w-4 h-4 border-2 border-white/20 border-t-white rounded-full animate-spin mr-2"></span>
                     Resetting password...
                   </span>
                 ) : "Reset Password"}
@@ -162,17 +159,17 @@ const ResetPassword = () => {
             </form>
           </>
         ) : (
-          <div className="text-center py-6">
+          <div className="text-center py-6 font-sans">
             <div className="flex justify-center mb-4">
-              <FiCheckCircle className="w-16 h-16 text-emerald-500" />
+              <FiCheckCircle className="w-16 h-16 text-[#000000]" />
             </div>
-            <h2 className="text-2xl font-bold text-white mb-2">Password Reset!</h2>
-            <p className="text-sm text-slate-400 mb-8">
+            <h2 className="text-3xl font-bold tracking-tighter text-[#000000] mb-2">Password Reset!</h2>
+            <p className="text-sm text-[#000000] mb-8 tracking-wide">
               Your password has been updated. You can now sign in with your new credentials.
             </p>
             <Link
               to="/login"
-              className="inline-block px-8 py-3 bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-semibold rounded-xl transition-all duration-300 shadow-lg shadow-violet-600/30"
+              className="inline-block px-8 py-4 bg-[#000000] hover:bg-[#000000]/80 text-[#FFFFFF] font-bold transition-all duration-300 uppercase tracking-widest text-xs"
             >
               Go to Sign In
             </Link>
