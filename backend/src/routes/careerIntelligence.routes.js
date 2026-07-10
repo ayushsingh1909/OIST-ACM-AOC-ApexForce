@@ -9,7 +9,7 @@
 
 import { Router } from "express";
 import { protect } from "../middleware/auth.middleware.js";
-import careerIntelligenceController from "../controllers/careerIntelligence.controller.js";
+import careerIntelligenceController from "../controller/careerIntelligence.controller.js";
 
 const router = Router();
 
