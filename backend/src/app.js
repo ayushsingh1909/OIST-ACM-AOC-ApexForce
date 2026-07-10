@@ -7,7 +7,6 @@ import resumeRoutes from "./routes/resume.route.js";
 import quizRoutes from "./routes/quiz.route.js";
 import assignmentRoutes from "./routes/assignment.route.js";
 import careerIntelligenceRoutes from "./routes/careerIntelligence.routes.js";
-import adminRoutes from "./routes/admin.routes.js";
 import dashboardRoutes from "./routes/dashboard.route.js";
 import interviewRoutes from "./routes/interview.route.js";
 import { protect } from "./middleware/auth.middleware.js";
@@ -48,7 +47,6 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/interview", interviewRoutes);
 app.use("/api/interviews", interviewRoutes);
 app.use("/api/career-intelligence", careerIntelligenceRoutes);
-app.use("/api/admin", adminRoutes);
 
 app.get("/", protect, (req, res) => {
   res.json({

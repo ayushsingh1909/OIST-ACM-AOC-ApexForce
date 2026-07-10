@@ -142,11 +142,58 @@ export const getWeakTopics = (user, threshold = 60) => {
   return weak;
 };
 
+/**
+ * Returns a formatted array of topic mastery data for heatmap rendering.
+ * @param {object} user - User document
+ * @returns {object[]}
+ */
+export const getMasteryMatrix = (user) => {
+  const topicMastery = user?.learningProfile?.topicMastery || [];
+  return topicMastery.map((t) => ({
+    topicName: t.topicName,
+    masteryScore: t.masteryScore || 0,
+    quizAccuracy: t.quizAccuracy || 0,
+    assignmentScore: t.assignmentScore || 0,
+    attemptsCount: t.attemptsCount || 0,
+    level:
+      t.masteryScore >= 75 ? "strong" :
+      t.masteryScore >= 50 ? "moderate" :
+      t.masteryScore >= 25 ? "developing" : "weak",
+  }));
+};
+
+/**
+ * Re-runs full mastery and risk level recalculation for a user by ID.
+ * @param {string} userId
+ * @returns {Promise<object>} - Updated learningProfile
+ */
+export const recalculateUserMastery = async (userId) => {
+  const User = (await import("../models/user.model.js")).default;
+  const user = await User.findById(userId);
+  if (!user) {
+    const { AppError } = await import("../utils/errors.js");
+    throw new AppError("User not found", 404);
+  }
+
+  user.learningProfile.overallMasteryScore = calculateOverallMastery(
+    user.learningProfile.topicMastery
+  );
+  user.learningProfile.riskLevel = calculateRiskLevel(
+    user.learningProfile.overallMasteryScore,
+    user.learningProfile.topicMastery
+  );
+
+  await user.save();
+  return user.learningProfile;
+};
+
 const masteryService = {
   updateTopicMastery,
   calculateOverallMastery,
   calculateRiskLevel,
-  getWeakTopics
+  getWeakTopics,
+  getMasteryMatrix,
+  recalculateUserMastery,
 };
 
 export default masteryService;

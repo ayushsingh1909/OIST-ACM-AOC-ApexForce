@@ -1,6 +1,6 @@
 import InterviewSession from "../models/interviewSession.model.js";
 import { getQuestionsForSession } from "../services/questionBank.service.js";
-import { evaluateAnswer } from "../services/evaluation.service.js";
+import { evaluateInterviewAnswer } from "../services/interviewEvaluation.service.js";
 import { AppError, catchAsync } from "../utils/errors.js";
 
 // Role configuration parameters for onboarding and mapping
@@ -193,7 +193,7 @@ export const submitAnswer = catchAsync(async (req, res, next) => {
   const activeQuestion = session.questions[currentIndex];
 
   // Evaluate the answer locally (sub-3-seconds response time)
-  const evalResult = evaluateAnswer(answerText, activeQuestion.idealKeywords, activeQuestion.vertical);
+  const evalResult = evaluateInterviewAnswer(activeQuestion.questionText || activeQuestion.vertical || "", answerText);
 
   // Update question subdocument
   activeQuestion.answerText = answerText || "";

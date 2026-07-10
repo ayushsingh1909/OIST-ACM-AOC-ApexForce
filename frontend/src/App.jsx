@@ -33,10 +33,6 @@ import InterviewPortal from "./pages/InterviewPortal";
 // Modules 7 & 8 pages
 import CareerDashboard from "./pages/career-intelligence/CareerDashboard";
 import GrowthTrend from "./pages/career-intelligence/GrowthTrend";
-import AdminDashboard from "./pages/admin/AdminDashboard";
-import UserManagement from "./pages/admin/UserManagement";
-import ContentManagement from "./pages/admin/ContentManagement";
-import Reports from "./pages/admin/Reports";
 
 const AppRoutes = () => (
   <div className="min-h-screen bg-slate-950 text-slate-100">
@@ -72,11 +68,6 @@ const AppRoutes = () => (
         <Route path="/career-dashboard" element={<ProtectedRoute><CareerDashboard /></ProtectedRoute>} />
         <Route path="/growth-trend" element={<ProtectedRoute><GrowthTrend /></ProtectedRoute>} />
 
-        {/* Admin Platform Management Routes */}
-        <Route path="/admin" element={<ProtectedRoute adminOnly={true}><AdminDashboard /></ProtectedRoute>} />
-        <Route path="/admin/users" element={<ProtectedRoute adminOnly={true}><UserManagement /></ProtectedRoute>} />
-        <Route path="/admin/content" element={<ProtectedRoute adminOnly={true}><ContentManagement /></ProtectedRoute>} />
-        <Route path="/admin/reports" element={<ProtectedRoute adminOnly={true}><Reports /></ProtectedRoute>} />
 
         {/* Fallback */}
         <Route path="*" element={<Navigate to="/" replace />} />

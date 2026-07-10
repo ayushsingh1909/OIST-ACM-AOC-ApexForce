@@ -39,30 +39,6 @@ const Navbar = () => {
               {label}
             </Link>
           ))}
-
-          {user.role === "admin" && (
-            <div className="flex items-center gap-1 ml-2 pl-2 border-l border-slate-800">
-              <span className="text-[10px] uppercase font-bold text-rose-400 px-1">Admin:</span>
-              {[
-                { to: "/admin", label: "Dashboard" },
-                { to: "/admin/users", label: "Users" },
-                { to: "/admin/content", label: "Content" },
-                { to: "/admin/reports", label: "Reports" },
-              ].map(({ to, label }) => (
-                <Link
-                  key={to}
-                  to={to}
-                  className={`px-2 py-1 text-xs rounded-lg transition-all ${
-                    location.pathname === to || location.pathname.startsWith(to)
-                      ? "bg-rose-500/20 text-rose-300"
-                      : "text-rose-400/75 hover:text-rose-300 hover:bg-rose-500/5"
-                  }`}
-                >
-                  {label}
-                </Link>
-              ))}
-            </div>
-          )}
         </div>
       </div>
       <div className="flex items-center gap-2">

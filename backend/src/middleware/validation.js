@@ -12,7 +12,7 @@ const registerSchema = z.object({
     .min(6, "Password must be at least 6 characters long")
     .regex(/[a-zA-Z]/, "Password must contain at least one letter")
     .regex(/[0-9]/, "Password must contain at least one number"),
-  role: z.enum(["student", "admin"]).optional()
+  role: z.enum(["student"]).optional()
 });
 
 const loginSchema = z.object({
