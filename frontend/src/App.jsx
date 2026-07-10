@@ -33,6 +33,7 @@ import InterviewPortal from "./pages/InterviewPortal";
 // Modules 7 & 8 pages
 import CareerDashboard from "./pages/career-intelligence/CareerDashboard";
 import GrowthTrend from "./pages/career-intelligence/GrowthTrend";
+import AnimationDemo from "./pages/AnimationDemo";
 
 const AppRoutes = () => (
   <div className="min-h-screen bg-slate-950 text-slate-100">
@@ -45,6 +46,7 @@ const AppRoutes = () => (
         <Route path="/register" element={<PublicRoute><Register /></PublicRoute>} />
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password" element={<ResetPassword />} />
+        <Route path="/animation-demo" element={<AnimationDemo />} />
 
         {/* Protected Student Routes */}
         <Route path="/" element={<ProtectedRoute><StudentDashboard /></ProtectedRoute>} />
