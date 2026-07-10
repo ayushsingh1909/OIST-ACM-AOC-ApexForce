@@ -8,6 +8,7 @@ import Register from "./pages/auth/Register";
 import ForgotPassword from "./pages/auth/ForgotPassword";
 import ResetPassword from "./pages/auth/ResetPassword";
 import ProfileSettings from "./pages/ProfileSettings";
+import ResumeIntelligence from "./pages/ResumeIntelligence";
 import { FiUser, FiLogOut } from "react-icons/fi";
 
 // Simple nav shown for authenticated users
@@ -86,7 +87,7 @@ const AppRoutes = () => {
             path="/"
             element={
               <ProtectedRoute>
-                <Dashboard />
+                <ResumeIntelligence />
               </ProtectedRoute>
             }
           />
