@@ -78,29 +78,31 @@ const AppRoutes = () => (
 
 const App = () => {
   return (
-    <AuthProvider>
-      <NotificationProvider>
-        <AppRoutes />
-        <Toaster
-          position="top-right"
-          toastOptions={{
-            style: {
-              background: "#1e1f2e",
-              color: "#e2e8f0",
-              border: "1px solid #334155",
-              borderRadius: "12px",
-              fontSize: "14px",
-            },
-            success: {
-              iconTheme: { primary: "#8b5cf6", secondary: "#1e1f2e" },
-            },
-            error: {
-              iconTheme: { primary: "#f43f5e", secondary: "#1e1f2e" },
-            },
-          }}
-        />
-      </NotificationProvider>
-    </AuthProvider>
+    <BrowserRouter>
+      <AuthProvider>
+        <NotificationProvider>
+          <AppRoutes />
+          <Toaster
+            position="top-right"
+            toastOptions={{
+              style: {
+                background: "#1e1f2e",
+                color: "#e2e8f0",
+                border: "1px solid #334155",
+                borderRadius: "12px",
+                fontSize: "14px",
+              },
+              success: {
+                iconTheme: { primary: "#8b5cf6", secondary: "#1e1f2e" },
+              },
+              error: {
+                iconTheme: { primary: "#f43f5e", secondary: "#1e1f2e" },
+              },
+            }}
+          />
+        </NotificationProvider>
+      </AuthProvider>
+    </BrowserRouter>
   );
 };
 
