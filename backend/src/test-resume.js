@@ -1,5 +1,8 @@
+import dotenv from "dotenv";
+dotenv.config({ override: true });
 import { extractSkills, extractProjects, extractExperienceYears, checkStructure } from "./services/parser.service.js";
 import { calculateScore } from "./services/scoring.service.js";
+import geminiService from "./services/gemini.service.js";
 
 const sampleResume = `
 John Doe
@@ -32,10 +35,10 @@ Bachelor of Science in Computer Science
 State University, 2016 - 2020
 `;
 
-const runTests = () => {
-  console.log("=== Running Resume Analysis Heuristic Service Tests ===");
+const runTests = async () => {
+  console.log("=== Running Resume Analysis Heuristic & Gemini Service Tests ===");
 
-  console.log("\n1. Testing Parser Service...");
+  console.log("\n1. Testing Heuristic Parser Service...");
   const skills = extractSkills(sampleResume);
   console.log("Extracted Skills:", skills);
 
@@ -48,7 +51,7 @@ const runTests = () => {
   const structure = checkStructure(sampleResume);
   console.log("Structure Check:", structure);
 
-  console.log("\n2. Testing Scoring Service...");
+  console.log("\n2. Testing Heuristic Scoring Service...");
   const targetRole = "Full-Stack Developer";
   const scoring = calculateScore({
     skills,
@@ -64,7 +67,6 @@ const runTests = () => {
   console.log("Suggestions:", scoring.improvementSuggestions);
 
   // Asserting formula weight checks:
-  // Resume Strength = (Skill Relevance * 0.40) + (Project Depth * 0.30) + (Experience Indicators * 0.20) + (Structure Score * 0.10)
   const expectedRelevance = scoring.scoreBreakdown.skillRelevance;
   const expectedProjectDepth = scoring.scoreBreakdown.projectDepth;
   const expectedExpIndicators = scoring.scoreBreakdown.experienceIndicators;
@@ -73,7 +75,7 @@ const runTests = () => {
   const expectedRaw = (expectedRelevance * 0.4) + (expectedProjectDepth * 0.3) + (expectedExpIndicators * 0.2) + (expectedStructure * 0.1);
   const expectedScore = Math.round(expectedRaw);
 
-  console.log("\n=== Validation ===");
+  console.log("\n=== Heuristic Validation ===");
   console.log(`Calculated Score in Service: ${scoring.strengthScore}`);
   console.log(`Expected Score by Formula: ${expectedScore}`);
 
@@ -81,6 +83,29 @@ const runTests = () => {
     console.log("SUCCESS: Scoring Engine formula matches requirements exactly!");
   } else {
     console.error("FAILURE: Scoring Engine mismatch.");
+  }
+
+  console.log("\n3. Testing Gemini Resume Analysis Integration...");
+  const geminiResult = await geminiService.analyzeResume(sampleResume, targetRole);
+  if (geminiResult) {
+    console.log("Gemini Resume Analysis Result:", JSON.stringify(geminiResult, null, 2));
+    // Verify properties
+    const hasRequiredKeys = geminiResult.targetRole && 
+                            Array.isArray(geminiResult.extractedSkills) && 
+                            Array.isArray(geminiResult.detectedProjects) && 
+                            typeof geminiResult.detectedExperienceYears === "number" && 
+                            typeof geminiResult.strengthScore === "number" && 
+                            geminiResult.scoreBreakdown &&
+                            Array.isArray(geminiResult.missingSkills) && 
+                            Array.isArray(geminiResult.improvementSuggestions);
+    
+    if (hasRequiredKeys) {
+      console.log("SUCCESS: Gemini response format matches schema perfectly!");
+    } else {
+      console.error("FAILURE: Gemini response is missing some schema keys.");
+    }
+  } else {
+    console.log("Gemini API key not configured or fallback was triggered. Gemini test skipped.");
   }
 };
 

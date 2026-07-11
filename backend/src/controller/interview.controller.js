@@ -1,6 +1,7 @@
 import InterviewSession from "../models/interviewSession.model.js";
 import { getTailoredQuestions } from "../services/questionBank.js";
 import { evaluateInterviewAnswer } from "../services/interviewEvaluation.service.js";
+import geminiService from "../services/gemini.service.js";
 
 /**
  * Initializes a new interview simulation session.
@@ -15,7 +16,13 @@ export const startInterview = async (req, res) => {
     }
 
     // Generate tailored questions (4 questions: Technical, Behavioral, System Design, Project Deep-Dive)
-    const tailoredQuestions = getTailoredQuestions(targetRole, skillStack);
+    let tailoredQuestions;
+    const geminiQuestionsData = await geminiService.generateInterviewQuestions({ targetRole, skillStack });
+    if (geminiQuestionsData && geminiQuestionsData.questions && geminiQuestionsData.questions.length === 4) {
+      tailoredQuestions = geminiQuestionsData.questions;
+    } else {
+      tailoredQuestions = getTailoredQuestions(targetRole, skillStack);
+    }
 
     // Set 15-minute expiration timer
     const expiresAt = new Date(Date.now() + 15 * 60 * 1000);
@@ -104,7 +111,7 @@ export const submitAnswer = async (req, res) => {
     }
 
     // 4. Grade the answer on-the-fly (Latency-Optimized)
-    const evaluation = evaluateInterviewAnswer(question.questionText, answerText);
+    const evaluation = await evaluateInterviewAnswer(question.questionText, answerText);
 
     // 5. Update question progress
     question.userAnswer = answerText || "No response provided.";

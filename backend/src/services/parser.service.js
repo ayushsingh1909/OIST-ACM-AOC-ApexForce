@@ -158,7 +158,7 @@ export const extractExperienceYears = (text) => {
   const expPhraseRegex = /(\d+)\+?\s*(?:yr|year)s?\s*(?:of\s+)?(?:work\s+|professional\s+)?experience/i;
   const phraseMatch = text.match(expPhraseRegex);
   if (phraseMatch && phraseMatch[1]) {
-    return parseInt(phraseMatch[1], 10);
+    return Math.min(25, parseInt(phraseMatch[1], 10));
   }
 
   // 2. Scan for year ranges (e.g. 2018-2022, 2021 to Present)

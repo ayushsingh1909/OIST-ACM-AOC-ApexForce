@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import ResumeAnalysis from "../models/resumeAnalysis.model.js";
 import { parsePDF, extractSkills, extractProjects, extractExperienceYears, checkStructure } from "../services/parser.service.js";
 import { calculateScore } from "../services/scoring.service.js";
+import geminiService from "../services/gemini.service.js";
 
 /**
  * Handles PDF resume upload or plain text resume submission.
@@ -39,19 +40,41 @@ export const uploadResume = async (req, res) => {
                        (user.learningProfile && user.learningProfile.targetRole) || 
                        "Full-Stack Developer";
 
-    // 3. Extract features from parsed text
-    const extractedSkills = extractSkills(resumeText);
-    const detectedProjects = extractProjects(resumeText);
-    const detectedExperienceYears = extractExperienceYears(resumeText);
-    const structureResult = checkStructure(resumeText);
+    // 3. Attempt Gemini API Resume Analysis
+    let analysisResult = await geminiService.analyzeResume(resumeText, targetRole);
+    let extractedSkills, detectedProjects, detectedExperienceYears, scoringResult;
 
-    // 4. Score Resume & Detect Missing Skills
-    const scoringResult = calculateScore({
-      skills: extractedSkills,
-      projects: detectedProjects,
-      experienceYears: detectedExperienceYears,
-      structureScore: structureResult.score
-    }, targetRole);
+    if (analysisResult) {
+      extractedSkills = analysisResult.extractedSkills || [];
+      detectedProjects = analysisResult.detectedProjects || [];
+      detectedExperienceYears = analysisResult.detectedExperienceYears || 0;
+      
+      scoringResult = {
+        targetRole: analysisResult.targetRole || targetRole,
+        strengthScore: analysisResult.strengthScore || 0,
+        scoreBreakdown: analysisResult.scoreBreakdown || {
+          skillRelevance: 0,
+          projectDepth: 0,
+          experienceIndicators: 0,
+          structureScore: 0
+        },
+        missingSkills: analysisResult.missingSkills || [],
+        improvementSuggestions: analysisResult.improvementSuggestions || []
+      };
+    } else {
+      // Fallback: Local regex heuristic parsing & scoring
+      extractedSkills = extractSkills(resumeText);
+      detectedProjects = extractProjects(resumeText);
+      detectedExperienceYears = extractExperienceYears(resumeText);
+      const structureResult = checkStructure(resumeText);
+
+      scoringResult = calculateScore({
+        skills: extractedSkills,
+        projects: detectedProjects,
+        experienceYears: detectedExperienceYears,
+        structureScore: structureResult.score
+      }, targetRole);
+    }
 
     // 5. Update user's profile with latest resume metadata
     if (!user.learningProfile) {

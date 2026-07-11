@@ -1,6 +1,8 @@
+import geminiService from "./gemini.service.js";
+
 /**
  * AI Simulation Evaluation Engine for ACIE Assignments.
- * Determistically grades submissions based on topic focus, submission modes, and code/text keywords.
+ * Grades submissions using Gemini API, with a deterministic regex-based fallback.
  */
 
 // Predefined concept criteria based on topics
@@ -34,12 +36,25 @@ const DEFAULT_CRITERIA = [
 ];
 
 /**
- * Simulates evaluation of a submission.
+ * Evaluates a submission using Gemini API or a simulated fallback.
  * @param {object} assignment - Mongoose Assignment document
  * @param {object} submission - Submission body { submissionMode, content, githubLink }
- * @returns {object}
+ * @returns {Promise<object>}
  */
-export const evaluateSubmission = (assignment, submission) => {
+export const evaluateSubmission = async (assignment, submission) => {
+  // 1. Attempt dynamic Gemini evaluation
+  const geminiEval = await geminiService.evaluateSubmission(assignment, submission);
+  if (geminiEval) {
+    return {
+      score: geminiEval.score,
+      evaluatedAt: new Date(),
+      conceptCoverage: geminiEval.conceptCoverage || [],
+      mistakeBreakdown: geminiEval.mistakeBreakdown || [],
+      improvementSuggestions: geminiEval.improvementSuggestions || []
+    };
+  }
+
+  // 2. Fallback to simulated evaluation
   const { topicName, assignmentType } = assignment;
   const { mode, content = "", githubLink = "" } = submission;
 

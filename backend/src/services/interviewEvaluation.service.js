@@ -1,6 +1,8 @@
+import geminiService from "./gemini.service.js";
+
 /**
  * Latency-Optimized Interview Evaluation Service.
- * Deterministically grades user text inputs based on structured lexical parameters in under 10ms.
+ * Grades user text inputs using Gemini API, with a fallback to lexical parameter matching.
  */
 
 const KEYWORD_CRITERIA = [
@@ -59,9 +61,20 @@ const LOGICAL_TRANSITIONS = [
  * Evaluates a single question response.
  * @param {string} questionText - Text of the mock interview question
  * @param {string} answerText - User submitted reply
- * @returns {object} - { score, feedback, missingConcepts }
+ * @returns {Promise<object>} - { score, feedback, missingConcepts }
  */
-export const evaluateInterviewAnswer = (questionText, answerText = "") => {
+export const evaluateInterviewAnswer = async (questionText, answerText = "") => {
+  // 1. Try evaluating with Gemini first
+  const geminiResult = await geminiService.evaluateInterviewAnswer(questionText, answerText);
+  if (geminiResult) {
+    return {
+      score: geminiResult.score,
+      feedback: geminiResult.feedback,
+      missingConcepts: geminiResult.missingConcepts || []
+    };
+  }
+
+  // 2. Fallback to lexical criteria
   const text = answerText.trim();
   const textLen = text.length;
 

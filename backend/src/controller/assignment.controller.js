@@ -2,6 +2,7 @@ import Assignment from "../models/assignment.model.js";
 import User from "../models/user.model.js";
 import { evaluateSubmission } from "../services/evaluation.service.js";
 import { updateTopicMastery } from "../services/mastery.service.js";
+import geminiService from "../services/gemini.service.js";
 
 // Assignment templates database categorized by Topic focus
 const ASSIGNMENT_TEMPLATES = {
@@ -105,20 +106,40 @@ export const generateAssignment = async (req, res) => {
       else difficulty = "Hard";
     }
 
-    // 4. Select Assignment Template
-    let templates = ASSIGNMENT_TEMPLATES[topicName];
-    if (!templates) {
-      // Find case-insensitive match
-      const key = Object.keys(ASSIGNMENT_TEMPLATES).find(k => k.toLowerCase() === topicName.toLowerCase());
-      templates = key ? ASSIGNMENT_TEMPLATES[key] : GENERAL_TEMPLATES;
-    }
+    // 4. Generate Assignment using Gemini or Fallback
+    const selectedType = assignmentType || "Coding";
+    let assignmentData = await geminiService.generateAssignment({
+      topicName,
+      targetRole,
+      difficulty,
+      assignmentType: selectedType
+    });
 
-    // Find templates matching the selected type, or select any
-    let template = templates.find(t => t.type === assignmentType);
-    if (!template) {
-      // Random pick from available templates
-      const randIdx = Math.floor(Math.random() * templates.length);
-      template = templates[randIdx];
+    let finalTitle, finalProblemStatement, finalType;
+
+    if (assignmentData) {
+      finalTitle = assignmentData.title;
+      finalProblemStatement = assignmentData.problemStatement;
+      finalType = selectedType;
+    } else {
+      // Fallback: Select Assignment Template
+      let templates = ASSIGNMENT_TEMPLATES[topicName];
+      if (!templates) {
+        // Find case-insensitive match
+        const key = Object.keys(ASSIGNMENT_TEMPLATES).find(k => k.toLowerCase() === topicName.toLowerCase());
+        templates = key ? ASSIGNMENT_TEMPLATES[key] : GENERAL_TEMPLATES;
+      }
+
+      // Find templates matching the selected type, or select any
+      let template = templates.find(t => t.type === selectedType);
+      if (!template) {
+        // Random pick from available templates
+        const randIdx = Math.floor(Math.random() * templates.length);
+        template = templates[randIdx];
+      }
+      finalTitle = template.title;
+      finalProblemStatement = template.problemStatement;
+      finalType = template.type;
     }
 
     // 5. Create assignment instance
@@ -129,9 +150,9 @@ export const generateAssignment = async (req, res) => {
       user: user._id,
       topicName,
       targetRole,
-      title: template.title,
-      problemStatement: template.problemStatement,
-      assignmentType: template.type,
+      title: finalTitle,
+      problemStatement: finalProblemStatement,
+      assignmentType: finalType,
       difficulty,
       dueDate,
       status: "pending"
@@ -184,7 +205,7 @@ export const submitAssignment = async (req, res) => {
     }
 
     // 3. Trigger AI simulated evaluation engine
-    const evaluation = evaluateSubmission(assignment, {
+    const evaluation = await evaluateSubmission(assignment, {
       mode: submissionMode,
       content: submissionContent,
       githubLink

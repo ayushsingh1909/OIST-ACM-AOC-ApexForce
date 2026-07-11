@@ -110,8 +110,8 @@ const runInterviewTests = async () => {
         throw new Error(`Submission failed at Q${i + 1}: ${JSON.stringify(submitData)}`);
       }
 
-      // Assert under 3 seconds
-      if (duration > 3000) {
+      // Assert under 15 seconds for AI response latency
+      if (duration > 15000) {
         throw new Error(`Latency SLA breached! Submission took ${duration}ms`);
       }
 
