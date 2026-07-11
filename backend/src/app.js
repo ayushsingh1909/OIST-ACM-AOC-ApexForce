@@ -48,18 +48,10 @@ app.use("/api/interview", interviewRoutes);
 app.use("/api/interviews", interviewRoutes);
 app.use("/api/career-intelligence", careerIntelligenceRoutes);
 
-app.get("/", protect, (req, res) => {
+app.get("/", (req, res) => {
   res.json({
     success: true,
-    message: "Welcome to the AI Career Intelligence Engine (ACIE)",
-    data: {
-      user: {
-        id: req.user._id,
-        name: req.user.name,
-        email: req.user.email,
-        role: req.user.role,
-      },
-    },
+    message: "Welcome to the AI Career Intelligence Engine (ACIE)"
   });
 });
 
