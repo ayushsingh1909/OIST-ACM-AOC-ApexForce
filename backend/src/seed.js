@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ override: true });
 
 import connectDB from "./config/db.config.js";
 import { Question } from "./models/quiz.model.js";

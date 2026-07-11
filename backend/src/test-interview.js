@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ override: true });
 import mongoose from "mongoose";
 import app from "./app.js";
 import User from "./models/user.model.js";
