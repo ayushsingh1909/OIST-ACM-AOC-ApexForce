@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import User from "../models/user.model.js";
 import { Question, QuizAttempt } from "../models/quiz.model.js";
 import { ScoreRecord } from "../models/score.model.js";
@@ -6,6 +7,7 @@ import { AppError } from "../utils/errors.js";
 
 const QUESTION_COUNT = 10;
 const TIME_LIMIT_MINUTES = 15;
+const GEMINI_MODEL = process.env.GEMINI_MODEL || "gemini-2.0-flash";
 
 const DIFFICULTY_ORDER = { easy: 1, medium: 2, hard: 3 };
 
@@ -31,6 +33,168 @@ class QuizService {
     return "hard";
   }
 
+  normalizeDifficulty(difficulty) {
+    const value = String(difficulty || "").toLowerCase();
+    if (value === "easy" || value === "medium" || value === "hard") {
+      return value;
+    }
+    return "medium";
+  }
+
+  cleanJsonPayload(text) {
+    const stripped = String(text || "")
+      .replace(/```json\s*/gi, "")
+      .replace(/```/g, "")
+      .trim();
+
+    const firstObject = stripped.indexOf("{");
+    const firstArray = stripped.indexOf("[");
+    const startIndex = firstArray !== -1 && (firstArray < firstObject || firstObject === -1)
+      ? firstArray
+      : firstObject;
+    const endIndex = Math.max(stripped.lastIndexOf("}"), stripped.lastIndexOf("]"));
+
+    if (startIndex === -1 || endIndex === -1 || endIndex <= startIndex) {
+      return stripped;
+    }
+
+    return stripped.slice(startIndex, endIndex + 1);
+  }
+
+  normalizeGeneratedQuestion(question, fallbackTopic, fallbackDifficulty) {
+    const type = this.normalizeQuestionType(question?.type);
+    const difficulty = this.normalizeDifficulty(question?.difficulty || fallbackDifficulty);
+    const topic = String(question?.topic || fallbackTopic || "General").trim() || "General";
+    const questionText = String(question?.questionText || question?.question || "").trim();
+    const correctAnswer = String(question?.correctAnswer || "").trim();
+
+    if (!questionText || !correctAnswer) {
+      return null;
+    }
+
+    const options = Array.isArray(question?.options)
+      ? [...new Set(question.options.map((option) => String(option).trim()).filter(Boolean))]
+      : [];
+
+    if (type === "mcq" && options.length < 4) {
+      return null;
+    }
+
+    return {
+      topic,
+      type,
+      difficulty,
+      questionText,
+      options: type === "mcq" ? options.slice(0, 4) : [],
+      correctAnswer,
+      explanation: String(question?.explanation || "").trim(),
+      tags: Array.isArray(question?.tags)
+        ? question.tags.map((tag) => String(tag).trim()).filter(Boolean)
+        : [],
+    };
+  }
+
+  normalizeQuestionType(type) {
+    const value = String(type || "short-answer").toLowerCase();
+    if (value === "mcq" || value === "short-answer" || value === "code-output") {
+      return value;
+    }
+    return "short-answer";
+  }
+
+  buildAttemptQuestion(question, generated = false) {
+    return {
+      questionId: generated ? new mongoose.Types.ObjectId() : question._id,
+      topic: question.topic,
+      type: question.type,
+      difficulty: question.difficulty,
+      questionText: question.questionText,
+      options: Array.isArray(question.options) ? question.options : [],
+      correctAnswer: question.correctAnswer,
+      explanation: question.explanation || "",
+      tags: Array.isArray(question.tags) ? question.tags : [],
+    };
+  }
+
+  async generateQuestionsWithGemini(weakTopics, targetDifficulty) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      return [];
+    }
+
+    const prompt = `
+Generate ${QUESTION_COUNT} quiz questions for an adaptive learning platform.
+
+Requirements:
+- Return JSON only, no markdown, no code fences, no commentary.
+- The root object must have a "questions" array.
+- Each question must include: topic, type, difficulty, questionText, options, correctAnswer, explanation, tags.
+- Use only these types: "mcq" or "short-answer".
+- Use lower-case difficulties: "easy", "medium", or "hard".
+- Mix questions across these weak topics where possible: ${weakTopics.join(", ")}
+- Prefer the target difficulty: ${targetDifficulty}.
+- For mcq questions, include exactly 4 unique options and make correctAnswer match one option exactly.
+- For short-answer questions, keep correctAnswer concise and factual.
+
+Return a balanced mix of practical, interview-style questions suitable for a full-stack learner.
+`;
+
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          contents: [
+            {
+              role: "user",
+              parts: [{ text: prompt }],
+            },
+          ],
+          generationConfig: {
+            temperature: 0.7,
+            topP: 0.95,
+            maxOutputTokens: 4096,
+            responseMimeType: "application/json",
+          },
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error(`Gemini request failed with status ${response.status}`);
+    }
+
+    const payload = await response.json();
+    const rawText = payload?.candidates?.[0]?.content?.parts
+      ?.map((part) => part.text || "")
+      .join("")
+      .trim();
+
+    if (!rawText) {
+      throw new Error("Gemini returned an empty response");
+    }
+
+    const parsed = JSON.parse(this.cleanJsonPayload(rawText));
+    const questionList = Array.isArray(parsed) ? parsed : parsed.questions;
+
+    if (!Array.isArray(questionList)) {
+      throw new Error("Gemini response did not contain a questions array");
+    }
+
+    return questionList
+      .map((question, index) => this.normalizeGeneratedQuestion(
+        question,
+        weakTopics[index % weakTopics.length],
+        targetDifficulty
+      ))
+      .filter(Boolean)
+      .map((question) => this.buildAttemptQuestion(question, true))
+      .slice(0, QUESTION_COUNT);
+  }
+
   async generateAdaptiveQuiz(userId) {
     const user = await User.findById(userId);
     if (!user) throw new AppError("User not found", 404);
@@ -38,59 +202,71 @@ class QuizService {
     const weakTopics = this.getWeakTopics(user);
     const targetDifficulty = this.getTargetDifficulty(user);
 
+    let questions = [];
+
+    try {
+      questions = await this.generateQuestionsWithGemini(weakTopics, targetDifficulty);
+    } catch (error) {
+      console.warn(`Gemini quiz generation failed, falling back to question bank: ${error.message}`);
+    }
+
     const mistakeQuestionIds = (user.learningProfile?.mistakeHistory || [])
       .map((m) => m.questionId)
       .filter(Boolean);
 
-    let questions = await Question.find({
-      isActive: true,
-      topic: { $in: weakTopics },
-      difficulty: targetDifficulty,
-    }).limit(QUESTION_COUNT * 2);
-
     if (questions.length < QUESTION_COUNT) {
-      const extra = await Question.find({
+      let bankQuestions = await Question.find({
         isActive: true,
         topic: { $in: weakTopics },
-      }).limit(QUESTION_COUNT);
-      questions = [...questions, ...extra];
+        difficulty: targetDifficulty,
+      }).limit(QUESTION_COUNT * 2);
+
+      if (bankQuestions.length < QUESTION_COUNT) {
+        const extra = await Question.find({
+          isActive: true,
+          topic: { $in: weakTopics },
+        }).limit(QUESTION_COUNT);
+        bankQuestions = [...bankQuestions, ...extra];
+      }
+
+      if (bankQuestions.length < QUESTION_COUNT) {
+        const fallback = await Question.find({ isActive: true }).limit(QUESTION_COUNT);
+        bankQuestions = [...bankQuestions, ...fallback];
+      }
+
+      const uniqueMap = new Map();
+      for (const q of bankQuestions) {
+        uniqueMap.set(q._id.toString(), q);
+      }
+
+      const prioritized = [...uniqueMap.values()].sort((a, b) => {
+        const aMistake = mistakeQuestionIds.some((id) => id.toString() === a._id.toString()) ? -1 : 0;
+        const bMistake = mistakeQuestionIds.some((id) => id.toString() === b._id.toString()) ? -1 : 0;
+        if (aMistake !== bMistake) return aMistake - bMistake;
+        return DIFFICULTY_ORDER[a.difficulty] - DIFFICULTY_ORDER[b.difficulty];
+      });
+
+      const fallbackSelected = prioritized
+        .slice(0, QUESTION_COUNT)
+        .map((question) => this.buildAttemptQuestion(question));
+
+      questions = [...questions, ...fallbackSelected];
     }
 
-    if (questions.length < QUESTION_COUNT) {
-      const fallback = await Question.find({ isActive: true }).limit(QUESTION_COUNT);
-      questions = [...questions, ...fallback];
-    }
-
-    const uniqueMap = new Map();
-    for (const q of questions) {
-      uniqueMap.set(q._id.toString(), q);
-    }
-
-    const prioritized = [...uniqueMap.values()].sort((a, b) => {
-      const aMistake = mistakeQuestionIds.some((id) => id.toString() === a._id.toString()) ? -1 : 0;
-      const bMistake = mistakeQuestionIds.some((id) => id.toString() === b._id.toString()) ? -1 : 0;
-      if (aMistake !== bMistake) return aMistake - bMistake;
-      return DIFFICULTY_ORDER[a.difficulty] - DIFFICULTY_ORDER[b.difficulty];
-    });
-
-    const selected = prioritized.slice(0, QUESTION_COUNT);
+    const selected = questions.slice(0, QUESTION_COUNT);
 
     if (selected.length === 0) {
       throw new AppError("No quiz questions available. Please seed the question bank.", 404);
     }
 
+    const normalizedSelected = selected.map((question) =>
+      question.questionId ? question : this.buildAttemptQuestion(question)
+    );
+
     const attempt = await QuizAttempt.create({
       user: userId,
-      questions: selected.map((q) => ({
-        questionId: q._id,
-        topic: q.topic,
-        type: q.type,
-        difficulty: q.difficulty,
-        questionText: q.questionText,
-        options: q.options,
-        correctAnswer: q.correctAnswer,
-      })),
-      totalQuestions: selected.length,
+      questions: normalizedSelected,
+      totalQuestions: normalizedSelected.length,
       timeLimitMinutes: TIME_LIMIT_MINUTES,
       adaptiveProfile: { weakTopics, targetDifficulty },
     });
@@ -98,7 +274,7 @@ class QuizService {
     return {
       attemptId: attempt._id,
       timeLimitMinutes: TIME_LIMIT_MINUTES,
-      totalQuestions: selected.length,
+      totalQuestions: normalizedSelected.length,
       questions: attempt.questions.map((q) => ({
         questionId: q.questionId,
         topic: q.topic,

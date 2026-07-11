@@ -13,7 +13,8 @@
   "scripts": {
     "dev": "nodemon index.js",
     "start": "node index.js",
-    "seed": "node src/seed.js"
+    "seed": "node src/seed.js",
+    "test": "node src/test-resume.js && node src/test-api.js && node src/test-assignment.js && node src/test-interview.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",
