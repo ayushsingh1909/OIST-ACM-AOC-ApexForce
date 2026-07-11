@@ -17,16 +17,19 @@ const SidebarLink = ({ icon: Icon, label, to, collapsed, onClick }) => {
     <Link
       to={to}
       onClick={onClick}
-      className={`flex items-center gap-3 px-3 py-2.5 transition-all group ${
+      className={`relative flex items-center gap-3 px-4 py-3 rounded-2xl transition-all duration-300 group ${
         isActive
-          ? "bg-[#000000] text-[#FFFFFF] font-bold"
-          : "hover:bg-black/5 text-[#555555] hover:text-[#000000]"
+          ? "bg-[#00D2C4]/10 text-[#00D2C4] font-bold shadow-sm"
+          : "hover:bg-slate-100 text-slate-500 hover:text-slate-800"
       }`}
       title={collapsed ? label : undefined}
     >
-      <Icon className={`w-4 h-4 flex-shrink-0 ${isActive ? "text-[#FFFFFF]" : "text-[#555555] group-hover:text-[#000000] transition-colors"}`} />
+      {isActive && (
+        <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1.5 h-8 bg-[#00D2C4] rounded-r-full shadow-[0_0_10px_rgba(0,210,196,0.5)]"></div>
+      )}
+      <Icon className={`w-5 h-5 flex-shrink-0 transition-colors ${isActive ? "text-[#00D2C4]" : "text-slate-400 group-hover:text-[#00D2C4]"}`} />
       {!collapsed && (
-        <span className="text-xs font-mono tracking-tight whitespace-nowrap">
+        <span className="text-[15px] font-medium tracking-tight whitespace-nowrap">
           {label}
         </span>
       )}
@@ -67,58 +70,58 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
       {/* Desktop Sidebar */}
       <aside
         ref={sidebarRef}
-        style={{ width: "260px" }}
-        className="hidden md:flex flex-col bg-white border-r border-[#111111]/10 h-screen sticky top-0 z-40 transition-shadow select-none overflow-hidden flex-shrink-0"
+        style={{ width: "280px" }}
+        className="hidden md:flex flex-col bg-white/80 backdrop-blur-xl border-r border-slate-200/60 shadow-outcrowd h-screen sticky top-0 z-40 transition-shadow select-none overflow-hidden flex-shrink-0"
       >
-        <div className="p-6 flex items-center justify-between border-b border-black/10">
+        <div className="p-8 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-[#000000] flex items-center justify-center text-white font-bold font-sans flex-shrink-0">
+            <div className="w-10 h-10 bg-gradient-to-br from-[#4F46E5] to-[#00D2C4] rounded-2xl flex items-center justify-center text-white font-bold font-heading text-lg shadow-lg shadow-[#00D2C4]/20 flex-shrink-0">
               A
             </div>
             {!collapsed && (
-              <span className="font-bold text-sm tracking-tight font-sans uppercase text-[#000000] whitespace-nowrap">
-                ACIE LMS
+              <span className="font-bold text-xl tracking-tight font-heading text-slate-900 whitespace-nowrap">
+                Mondly
               </span>
             )}
           </Link>
           <button
             onClick={() => setCollapsed(!collapsed)}
-            className="p-1 rounded hover:bg-black/5 text-[#555555] flex-shrink-0"
+            className="p-2 rounded-xl hover:bg-slate-100 text-slate-400 hover:text-slate-700 transition-colors flex-shrink-0"
             title="Toggle Sidebar"
           >
-            <FiMenu className="w-4 h-4" />
+            <FiMenu className="w-5 h-5" />
           </button>
         </div>
 
-        <nav className="flex-1 px-4 py-6 flex flex-col gap-1 overflow-y-auto">
+        <nav className="flex-1 px-6 py-2 flex flex-col gap-2 overflow-y-auto">
           {navItems.map((item) => (
             <SidebarLink key={item.to} {...item} collapsed={collapsed} />
           ))}
         </nav>
 
-        <div className="p-4 border-t border-black/10 flex flex-col gap-2 bg-[#FFFFFF]">
+        <div className="p-6 flex flex-col gap-2">
           <SidebarLink icon={FiSettings} label="Settings" to="/profile" collapsed={collapsed} />
           <button
             onClick={logout}
-            className="flex items-center gap-3 px-3 py-2.5 transition-all group hover:bg-black/5 text-[#B30006] w-full text-left"
+            className="flex items-center gap-3 px-4 py-3 transition-all rounded-2xl group hover:bg-rose-50 text-rose-500 w-full text-left"
             title={collapsed ? "Sign Out" : undefined}
           >
-            <FiLogOut className="w-4 h-4 flex-shrink-0 text-[#B30006]/70 group-hover:text-[#B30006]" />
+            <FiLogOut className="w-5 h-5 flex-shrink-0 text-rose-400 group-hover:text-rose-500 transition-colors" />
             {!collapsed && (
-              <span className="text-xs font-mono tracking-tight whitespace-nowrap">
+              <span className="text-[15px] font-medium tracking-tight whitespace-nowrap">
                 Sign Out
               </span>
             )}
           </button>
           
-          <div className="flex items-center gap-3 mt-2 p-2 border border-black/10 bg-white overflow-hidden">
-            <div className="w-8 h-8 bg-[#000000]/5 flex items-center justify-center font-bold text-xs text-[#000000] font-sans flex-shrink-0">
+          <div className="flex items-center gap-3 mt-4 p-3 rounded-2xl bg-slate-50 border border-slate-100/50 shadow-sm overflow-hidden transition-all hover:shadow-md hover:bg-white cursor-pointer">
+            <div className="w-10 h-10 bg-indigo-100 rounded-xl flex items-center justify-center font-bold text-sm text-indigo-600 font-heading flex-shrink-0">
               {user?.name?.substring(0, 2).toUpperCase() || "ST"}
             </div>
             {!collapsed && (
               <div className="flex-1 min-w-0">
-                <p className="text-xs font-bold text-[#000000] truncate tracking-tight">{user?.name || "Student"}</p>
-                <span className="text-[9px] font-sans font-bold text-[#555555] uppercase tracking-widest">Student</span>
+                <p className="text-sm font-bold text-slate-800 truncate tracking-tight">{user?.name || "Student"}</p>
+                <span className="text-xs font-medium text-slate-500 tracking-wide">Learner</span>
               </div>
             )}
           </div>
@@ -127,37 +130,37 @@ const Sidebar = ({ mobileOpen, setMobileOpen }) => {
 
       {/* Mobile Drawer Overlay */}
       {mobileOpen && (
-        <div className="fixed inset-0 bg-[#111111]/40 backdrop-blur-sm z-50 md:hidden flex justify-start">
-          <div className="w-[260px] bg-white h-full flex flex-col p-6 border-r border-[#111111]/10 relative overflow-y-auto">
+        <div className="fixed inset-0 bg-slate-900/20 backdrop-blur-sm z-50 md:hidden flex justify-start">
+          <div className="w-[280px] bg-white h-full flex flex-col p-6 shadow-2xl relative overflow-y-auto rounded-r-3xl">
             <button
               onClick={() => setMobileOpen(false)}
-              className="absolute top-6 right-6 p-2 text-[#111111]"
+              className="absolute top-6 right-6 p-2 text-slate-400 hover:text-slate-700 bg-slate-100 rounded-full transition-colors"
             >
               <FiX className="w-5 h-5" />
             </button>
-            <div className="flex items-center gap-3 mb-8">
-              <div className="w-8 h-8 bg-[#635BFF] flex items-center justify-center rounded-lg text-white font-bold font-mono">
+            <div className="flex items-center gap-3 mb-10 mt-2">
+              <div className="w-10 h-10 bg-gradient-to-br from-[#4F46E5] to-[#00D2C4] rounded-2xl flex items-center justify-center text-white font-bold font-heading text-lg shadow-lg shadow-[#00D2C4]/20 flex-shrink-0">
                 A
               </div>
-              <span className="font-bold text-sm tracking-tight font-mono uppercase text-[#111111]">
-                ACIE LMS
+              <span className="font-bold text-xl tracking-tight font-heading text-slate-900">
+                Mondly
               </span>
             </div>
             
-            <nav className="flex-grow flex flex-col gap-1">
+            <nav className="flex-grow flex flex-col gap-2">
               {navItems.map((item) => (
                 <SidebarLink key={item.to} {...item} collapsed={false} onClick={() => setMobileOpen(false)} />
               ))}
             </nav>
 
-            <div className="mt-8 flex flex-col gap-2 pt-4 border-t border-[#111111]/5">
+            <div className="mt-8 flex flex-col gap-2 pt-6">
               <SidebarLink icon={FiSettings} label="Settings" to="/profile" collapsed={false} onClick={() => setMobileOpen(false)} />
               <button
                 onClick={logout}
-                className="flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all group hover:bg-[#FAFAFA] text-[#B30006] w-full text-left"
+                className="flex items-center gap-3 px-4 py-3 rounded-2xl transition-all group hover:bg-rose-50 text-rose-500 w-full text-left"
               >
-                <FiLogOut className="w-4 h-4 flex-shrink-0 text-[#B30006]/70 group-hover:text-[#B30006]" />
-                <span className="text-xs font-mono tracking-tight">Sign Out</span>
+                <FiLogOut className="w-5 h-5 flex-shrink-0 text-rose-400 group-hover:text-rose-500" />
+                <span className="text-[15px] font-medium tracking-tight">Sign Out</span>
               </button>
             </div>
           </div>

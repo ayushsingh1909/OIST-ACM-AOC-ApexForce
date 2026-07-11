@@ -111,7 +111,7 @@ const ComputeModal = ({ onClose, onSuccess }) => {
               Cancel
             </button>
             <button type="submit" disabled={loading}
-              className="flex-1 px-4 py-3 text-xs bg-[#000000] text-white font-bold transition-all disabled:opacity-50">
+              className="flex-1 px-4 py-3 text-xs bg-[#000000] text-slate-900 font-bold transition-all disabled:opacity-50">
               {loading ? "Computing…" : "Compute Scores"}
             </button>
           </div>
@@ -337,7 +337,7 @@ const Readiness = () => {
             </div>
 
             {!summary.flaggedTopics?.length ? (
-              <div className="flex flex-col items-center justify-center py-12 text-slate-400 gap-2">
+              <div className="flex flex-col items-center justify-center py-12 text-slate-500 gap-2">
                 <FiCheckCircle className="w-8 h-8 text-[#0F5132]" />
                 <span className="text-xs font-bold uppercase tracking-wider font-mono text-[#0F5132]">All vectors optimized</span>
               </div>

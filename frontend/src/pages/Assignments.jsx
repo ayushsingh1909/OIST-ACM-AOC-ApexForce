@@ -176,22 +176,22 @@ const Assignments = () => {
       
       {/* Header */}
       <div className="text-center mb-10 max-w-2xl mx-auto">
-        <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight bg-gradient-to-r from-violet-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent">
+        <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight bg-gradient-to-r from-[#4F46E5] via-indigo-500 to-[#00D2C4] bg-clip-text text-transparent">
           Adaptive Assignment Workspace
         </h1>
-        <p className="text-slate-400 mt-2 text-sm md:text-base">
+        <p className="text-slate-500 mt-2 text-sm md:text-base">
           Accelerate your skills by tackling specialized coding tasks, system designs, case studies, or projects generated for your needs.
         </p>
       </div>
 
       {/* Tabs Switcher */}
-      <div className="flex border-b border-slate-800/80 mb-8 max-w-md mx-auto justify-center bg-slate-900/40 rounded-xl p-1.5 border border-slate-850">
+      <div className="flex border border-slate-200 mb-8 max-w-md mx-auto justify-center bg-slate-50 rounded-xl p-1.5">
         <button
           onClick={() => { setActiveTab("pending"); setSelectedAssignment(null); }}
           className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
             activeTab === "pending"
-              ? "bg-violet-600 text-white shadow-lg"
-              : "text-slate-400 hover:text-slate-200"
+              ? "bg-gradient-to-r from-[#4F46E5] to-[#00D2C4] text-white shadow-lg shadow-[#4F46E5]/25"
+              : "text-slate-600 hover:text-slate-900 hover:bg-slate-200"
           }`}
         >
           Active Assignments ({pendingList.length})
@@ -200,8 +200,8 @@ const Assignments = () => {
           onClick={() => { setActiveTab("completed"); setSelectedAssignment(null); }}
           className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
             activeTab === "completed"
-              ? "bg-violet-600 text-white shadow-lg"
-              : "text-slate-400 hover:text-slate-200"
+              ? "bg-gradient-to-r from-[#4F46E5] to-[#00D2C4] text-white shadow-lg shadow-[#4F46E5]/25"
+              : "text-slate-600 hover:text-slate-900 hover:bg-slate-200"
           }`}
         >
           History ({completedList.length})
@@ -210,8 +210,8 @@ const Assignments = () => {
           onClick={() => { setActiveTab("generate"); setSelectedAssignment(null); }}
           className={`flex-1 py-2 text-xs font-bold rounded-lg transition-all ${
             activeTab === "generate"
-              ? "bg-violet-600 text-white shadow-lg"
-              : "text-slate-400 hover:text-slate-200"
+              ? "bg-gradient-to-r from-[#4F46E5] to-[#00D2C4] text-white shadow-lg shadow-[#4F46E5]/25"
+              : "text-slate-600 hover:text-slate-900 hover:bg-slate-200"
           }`}
         >
           Request Assignment
@@ -225,8 +225,8 @@ const Assignments = () => {
         <div className="lg:col-span-1">
           {activeTab === "generate" ? (
             /* Generate Request Panel */
-            <div className="bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-800 p-6 shadow-xl space-y-5">
-              <h2 className="text-lg font-bold text-white flex items-center gap-2">
+            <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-outcrowd space-y-5">
+              <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
                 <svg className="w-5 h-5 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                 </svg>
@@ -234,24 +234,24 @@ const Assignments = () => {
               </h2>
               <form onSubmit={handleGenerate} className="space-y-4">
                 <div className="space-y-1">
-                  <label htmlFor="topic" className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Focus Topic</label>
+                  <label htmlFor="topic" className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">Focus Topic</label>
                   <input
                     id="topic"
                     type="text"
                     value={genTopic}
                     onChange={(e) => setGenTopic(e.target.value)}
                     placeholder="e.g. React Hooks, SQL Joins (or leave blank to auto-detect weakest)"
-                    className="w-full bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-violet-500 font-medium"
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-900 rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-violet-500 font-medium"
                   />
                 </div>
 
                 <div className="space-y-1">
-                  <label htmlFor="type" className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Assessment Type</label>
+                  <label htmlFor="type" className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">Assessment Type</label>
                   <select
                     id="type"
                     value={genType}
                     onChange={(e) => setGenType(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-violet-500 font-medium"
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-900 rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-violet-500 font-medium"
                   >
                     {ASSIGNMENT_TYPES.map((type) => (
                       <option key={type} value={type}>{type}</option>
@@ -260,12 +260,12 @@ const Assignments = () => {
                 </div>
 
                 <div className="space-y-1">
-                  <label htmlFor="diff" className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">Initial Difficulty</label>
+                  <label htmlFor="diff" className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">Initial Difficulty</label>
                   <select
                     id="diff"
                     value={genDiff}
                     onChange={(e) => setGenDiff(e.target.value)}
-                    className="w-full bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-violet-500 font-medium"
+                    className="w-full bg-slate-50 border border-slate-200 text-slate-900 rounded-xl px-4 py-3 text-xs focus:outline-none focus:border-violet-500 font-medium"
                   >
                     {DIFFICULTIES.map((diff) => (
                       <option key={diff} value={diff}>{diff}</option>
@@ -276,10 +276,10 @@ const Assignments = () => {
                 <button
                   type="submit"
                   disabled={generating}
-                  className={`w-full py-3.5 rounded-xl font-bold text-sm tracking-wide transition-all shadow-lg ${
+                  className={`w-full py-3.5 rounded-2xl font-bold text-sm tracking-wide transition-all shadow-lg ${
                     generating
-                      ? "bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700/50"
-                      : "bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 text-white shadow-violet-500/20 active:scale-[0.98]"
+                      ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200"
+                      : "bg-gradient-to-r from-[#4F46E5] to-[#00D2C4] text-white shadow-[#4F46E5]/25 active:scale-[0.98]"
                   }`}
                 >
                   {generating ? "Generating..." : "Generate AI Assignment"}
@@ -288,8 +288,8 @@ const Assignments = () => {
             </div>
           ) : (
             /* Assignment Lists Tab (Pending or Completed) */
-            <div className="bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-800 p-6 shadow-xl space-y-4">
-              <h2 className="text-lg font-bold text-white flex items-center justify-between">
+            <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-outcrowd space-y-4">
+              <h2 className="text-lg font-bold text-slate-900 flex items-center justify-between">
                 <span>{activeTab === "pending" ? "Active Tasks" : "Graded Workspace"}</span>
                 <span className="text-xs text-slate-500 font-semibold">
                   {activeTab === "pending" ? pendingList.length : completedList.length} items
@@ -303,7 +303,7 @@ const Assignments = () => {
               ) : activeTab === "pending" ? (
                 /* Active / Pending list */
                 pendingList.length === 0 ? (
-                  <div className="text-center py-10 border border-dashed border-slate-800/80 rounded-xl">
+                  <div className="text-center py-10 border border-dashed border-slate-200 rounded-xl">
                     <p className="text-xs text-slate-500">No active assignments remaining</p>
                     <button onClick={() => setActiveTab("generate")} className="mt-3 text-xs text-violet-400 font-bold hover:underline">
                       Create one now
@@ -315,10 +315,10 @@ const Assignments = () => {
                       <div
                         key={item._id}
                         onClick={() => setSelectedAssignment(item)}
-                        className={`p-4 bg-slate-950 border rounded-xl cursor-pointer transition-all ${
+                        className={`p-4 bg-slate-50 border rounded-xl cursor-pointer transition-all ${
                           selectedAssignment?._id === item._id
-                            ? "border-violet-500 bg-slate-900/30"
-                            : "border-slate-850 hover:border-slate-700"
+                            ? "border-violet-500 bg-violet-50/50"
+                            : "border-slate-200 hover:border-slate-300"
                         }`}
                       >
                         <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md uppercase tracking-wider ${
@@ -328,10 +328,10 @@ const Assignments = () => {
                         }`}>
                           {item.difficulty}
                         </span>
-                        <h3 className="text-sm font-semibold text-white mt-2 truncate">{item.title}</h3>
+                        <h3 className="text-sm font-semibold text-slate-900 mt-2 truncate">{item.title}</h3>
                         <div className="flex items-center justify-between text-[11px] text-slate-500 mt-2.5">
                           <span>Focus: {item.topicName}</span>
-                          <span className="font-semibold text-slate-400">{item.assignmentType}</span>
+                          <span className="font-semibold text-slate-500">{item.assignmentType}</span>
                         </div>
                       </div>
                     ))}
@@ -340,7 +340,7 @@ const Assignments = () => {
               ) : (
                 /* Completed List */
                 completedList.length === 0 ? (
-                  <div className="text-center py-10 border border-dashed border-slate-800/80 rounded-xl">
+                  <div className="text-center py-10 border border-dashed border-slate-200 rounded-xl">
                     <p className="text-xs text-slate-500">No completed assignments found</p>
                   </div>
                 ) : (
@@ -361,10 +361,10 @@ const Assignments = () => {
                           });
                           setShowFeedbackModal(true);
                         }}
-                        className="p-4 bg-slate-950 border border-slate-850 hover:border-slate-700 rounded-xl cursor-pointer transition-all flex items-center justify-between group"
+                        className="p-4 bg-slate-50 border border-slate-200 hover:border-slate-300 rounded-xl cursor-pointer transition-all flex items-center justify-between group"
                       >
                         <div className="min-w-0 pr-2">
-                          <h3 className="text-sm font-semibold text-white truncate group-hover:text-violet-300 transition-all">{item.title}</h3>
+                          <h3 className="text-sm font-semibold text-slate-900 truncate group-hover:text-violet-500 transition-all">{item.title}</h3>
                           <span className="text-[10px] text-slate-500 block mt-1">Topic: {item.topicName} | {item.assignmentType}</span>
                         </div>
                         <div className="flex-shrink-0 flex items-center gap-1.5">
@@ -390,10 +390,10 @@ const Assignments = () => {
           
           {/* Workspace Area */}
           {selectedAssignment ? (
-            <div className="bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-800 p-6 shadow-xl space-y-6">
+            <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-outcrowd space-y-6">
               
               {/* Assignment Details */}
-              <div className="border-b border-slate-800 pb-5 space-y-3">
+              <div className="border-b border-slate-200 pb-5 space-y-3">
                 <div className="flex items-center gap-2">
                   <span className="text-[10px] font-bold px-2 py-0.5 bg-violet-500/10 text-violet-400 rounded-md border border-violet-500/20">{selectedAssignment.assignmentType}</span>
                   <span className={`text-[10px] font-bold px-2 py-0.5 rounded-md ${
@@ -402,16 +402,16 @@ const Assignments = () => {
                     "bg-rose-500/10 text-rose-400"
                   }`}>{selectedAssignment.difficulty}</span>
                 </div>
-                <h2 className="text-xl font-extrabold text-white leading-snug">{selectedAssignment.title}</h2>
-                <div className="text-xs text-slate-400 bg-slate-950 p-4 rounded-xl border border-slate-850 font-mono leading-relaxed whitespace-pre-line">
-                  <strong className="text-slate-300 block mb-1 underline">Problem Description:</strong>
+                <h2 className="text-xl font-extrabold text-slate-900 leading-snug">{selectedAssignment.title}</h2>
+                <div className="text-xs text-slate-500 bg-slate-50 p-4 rounded-xl border border-slate-200 font-mono leading-relaxed whitespace-pre-line">
+                  <strong className="text-slate-600 block mb-1 underline">Problem Description:</strong>
                   {selectedAssignment.problemStatement}
                 </div>
               </div>
 
               {/* Submission Mode Selectors */}
               <div className="space-y-4">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Select Submission Mode</h3>
+                <h3 className="text-xs font-bold text-slate-500 uppercase tracking-widest">Select Submission Mode</h3>
                 
                 <div className="flex flex-wrap gap-2">
                   {["Code", "Text", "GitHub", "File"].map((mode) => (
@@ -421,8 +421,8 @@ const Assignments = () => {
                       onClick={() => setSubmissionMode(mode)}
                       className={`px-3 py-1.5 text-xs font-bold rounded-lg border transition-all ${
                         submissionMode === mode
-                          ? "bg-violet-600 text-white border-violet-500 shadow-md"
-                          : "bg-slate-950 text-slate-400 border-slate-850 hover:border-slate-700"
+                          ? "bg-gradient-to-r from-[#4F46E5] to-[#00D2C4] text-white border-transparent shadow-md"
+                          : "bg-slate-50 text-slate-600 border-slate-200 hover:border-slate-300"
                       }`}
                     >
                       {mode === "Code" && "Embedded Code"}
@@ -438,14 +438,14 @@ const Assignments = () => {
                   
                   {/* Code input */}
                   {submissionMode === "Code" && (
-                    <div className="border border-slate-800 rounded-xl overflow-hidden font-mono text-xs">
-                      <div className="bg-slate-950 px-4 py-2 border-b border-slate-850 flex items-center justify-between text-slate-500 text-[10px] font-bold">
+                    <div className="border border-slate-200 rounded-xl overflow-hidden font-mono text-xs">
+                      <div className="bg-slate-50 px-4 py-2 border-b border-slate-200 flex items-center justify-between text-slate-500 text-[10px] font-bold">
                         <span>EMBEDDED CODE EDITOR MOCKUP</span>
                         <span>JavaScript (ES6)</span>
                       </div>
-                      <div className="flex bg-slate-950/40 min-h-[250px]">
+                      <div className="flex bg-white min-h-[250px]">
                         {/* Mock line numbers */}
-                        <div className="bg-slate-950 px-2 py-3 border-r border-slate-850 text-slate-600 text-right select-none w-10">
+                        <div className="bg-slate-50 px-2 py-3 border-r border-slate-200 text-slate-400 text-right select-none w-10">
                           {Array.from({ length: 15 }).map((_, i) => (
                             <div key={i}>{i + 1}</div>
                           ))}
@@ -454,7 +454,7 @@ const Assignments = () => {
                           value={codeContent}
                           onChange={(e) => setCodeContent(e.target.value)}
                           placeholder="// Write your code implementation here..."
-                          className="flex-1 bg-transparent text-slate-100 p-3 outline-none resize-none leading-relaxed custom-scrollbar font-mono"
+                          className="flex-1 bg-transparent text-slate-900 p-3 outline-none resize-none leading-relaxed custom-scrollbar font-mono"
                         />
                       </div>
                     </div>
@@ -467,21 +467,21 @@ const Assignments = () => {
                       onChange={(e) => setTextContent(e.target.value)}
                       placeholder="Write your long-form text answer, case study breakdown, or analysis report here..."
                       rows={10}
-                      className="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl p-4 focus:outline-none focus:border-violet-500 text-xs font-mono leading-relaxed"
+                      className="w-full bg-white border border-slate-200 text-slate-900 rounded-xl p-4 focus:outline-none focus:border-violet-500 text-xs font-mono leading-relaxed"
                     />
                   )}
 
                   {/* GitHub input */}
                   {submissionMode === "GitHub" && (
                     <div className="space-y-1">
-                      <label htmlFor="git-url" className="text-[10px] font-bold text-slate-400 uppercase tracking-widest block">GitHub Repository Link</label>
+                      <label htmlFor="git-url" className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">GitHub Repository Link</label>
                       <input
                         id="git-url"
                         type="url"
                         value={githubLink}
                         onChange={(e) => setGithubLink(e.target.value)}
                         placeholder="https://github.com/username/repository"
-                        className="w-full bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3.5 text-xs focus:outline-none focus:border-violet-500 font-mono"
+                        className="w-full bg-white border border-slate-200 text-slate-900 rounded-xl px-4 py-3.5 text-xs focus:outline-none focus:border-violet-500 font-mono"
                       />
                     </div>
                   )}
@@ -492,8 +492,8 @@ const Assignments = () => {
                       onDragOver={handleDragOver}
                       onDragLeave={handleDragLeave}
                       onDrop={handleDrop}
-                      className={`border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all ${
-                        dragOver ? "border-violet-400 bg-violet-500/10" : "border-slate-800 bg-slate-950/40 hover:border-slate-700"
+                      className={`border-2 border-dashed rounded-2xl p-8 text-center cursor-pointer transition-all ${
+                        dragOver ? "border-violet-400 bg-violet-500/10" : "border-slate-200 bg-slate-50 hover:border-slate-300"
                       }`}
                     >
                       <input
@@ -506,20 +506,20 @@ const Assignments = () => {
                         className="hidden"
                       />
                       <label htmlFor="zip-file" className="cursor-pointer space-y-3 block">
-                        <div className="mx-auto w-12 h-12 bg-slate-900/80 rounded-xl border border-slate-800 flex items-center justify-center text-slate-400">
+                        <div className="mx-auto w-12 h-12 bg-white rounded-xl border border-slate-200 flex items-center justify-center text-slate-500">
                           <svg className="w-6 h-6 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
                           </svg>
                         </div>
                         <div>
-                          <span className="text-sm font-semibold text-white">Drag & drop project ZIP / PDF</span>
-                          <p className="text-xs text-slate-400 mt-1">or browse files from device</p>
+                          <span className="text-sm font-semibold text-slate-900">Drag & drop project ZIP / PDF</span>
+                          <p className="text-xs text-slate-500 mt-1">or browse files from device</p>
                         </div>
                       </label>
                       
                       {uploadedFile && (
                         <div className="mt-4 p-2 bg-violet-500/10 border border-violet-500/30 rounded-lg flex items-center justify-between text-left max-w-sm mx-auto">
-                          <span className="text-xs font-semibold text-violet-300 truncate pr-2">{uploadedFile.name}</span>
+                          <span className="text-xs font-semibold text-violet-600 truncate pr-2">{uploadedFile.name}</span>
                           <button
                             type="button"
                             onClick={() => setUploadedFile(null)}
@@ -539,10 +539,10 @@ const Assignments = () => {
               <button
                 onClick={handleSubmit}
                 disabled={submitting}
-                className={`w-full py-4 rounded-xl font-bold text-sm tracking-wide transition-all shadow-lg ${
+                className={`w-full py-4 rounded-2xl font-bold text-sm tracking-wide transition-all shadow-lg ${
                   submitting
-                    ? "bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700/50"
-                    : "bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 text-white shadow-violet-500/20 active:scale-[0.98]"
+                    ? "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200"
+                    : "bg-gradient-to-r from-[#4F46E5] to-[#00D2C4] text-white shadow-[#4F46E5]/25 active:scale-[0.98]"
                 }`}
               >
                 {submitting ? (
@@ -558,14 +558,14 @@ const Assignments = () => {
             </div>
           ) : (
             /* Idle workspace placeholder */
-            <div className="bg-slate-900/30 rounded-2xl border border-slate-800/80 p-12 text-center shadow-xl min-h-[500px] flex flex-col justify-center items-center space-y-4">
-              <div className="w-16 h-16 bg-slate-900 rounded-2xl border border-slate-800 flex items-center justify-center text-slate-500">
+            <div className="bg-white rounded-3xl border border-slate-100 p-12 text-center shadow-outcrowd min-h-[500px] flex flex-col justify-center items-center space-y-4">
+              <div className="w-16 h-16 bg-slate-50 rounded-2xl border border-slate-200 flex items-center justify-center text-slate-500">
                 <svg className="w-8 h-8 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-white">Interactive Workspace</h3>
-              <p className="text-sm text-slate-400 max-w-sm">
+              <h3 className="text-xl font-bold text-slate-900">Interactive Workspace</h3>
+              <p className="text-sm text-slate-500 max-w-sm">
                 Select an active assignment from the list on the left to review its prompt, configure your submission mode, and send your code/deliverables for AI validation.
               </p>
             </div>
@@ -577,13 +577,13 @@ const Assignments = () => {
 
       {/* Evaluation Feedback Modal */}
       {showFeedbackModal && evaluationReport && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/80 backdrop-blur-sm animate-fade-in">
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 space-y-6 custom-scrollbar">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/40 backdrop-blur-sm animate-fade-in">
+          <div className="bg-white border border-slate-100 rounded-3xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-2xl p-6 space-y-6 custom-scrollbar">
             
             {/* Header */}
-            <div className="flex justify-between items-start border-b border-slate-850 pb-4">
+            <div className="flex justify-between items-start border-b border-slate-200 pb-4">
               <div>
-                <h3 className="text-lg font-bold text-white flex items-center gap-2">
+                <h3 className="text-lg font-bold text-slate-900 flex items-center gap-2">
                   <span className="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
                   AI Evaluation Report
                 </h3>
@@ -591,20 +591,20 @@ const Assignments = () => {
               </div>
               <button
                 onClick={() => { setShowFeedbackModal(false); setEvaluationReport(null); }}
-                className="text-slate-400 hover:text-white text-xs font-bold bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800"
+                className="text-slate-500 hover:text-slate-900 text-xs font-bold bg-slate-50 px-2.5 py-1 rounded-lg border border-slate-200"
               >
                 Close Report
               </button>
             </div>
 
             {/* Score Ring & Mastery updates */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-950/60 p-4 rounded-xl border border-slate-850">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-4 rounded-xl border border-slate-200">
               
               {/* Score circle */}
               <div className="flex flex-col items-center justify-center py-2">
                 <div className="relative w-28 h-28 flex items-center justify-center">
                   <svg className="w-full h-full transform -rotate-90">
-                    <circle cx="56" cy="56" r="45" className="stroke-slate-800" strokeWidth="6" fill="transparent" />
+                    <circle cx="56" cy="56" r="45" className="stroke-slate-100" strokeWidth="6" fill="transparent" />
                     <circle
                       cx="56"
                       cy="56"
@@ -619,7 +619,7 @@ const Assignments = () => {
                     />
                   </svg>
                   <div className="absolute text-center">
-                    <span className="text-3xl font-extrabold text-white">{evaluationReport.evaluation?.score}</span>
+                    <span className="text-3xl font-extrabold text-slate-900">{evaluationReport.evaluation?.score}</span>
                     <span className="text-[9px] text-slate-500 uppercase font-bold block">Score</span>
                   </div>
                 </div>
@@ -627,7 +627,7 @@ const Assignments = () => {
 
               {/* Mastery recalculation metrics */}
               <div className="flex flex-col justify-center space-y-3">
-                <h4 className="text-xs font-bold text-slate-400 uppercase tracking-wider">Learning Profile Update</h4>
+                <h4 className="text-xs font-bold text-slate-500 uppercase tracking-wider">Learning Profile Update</h4>
                 <div className="flex items-center justify-between text-xs font-semibold">
                   <span className="text-slate-500">Topic Mastery progression</span>
                   <span className="text-violet-400">
@@ -650,14 +650,14 @@ const Assignments = () => {
 
             {/* Concept Coverage Checklist */}
             <div className="space-y-3">
-              <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Concept Coverage Report</h4>
+              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest">Concept Coverage Report</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {evaluationReport.evaluation?.conceptCoverage?.map((concept) => (
                   <div
                     key={concept._id || concept.concept}
-                    className="p-3 bg-slate-950/40 border border-slate-850 rounded-xl flex items-center justify-between"
+                    className="p-3 bg-slate-50 border border-slate-200 rounded-xl flex items-center justify-between"
                   >
-                    <span className="text-xs text-slate-300 font-semibold">{concept.concept}</span>
+                    <span className="text-xs text-slate-600 font-semibold">{concept.concept}</span>
                     <span className={`w-5 h-5 rounded-full flex items-center justify-center font-bold text-xs ${
                       concept.covered
                         ? "bg-emerald-500/10 text-emerald-400"
@@ -672,7 +672,7 @@ const Assignments = () => {
 
             {/* Mistake breakdown */}
             <div className="space-y-3">
-              <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Categorized Mistake Breakdown</h4>
+              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest">Categorized Mistake Breakdown</h4>
               {evaluationReport.evaluation?.mistakeBreakdown?.length === 0 ? (
                 <div className="p-3 bg-emerald-500/10 border border-emerald-500/20 rounded-xl">
                   <p className="text-xs text-emerald-400 font-semibold">No critical execution mistakes detected in this run.</p>
@@ -682,7 +682,7 @@ const Assignments = () => {
                   {evaluationReport.evaluation?.mistakeBreakdown?.map((mistake) => (
                     <div key={mistake._id || mistake.category} className="p-3 bg-rose-500/5 border border-rose-500/10 rounded-xl flex flex-col gap-1">
                       <span className="text-xs font-bold text-rose-400">{mistake.category}</span>
-                      <p className="text-xs text-slate-400 leading-relaxed">{mistake.details}</p>
+                      <p className="text-xs text-slate-500 leading-relaxed">{mistake.details}</p>
                     </div>
                   ))}
                 </div>
@@ -691,10 +691,10 @@ const Assignments = () => {
 
             {/* Improvement Recommendations list */}
             <div className="space-y-3">
-              <h4 className="text-xs font-bold text-slate-400 uppercase tracking-widest">Actionable Improvement Suggestions</h4>
+              <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest">Actionable Improvement Suggestions</h4>
               <ul className="space-y-2">
                 {evaluationReport.evaluation?.improvementSuggestions?.map((suggestion, idx) => (
-                  <li key={idx} className="flex gap-2 text-xs md:text-sm text-slate-300 leading-relaxed items-start p-3 bg-slate-950/30 rounded-xl border border-slate-850">
+                  <li key={idx} className="flex gap-2 text-xs md:text-sm text-slate-600 leading-relaxed items-start p-3 bg-slate-50 rounded-xl border border-slate-200">
                     <span className="w-1.5 h-1.5 rounded-full bg-amber-500 mt-1.5 flex-shrink-0"></span>
                     <span>{suggestion}</span>
                   </li>

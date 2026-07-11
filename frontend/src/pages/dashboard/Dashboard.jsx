@@ -20,17 +20,18 @@ const Dashboard = () => {
     <div className="flex flex-col gap-10">
       
       {/* Header section */}
-      <div className="space-y-1.5 lms-stagger">
+      <div className="space-y-2 lms-stagger">
         <div className="flex items-center gap-2">
-          <span className="text-[10px] font-bold text-[#000000] uppercase tracking-widest font-sans">
+          <span className="text-sm font-medium text-slate-500 font-sans tracking-wide">
             {new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'short', day: 'numeric' })}
           </span>
         </div>
-        <h2 className="text-5xl font-bold tracking-tighter text-[#000000] leading-tight">
-          Welcome back, {user?.name?.split(" ")[0] || "Student"}.
+        <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 leading-tight font-heading">
+          Welcome back, {user?.name?.split(" ")[0] || "Student"}! 
+          <span className="inline-block ml-3 animate-bounce origin-bottom-right" style={{ animationDuration: '2s' }}>👋</span>
         </h2>
-        <p className="text-[#555555] text-xs">
-          Here is your learning summary and recommended next steps for today.
+        <p className="text-slate-500 text-[15px] font-medium max-w-2xl">
+          Here is your learning summary and recommended next steps for today. Let's keep the momentum going!
         </p>
       </div>
 
@@ -50,9 +51,9 @@ const Dashboard = () => {
 
         {/* Right Column: Active Courses */}
         <div className="lg:col-span-2 flex flex-col gap-6 lms-stagger">
-          <div className="flex justify-between items-end border-b border-black/10 pb-2">
-            <h3 className="text-sm font-bold text-[#000000] uppercase font-sans tracking-widest">Active Topics (Courses)</h3>
-            <span className="text-[10px] font-bold text-[#000000] uppercase tracking-widest cursor-pointer font-sans underline decoration-1 underline-offset-2">View All</span>
+          <div className="flex justify-between items-end border-b border-slate-200/60 pb-3">
+            <h3 className="text-lg font-bold text-slate-800 font-heading">Active Courses</h3>
+            <span className="text-sm font-bold text-[#4F46E5] cursor-pointer hover:text-[#4F46E5]/80 transition-colors">View All</span>
           </div>
           
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
@@ -84,20 +85,20 @@ const Dashboard = () => {
             {
               id: "item1",
               cells: [
-                <span className="text-[10px] font-bold font-sans text-black border border-black/10 px-2 py-0.5 uppercase tracking-wider">Quiz</span>,
-                <span className="font-semibold text-black">Advanced Hooks Mastery</span>,
-                "Tomorrow, 11:59 PM",
-                <span className="text-[10px] font-bold font-sans text-black border border-black/10 px-2 py-0.5 uppercase tracking-wider bg-black/5">Pending</span>
+                <span className="text-xs font-bold text-[#4F46E5] bg-indigo-50 px-3 py-1 rounded-full">Quiz</span>,
+                <span className="font-bold text-slate-800">Advanced Hooks Mastery</span>,
+                <span className="text-slate-600 font-medium">Tomorrow, 11:59 PM</span>,
+                <span className="text-xs font-bold text-amber-600 bg-amber-50 px-3 py-1 rounded-full">Pending</span>
               ],
               details: "Focus on useEffect dependency arrays and memoization techniques (useMemo, useCallback)."
             },
             {
               id: "item2",
               cells: [
-                <span className="text-[10px] font-bold font-sans text-black border border-black/10 px-2 py-0.5 uppercase tracking-wider">Assignment</span>,
-                <span className="font-semibold text-black">Build a Rate Limiter</span>,
-                "Oct 15, 2026",
-                <span className="text-[10px] font-bold font-sans text-[#B30006] border border-[#B30006]/20 px-2 py-0.5 uppercase tracking-wider bg-[#B30006]/5">Overdue</span>
+                <span className="text-xs font-bold text-[#00D2C4] bg-teal-50 px-3 py-1 rounded-full">Assignment</span>,
+                <span className="font-bold text-slate-800">Build a Rate Limiter</span>,
+                <span className="text-slate-600 font-medium">Oct 15, 2026</span>,
+                <span className="text-xs font-bold text-rose-500 bg-rose-50 px-3 py-1 rounded-full">Overdue</span>
               ],
               details: "Implement a token bucket rate limiter in Node.js with Redis. Ensure edge cases are documented."
             }

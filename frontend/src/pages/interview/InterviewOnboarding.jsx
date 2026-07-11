@@ -91,7 +91,7 @@ const InterviewOnboarding = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[80vh] px-4">
         <div className="w-12 h-12 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin mb-4"></div>
-        <p className="text-slate-400">Loading simulator configuration...</p>
+        <p className="text-slate-500">Loading simulator configuration...</p>
       </div>
     );
   }
@@ -103,10 +103,10 @@ const InterviewOnboarding = () => {
         <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold border border-violet-500/20 bg-violet-500/10 text-violet-400 mb-4 animate-pulse">
           Module 6: Interview Simulation
         </div>
-        <h1 className="text-3xl md:text-5xl font-extrabold text-white tracking-tight mb-4 bg-gradient-to-r from-violet-400 via-indigo-400 to-cyan-400 bg-clip-text text-transparent">
+        <h1 className="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight mb-4 bg-gradient-to-r from-violet-400 via-indigo-400 to-cyan-400 bg-clip-text text-transparent">
           AI Interview Simulator
         </h1>
-        <p className="text-slate-400 max-w-xl mx-auto text-sm md:text-base">
+        <p className="text-slate-500 max-w-xl mx-auto text-sm md:text-base">
           Practice adaptive real-world interview assessments tailored specifically to your target roles. Get graded on logical structure, technical depth, and keyword density.
         </p>
       </div>
@@ -115,8 +115,8 @@ const InterviewOnboarding = () => {
         {/* Step Cards - left / middle col */}
         <div className="md:col-span-2 space-y-6">
           {/* Role Selection */}
-          <div className="p-6 bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-2xl shadow-xl">
-            <h2 className="text-lg font-bold text-white flex items-center gap-2 mb-4">
+          <div className="p-6 bg-white backdrop-blur-xl border border-slate-100 rounded-3xl shadow-outcrowd">
+            <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2 mb-4">
               <FiBriefcase className="text-violet-400" /> Select Target Job Role
             </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -128,8 +128,8 @@ const InterviewOnboarding = () => {
                     onClick={() => handleRoleChange(roleName)}
                     className={`p-4 text-left rounded-xl border transition-all ${
                       selectedRole === roleName
-                        ? "border-violet-500 bg-violet-500/10 shadow-lg shadow-violet-500/5 text-white"
-                        : "border-slate-800 bg-slate-950/40 hover:border-slate-700 text-slate-350 hover:text-slate-200"
+                        ? "border-violet-500 bg-violet-500/10 shadow-lg shadow-violet-500/5 text-slate-900"
+                        : "border-slate-200 bg-slate-50 hover:border-slate-300 text-slate-350 hover:text-slate-700"
                     }`}
                   >
                     <div className="font-semibold text-sm">{roleName}</div>
@@ -142,11 +142,11 @@ const InterviewOnboarding = () => {
           </div>
 
           {/* Skill Customizer */}
-          <div className="p-6 bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-2xl shadow-xl">
-            <h2 className="text-lg font-bold text-white flex items-center gap-2 mb-4">
+          <div className="p-6 bg-white backdrop-blur-xl border border-slate-100 rounded-3xl shadow-outcrowd">
+            <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2 mb-4">
               <FiSliders className="text-violet-400" /> Customize Skill Stack
             </h2>
-            <p className="text-xs text-slate-400 mb-4">
+            <p className="text-xs text-slate-500 mb-4">
               These skill tags feed into the adaptivity algorithm to structure targeted questions.
             </p>
 
@@ -156,7 +156,7 @@ const InterviewOnboarding = () => {
                 value={newSkill}
                 onChange={(e) => setNewSkill(e.target.value)}
                 placeholder="Add custom skill (e.g. AWS S3, GraphQL, Redis)"
-                className="flex-1 px-4 py-2.5 rounded-xl border border-slate-800 bg-slate-950 text-white text-sm focus:border-violet-500 focus:outline-none placeholder-slate-600"
+                className="flex-1 px-4 py-2.5 rounded-xl border border-slate-200 bg-slate-50 text-slate-900 text-sm focus:border-violet-500 focus:outline-none placeholder-slate-600"
               />
               <button
                 type="submit"
@@ -170,7 +170,7 @@ const InterviewOnboarding = () => {
               {skills.map((skill) => (
                 <span
                   key={skill}
-                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-955 border border-slate-800 text-xs text-slate-300 font-medium"
+                  className="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-slate-955 border border-slate-200 text-xs text-slate-600 font-medium"
                 >
                   {skill}
                   <button
@@ -191,14 +191,14 @@ const InterviewOnboarding = () => {
 
         {/* Configurations - right col */}
         <div className="space-y-6">
-          <div className="p-6 bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-2xl shadow-xl">
-            <h2 className="text-lg font-bold text-white flex items-center gap-2 mb-4">
+          <div className="p-6 bg-white backdrop-blur-xl border border-slate-100 rounded-3xl shadow-outcrowd">
+            <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2 mb-4">
               <FiClock className="text-violet-400" /> Simulation Settings
             </h2>
 
             {/* Difficulty */}
             <div className="mb-5">
-              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
                 Difficulty Level
               </label>
               <div className="grid grid-cols-3 gap-2">
@@ -210,7 +210,7 @@ const InterviewOnboarding = () => {
                     className={`py-2 text-xs font-semibold rounded-lg border transition-all ${
                       difficulty === lvl
                         ? "border-violet-500 bg-violet-500/10 text-violet-300"
-                        : "border-slate-800 bg-slate-950/40 text-slate-400 hover:border-slate-700"
+                        : "border-slate-200 bg-slate-50 text-slate-500 hover:border-slate-200"
                     }`}
                   >
                     {lvl}
@@ -221,13 +221,13 @@ const InterviewOnboarding = () => {
 
             {/* Time Constraint */}
             <div className="mb-6">
-              <label className="block text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
                 Time Limit Per Question
               </label>
               <select
                 value={timeLimit}
                 onChange={(e) => setTimeLimit(Number(e.target.value))}
-                className="w-full px-3 py-2.5 rounded-lg border border-slate-800 bg-slate-950 text-white text-sm focus:border-violet-500 focus:outline-none"
+                className="w-full px-3 py-2.5 rounded-lg border border-slate-200 bg-slate-50 text-slate-900 text-sm focus:border-violet-500 focus:outline-none"
               >
                 <option value={60}>60 Seconds (Fast Pace)</option>
                 <option value={120}>120 Seconds (Standard)</option>
@@ -237,25 +237,25 @@ const InterviewOnboarding = () => {
             </div>
 
             {/* Summary details */}
-            <div className="border-t border-slate-850 pt-4 mb-6 text-xs text-slate-400 space-y-2">
+            <div className="border-t border-slate-200 pt-4 mb-6 text-xs text-slate-500 space-y-2">
               <div className="flex justify-between">
                 <span>Structure:</span>
-                <span className="text-white font-medium">4 Core Verticals</span>
+                <span className="text-slate-900 font-medium">4 Core Verticals</span>
               </div>
               <div className="flex justify-between">
                 <span>Total Questions:</span>
-                <span className="text-white font-medium">4 Questions</span>
+                <span className="text-slate-900 font-medium">4 Questions</span>
               </div>
               <div className="flex justify-between">
                 <span>Format:</span>
-                <span className="text-white font-medium">Free-Text Answers</span>
+                <span className="text-slate-900 font-medium">Free-Text Answers</span>
               </div>
             </div>
 
             <button
               onClick={handleStartSimulation}
               disabled={starting}
-              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-white font-bold text-sm shadow-lg shadow-violet-600/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
+              className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 hover:from-violet-500 hover:to-indigo-500 text-slate-900 font-bold text-sm shadow-lg shadow-violet-600/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
             >
               {starting ? (
                 <>
@@ -271,7 +271,7 @@ const InterviewOnboarding = () => {
           </div>
           <button
             onClick={() => navigate("/interview/history")}
-            className="w-full py-3 rounded-xl border border-slate-800 bg-slate-900/30 hover:bg-slate-900/60 text-slate-300 hover:text-white text-xs font-semibold transition-all text-center"
+            className="w-full py-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white/60 text-slate-600 hover:text-slate-900 text-xs font-semibold transition-all text-center"
           >
             View Historical Interviews
           </button>

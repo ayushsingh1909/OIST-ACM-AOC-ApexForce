@@ -111,7 +111,7 @@ const ComputeModal = ({ onClose, onSuccess }) => {
               Cancel
             </button>
             <button type="submit" disabled={loading}
-              className="flex-1 px-4 py-3 text-xs bg-[#111111] text-white rounded-xl font-semibold transition-all disabled:opacity-50">
+              className="flex-1 px-4 py-3 text-xs bg-[#111111] text-slate-900 rounded-xl font-semibold transition-all disabled:opacity-50">
               {loading ? "Computing…" : "Compute Scores"}
             </button>
           </div>
@@ -247,7 +247,7 @@ const CareerDashboard = () => {
           
           <button
             onClick={() => setShowModal(true)}
-            className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold bg-[#111111] text-white rounded-xl transition-all shadow-sm active:scale-[0.98] font-mono"
+            className="flex items-center gap-1.5 px-4 py-2 text-xs font-semibold bg-[#111111] text-slate-900 rounded-xl transition-all shadow-sm active:scale-[0.98] font-mono"
           >
             <FiZap className="w-3.5 h-3.5" /> Run Simulator
           </button>
@@ -280,7 +280,7 @@ const CareerDashboard = () => {
             </p>
             <button
               onClick={() => setShowModal(true)}
-              className="mt-6 flex items-center gap-1.5 px-5 py-3 bg-[#111111] text-white rounded-xl text-xs font-bold transition-all shadow-md active:scale-[0.98] font-mono"
+              className="mt-6 flex items-center gap-1.5 px-5 py-3 bg-[#111111] text-slate-900 rounded-xl text-xs font-bold transition-all shadow-md active:scale-[0.98] font-mono"
             >
               <FiZap className="w-3.5 h-3.5" /> Start Simulation
             </button>
@@ -339,7 +339,7 @@ const CareerDashboard = () => {
             </div>
 
             {!summary.flaggedTopics?.length ? (
-              <div className="flex flex-col items-center justify-center py-12 text-slate-400 gap-2">
+              <div className="flex flex-col items-center justify-center py-12 text-slate-500 gap-2">
                 <FiCheckCircle className="w-8 h-8 text-emerald-600" />
                 <span className="text-xs font-bold uppercase tracking-wider font-mono">All vectors optimized</span>
               </div>

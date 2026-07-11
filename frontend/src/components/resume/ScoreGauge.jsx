@@ -20,7 +20,7 @@ const ScoreGauge = ({ score, size = 180 }) => {
           cy={size / 2}
           r={radius}
           fill="none"
-          stroke="#1e293b"
+          stroke="#e2e8f0"
           strokeWidth="12"
         />
         <circle
@@ -37,8 +37,8 @@ const ScoreGauge = ({ score, size = 180 }) => {
         />
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center">
-        <span className="text-4xl font-extrabold text-white">{score}</span>
-        <span className="text-xs text-slate-400 uppercase tracking-wider">/ 100</span>
+        <span className="text-4xl font-extrabold text-slate-900">{score}</span>
+        <span className="text-xs text-slate-500 uppercase tracking-wider">/ 100</span>
       </div>
     </div>
   );

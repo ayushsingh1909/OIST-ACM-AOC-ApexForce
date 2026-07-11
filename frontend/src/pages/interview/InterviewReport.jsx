@@ -49,7 +49,7 @@ const InterviewReport = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[80vh] px-4">
         <div className="w-12 h-12 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin mb-4"></div>
-        <p className="text-slate-400">Loading interview scorecard report...</p>
+        <p className="text-slate-500">Loading interview scorecard report...</p>
       </div>
     );
   }
@@ -58,9 +58,9 @@ const InterviewReport = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[80vh] px-4 text-center">
         <FiAlertCircle className="w-12 h-12 text-rose-500 mb-4" />
-        <h2 className="text-xl font-bold text-white mb-2">Report Not Found</h2>
-        <p className="text-slate-400 mb-4">The requested scorecard report could not be found.</p>
-        <button onClick={() => navigate("/interview")} className="px-6 py-2 rounded-xl bg-violet-600 text-white font-semibold">
+        <h2 className="text-xl font-bold text-slate-900 mb-2">Report Not Found</h2>
+        <p className="text-slate-500 mb-4">The requested scorecard report could not be found.</p>
+        <button onClick={() => navigate("/interview")} className="px-6 py-2 rounded-xl bg-gradient-to-r from-[#4F46E5] to-[#00D2C4] text-white shadow-[#4F46E5]/25 font-semibold">
           Return to Onboarding
         </button>
       </div>
@@ -96,7 +96,7 @@ const InterviewReport = () => {
       {/* Return Button */}
       <button
         onClick={() => navigate("/interview/history")}
-        className="flex items-center gap-1.5 text-xs font-bold text-slate-400 hover:text-white uppercase tracking-wider transition-colors cursor-pointer"
+        className="flex items-center gap-1.5 text-xs font-bold text-slate-500 hover:text-slate-900 uppercase tracking-wider transition-colors cursor-pointer"
       >
         <FiArrowLeft className="w-4 h-4" /> Back to History
       </button>
@@ -104,9 +104,9 @@ const InterviewReport = () => {
       {/* Main Score Dashboard */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Composite Score Circle Gauge */}
-        <div className="p-6 bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-2xl flex flex-col items-center justify-center text-center shadow-xl md:col-span-1">
+        <div className="p-6 bg-white/60 backdrop-blur-xl border border-slate-200 rounded-2xl flex flex-col items-center justify-center text-center shadow-xl md:col-span-1">
           <FiAward className="w-8 h-8 text-violet-400 mb-4 animate-bounce" />
-          <h2 className="text-sm font-semibold text-slate-400 uppercase tracking-wider mb-4">
+          <h2 className="text-sm font-semibold text-slate-500 uppercase tracking-wider mb-4">
             Composite Score
           </h2>
           
@@ -141,7 +141,7 @@ const InterviewReport = () => {
               </defs>
             </svg>
             <div className="absolute text-center">
-              <span className="text-4xl font-extrabold text-white">{session.overallScore}</span>
+              <span className="text-4xl font-extrabold text-slate-900">{session.overallScore}</span>
               <span className="text-slate-500 text-xs block">/ 100</span>
             </div>
           </div>
@@ -152,11 +152,11 @@ const InterviewReport = () => {
         </div>
 
         {/* Overall Feedback Details */}
-        <div className="p-6 bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-2xl flex flex-col justify-center shadow-xl md:col-span-2 space-y-4">
-          <h2 className="text-lg font-bold text-white flex items-center gap-2">
+        <div className="p-6 bg-white/60 backdrop-blur-xl border border-slate-200 rounded-2xl flex flex-col justify-center shadow-xl md:col-span-2 space-y-4">
+          <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
             <FiActivity className="text-violet-400" /> Evaluation Summary
           </h2>
-          <p className="text-slate-300 text-sm leading-relaxed">
+          <p className="text-slate-600 text-sm leading-relaxed">
             {session.overallFeedback}
           </p>
           
@@ -186,8 +186,8 @@ const InterviewReport = () => {
       </div>
 
       {/* 5-Axes Sub-Scores Breakdown */}
-      <div className="p-6 bg-slate-900/40 backdrop-blur-xl border border-slate-850 rounded-2xl shadow-xl space-y-5">
-        <h2 className="text-lg font-bold text-white flex items-center gap-2">
+      <div className="p-6 bg-slate-50 backdrop-blur-xl border border-slate-200 rounded-2xl shadow-xl space-y-5">
+        <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
           <FiBookOpen className="text-violet-400" /> Assessment Parameter Metrics
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-10 gap-y-5">
@@ -195,12 +195,12 @@ const InterviewReport = () => {
             <div key={metric.label} className="space-y-1.5">
               <div className="flex justify-between items-center text-xs">
                 <div>
-                  <span className="font-bold text-slate-200">{metric.label}</span>
+                  <span className="font-bold text-slate-700">{metric.label}</span>
                   <span className="text-[10px] text-slate-500 block">{metric.desc}</span>
                 </div>
                 <span className="font-mono font-bold text-violet-400">{metric.score} / 100</span>
               </div>
-              <div className="w-full h-2 bg-slate-950 border border-slate-850 rounded-full overflow-hidden">
+              <div className="w-full h-2 bg-slate-50 border border-slate-200 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-gradient-to-r from-violet-500 to-indigo-500 rounded-full"
                   style={{ width: `${metric.score}%` }}
@@ -213,30 +213,30 @@ const InterviewReport = () => {
 
       {/* Accordion Questions Detailed Review */}
       <div className="space-y-4">
-        <h2 className="text-xl font-bold text-white">
+        <h2 className="text-xl font-bold text-slate-900">
           Detailed Responses Breakdown
         </h2>
 
         {session.questions.map((q, idx) => (
           <div
             key={q._id}
-            className="bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-2xl overflow-hidden shadow-xl"
+            className="bg-white/60 backdrop-blur-xl border border-slate-200 rounded-2xl overflow-hidden shadow-xl"
           >
             {/* Header / Trigger */}
             <button
               onClick={() => toggleAccordion(idx)}
-              className="w-full flex items-center justify-between p-5 text-left border-b border-slate-800 hover:bg-slate-900/40 transition-colors"
+              className="w-full flex items-center justify-between p-5 text-left border-b border-slate-200 hover:bg-slate-50 transition-colors"
             >
               <div className="space-y-1">
                 <div className="flex items-center gap-2 text-xs">
-                  <span className="px-2 py-0.5 rounded font-bold bg-slate-950 border border-slate-800 text-slate-400">
+                  <span className="px-2 py-0.5 rounded font-bold bg-slate-50 border border-slate-200 text-slate-500">
                     Question {idx + 1}
                   </span>
                   <span className="font-semibold text-violet-400">
                     {q.vertical}
                   </span>
                 </div>
-                <h3 className="font-bold text-white text-sm md:text-base leading-tight pr-4">
+                <h3 className="font-bold text-slate-900 text-sm md:text-base leading-tight pr-4">
                   {q.questionText}
                 </h3>
               </div>
@@ -255,17 +255,17 @@ const InterviewReport = () => {
 
             {/* Content Body */}
             {openAccordions[idx] && (
-              <div className="p-6 space-y-6 text-sm bg-slate-950/20">
+              <div className="p-6 space-y-6 text-sm bg-slate-50/20">
                 {/* 5-axes breakdown for this question */}
-                <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 border-b border-slate-850 pb-5">
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 border-b border-slate-200 pb-5">
                   {q.evaluation && Object.entries(q.evaluation).map(([k, val]) => {
                     if (typeof val !== "number") return null;
                     // Format key name nicely
                     const title = k.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase());
                     return (
-                      <div key={k} className="p-3 bg-slate-950/40 border border-slate-850 rounded-xl text-center">
+                      <div key={k} className="p-3 bg-slate-50 border border-slate-200 rounded-xl text-center">
                         <div className="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-1">{title}</div>
-                        <div className="text-base font-extrabold text-white font-mono">{val}</div>
+                        <div className="text-base font-extrabold text-slate-900 font-mono">{val}</div>
                       </div>
                     );
                   })}
@@ -282,7 +282,7 @@ const InterviewReport = () => {
                 {/* Candidate Answer */}
                 <div className="space-y-1.5">
                   <h4 className="text-xs font-bold text-slate-450 uppercase tracking-wider">Your Submitted Answer</h4>
-                  <div className="p-4 bg-slate-950/60 border border-slate-850 rounded-xl font-mono text-xs text-slate-300 whitespace-pre-wrap leading-relaxed max-h-60 overflow-y-auto">
+                  <div className="p-4 bg-slate-50/60 border border-slate-200 rounded-xl font-mono text-xs text-slate-600 whitespace-pre-wrap leading-relaxed max-h-60 overflow-y-auto">
                     {q.answerText || <em className="text-slate-600">No answer was submitted.</em>}
                   </div>
                 </div>
@@ -290,7 +290,7 @@ const InterviewReport = () => {
                 {/* Model Sample Answer */}
                 <div className="space-y-1.5">
                   <h4 className="text-xs font-bold text-slate-450 uppercase tracking-wider">Model Ideal Reference Answer</h4>
-                  <div className="p-4 bg-slate-950/60 border border-slate-850 rounded-xl font-mono text-xs text-slate-350 whitespace-pre-wrap leading-relaxed max-h-60 overflow-y-auto">
+                  <div className="p-4 bg-slate-50/60 border border-slate-200 rounded-xl font-mono text-xs text-slate-350 whitespace-pre-wrap leading-relaxed max-h-60 overflow-y-auto">
                     {q.sampleAnswer || <em className="text-slate-600">Sample answer details not available.</em>}
                   </div>
                 </div>

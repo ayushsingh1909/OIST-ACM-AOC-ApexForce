@@ -74,18 +74,18 @@ const SessionTimeoutWatcher = () => {
 
   return (
     <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 backdrop-blur-sm px-4">
-      <div className="w-full max-w-md p-6 bg-slate-900 border border-amber-500/30 rounded-2xl shadow-2xl">
+      <div className="w-full max-w-md p-6 bg-white rounded-3xl shadow-outcrowd border border-amber-500/30">
         <div className="flex items-center gap-3 mb-4">
           <div className="p-2 bg-amber-500/10 rounded-xl">
             <FiAlertTriangle className="w-6 h-6 text-amber-400" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white">Session Expiring Soon</h3>
-            <p className="text-sm text-slate-400">Your session will end due to inactivity</p>
+            <h3 className="text-lg font-bold text-slate-900">Session Expiring Soon</h3>
+            <p className="text-sm text-slate-500">Your session will end due to inactivity</p>
           </div>
         </div>
 
-        <div className="flex items-center justify-center gap-2 py-4 mb-4 bg-slate-950/50 rounded-xl border border-slate-800">
+        <div className="flex items-center justify-center gap-2 py-4 mb-4 bg-slate-50 rounded-xl border border-slate-200">
           <FiClock className="w-5 h-5 text-amber-400" />
           <span className="text-2xl font-mono font-bold text-amber-400">
             {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
@@ -95,13 +95,13 @@ const SessionTimeoutWatcher = () => {
         <div className="flex gap-3">
           <button
             onClick={extendSession}
-            className="flex-1 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold rounded-xl hover:from-violet-500 hover:to-indigo-500 transition-all"
+            className="flex-1 py-2.5 bg-gradient-to-r from-violet-600 to-indigo-600 text-slate-900 font-semibold rounded-xl hover:from-violet-500 hover:to-indigo-500 transition-all"
           >
             Stay Signed In
           </button>
           <button
             onClick={handleLogout}
-            className="flex-1 py-2.5 border border-slate-700 text-slate-300 font-semibold rounded-xl hover:bg-slate-800 transition-all"
+            className="flex-1 py-2.5 border border-slate-200 text-slate-600 font-semibold rounded-xl hover:bg-slate-100 transition-all"
           >
             Sign Out
           </button>

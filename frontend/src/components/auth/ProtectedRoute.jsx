@@ -13,7 +13,7 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[60vh] text-slate-300">
+      <div className="flex flex-col items-center justify-center min-h-[60vh] text-slate-600">
         <div className="relative w-16 h-16">
           <div className="absolute top-0 left-0 w-full h-full border-4 border-violet-500/20 rounded-full"></div>
           <div className="absolute top-0 left-0 w-full h-full border-4 border-t-violet-500 rounded-full animate-spin"></div>

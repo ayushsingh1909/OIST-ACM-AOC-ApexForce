@@ -17,16 +17,16 @@ const InteractiveListCard = ({
   };
 
   return (
-    <div className="bg-[#FFFFFF] border border-black/10 p-6 md:p-8 flex flex-col gap-6">
+    <div className="bg-white rounded-3xl shadow-outcrowd border border-slate-100 p-6 md:p-8 flex flex-col gap-6 transition-shadow hover:shadow-outcrowd-hover duration-300">
       
       {/* Header Block */}
-      <div className="flex justify-between items-center border-b border-black/10 pb-4">
+      <div className="flex justify-between items-center border-b border-slate-100/60 pb-4">
         <div className="space-y-1">
-          <h3 className="text-sm font-bold tracking-widest text-[#000000] uppercase font-sans">
+          <h3 className="text-lg font-bold tracking-tight text-slate-800 font-heading">
             {title}
           </h3>
           {subtitle && (
-            <p className="text-[11px] text-[#000000] tracking-wide">
+            <p className="text-xs text-slate-500 tracking-wide font-medium">
               {subtitle}
             </p>
           )}
@@ -38,9 +38,9 @@ const InteractiveListCard = ({
       <div ref={listRef} className="overflow-x-auto w-full">
         <table className="w-full text-left border-collapse">
           <thead>
-            <tr className="border-b border-black/10">
+            <tr className="border-b border-slate-100/60">
               {headers.map((h, i) => (
-                <th key={i} className="pb-3 text-[10px] font-bold text-[#000000] uppercase tracking-widest font-sans">
+                <th key={i} className="pb-3 text-[11px] font-bold text-slate-500 uppercase tracking-wider font-sans">
                   {h}
                 </th>
               ))}
@@ -48,23 +48,23 @@ const InteractiveListCard = ({
             </tr>
           </thead>
           
-          <tbody className="divide-y divide-black/10">
+          <tbody className="divide-y divide-slate-100/60">
             {rows.map((row) => {
               const isExpanded = expandedRow === row.id;
               return (
                 <React.Fragment key={row.id}>
                   {/* Base Row */}
                   <tr
-                    className="stagger-row hover:bg-black/5 transition-all duration-200 cursor-pointer"
+                    className="stagger-row hover:bg-slate-50/50 transition-colors duration-200 cursor-pointer"
                     onClick={() => row.details && toggleRow(row.id)}
                   >
                     {row.cells.map((cell, idx) => (
-                      <td key={idx} className="py-4 text-xs font-sans text-[#000000]">
+                      <td key={idx} className="py-4 text-[13px] font-medium font-sans text-slate-700">
                         {cell}
                       </td>
                     ))}
                     {row.details && (
-                      <td className="py-4 text-right pr-2 text-[#555555]">
+                      <td className="py-4 text-right pr-2 text-slate-500">
                         {isExpanded ? <FiChevronUp className="w-4 h-4" /> : <FiChevronDown className="w-4 h-4" />}
                       </td>
                     )}
@@ -73,8 +73,8 @@ const InteractiveListCard = ({
                   {/* Expansion detail panel (Progressive Disclosure) */}
                   {row.details && isExpanded && (
                     <tr>
-                      <td colSpan={headers.length + (row.details ? 1 : 0)} className="py-4 px-4 bg-black/5 border-y border-black/10">
-                        <div className="text-[11px] text-[#000000] font-sans font-medium leading-relaxed transition-all">
+                      <td colSpan={headers.length + (row.details ? 1 : 0)} className="py-4 px-4 bg-slate-50 border-b border-slate-100/60 rounded-b-xl">
+                        <div className="text-[12px] text-slate-600 font-sans font-medium leading-relaxed transition-all">
                           {row.details}
                         </div>
                       </td>
@@ -86,7 +86,7 @@ const InteractiveListCard = ({
             
             {rows.length === 0 && (
               <tr>
-                <td colSpan={headers.length + 1} className="py-8 text-center text-xs text-slate-400 font-mono">
+                <td colSpan={headers.length + 1} className="py-8 text-center text-sm text-slate-500 font-medium">
                   No records to display.
                 </td>
               </tr>

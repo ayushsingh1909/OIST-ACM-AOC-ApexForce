@@ -55,7 +55,7 @@ const LMSDemo = () => {
         {/* Top Logo and Collapse toggle */}
         <div className="p-6 flex items-center justify-between border-b border-[#111111]/5">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 bg-[#635BFF] flex items-center justify-center rounded-lg text-white font-bold font-mono">
+            <div className="w-8 h-8 bg-[#635BFF] flex items-center justify-center rounded-lg text-slate-900 font-bold font-mono">
               A
             </div>
             {!collapsed && (

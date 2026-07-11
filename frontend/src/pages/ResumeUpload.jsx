@@ -82,12 +82,12 @@ const ResumeUpload = () => {
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-extrabold text-white mb-2">Resume Intelligence</h1>
-        <p className="text-slate-400">Upload your resume for AI-powered scoring and personalized feedback</p>
+        <h1 className="text-3xl font-extrabold text-slate-900 mb-2">Resume Intelligence</h1>
+        <p className="text-slate-500">Upload your resume for AI-powered scoring and personalized feedback</p>
       </div>
 
       <div className="grid lg:grid-cols-2 gap-6 mb-8">
-        <div className="p-6 bg-slate-900/60 border border-slate-800 rounded-2xl">
+        <div className="p-6 bg-white/60 border border-slate-200 rounded-2xl">
           <div className="flex gap-2 mb-4">
             {["upload", "text"].map((m) => (
               <button
@@ -95,8 +95,8 @@ const ResumeUpload = () => {
                 onClick={() => setMode(m)}
                 className={`flex-1 py-2 text-sm font-semibold rounded-xl transition-all ${
                   mode === m
-                    ? "bg-violet-600 text-white"
-                    : "bg-slate-800 text-slate-400 hover:text-white"
+                    ? "bg-gradient-to-r from-[#4F46E5] to-[#00D2C4] text-white shadow-[#4F46E5]/25"
+                    : "bg-slate-100 text-slate-500 hover:text-slate-900"
                 }`}
               >
                 {m === "upload" ? "PDF Upload" : "Paste Text"}
@@ -105,11 +105,11 @@ const ResumeUpload = () => {
           </div>
 
           <div className="mb-4">
-            <label className="block text-xs font-semibold text-slate-400 uppercase mb-2">Target Role</label>
+            <label className="block text-xs font-semibold text-slate-500 uppercase mb-2">Target Role</label>
             <select
               value={targetRole}
               onChange={(e) => setTargetRole(e.target.value)}
-              className="w-full px-4 py-2.5 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-violet-500/50"
+              className="w-full px-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-violet-500/50"
             >
               {TARGET_ROLES.map((role) => (
                 <option key={role} value={role}>{role}</option>
@@ -123,11 +123,11 @@ const ResumeUpload = () => {
               onDragLeave={() => setIsDragging(false)}
               onDrop={onDrop}
               className={`border-2 border-dashed rounded-xl p-8 text-center transition-all ${
-                isDragging ? "border-violet-500 bg-violet-500/5" : "border-slate-700 hover:border-slate-600"
+                isDragging ? "border-violet-500 bg-violet-500/5" : "border-slate-200 hover:border-slate-600"
               }`}
             >
               <FiUploadCloud className="w-12 h-12 mx-auto text-slate-500 mb-3" />
-              <p className="text-slate-300 font-medium mb-1">Drop your PDF resume here</p>
+              <p className="text-slate-600 font-medium mb-1">Drop your PDF resume here</p>
               <p className="text-xs text-slate-500 mb-4">or click to browse (max 5MB)</p>
               <input
                 type="file"
@@ -138,7 +138,7 @@ const ResumeUpload = () => {
               />
               <label
                 htmlFor="resume-file"
-                className="inline-block px-4 py-2 bg-slate-800 hover:bg-slate-700 text-sm font-medium text-slate-200 rounded-lg cursor-pointer transition-all"
+                className="inline-block px-4 py-2 bg-slate-100 hover:bg-slate-200 text-sm font-medium text-slate-700 rounded-lg cursor-pointer transition-all"
               >
                 Browse Files
               </label>
@@ -154,35 +154,35 @@ const ResumeUpload = () => {
               onChange={(e) => setResumeText(e.target.value)}
               placeholder="Paste your resume text here..."
               rows={10}
-              className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-violet-500/50 resize-none"
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 placeholder-slate-600 focus:outline-none focus:ring-2 focus:ring-violet-500/50 resize-none"
             />
           )}
 
           <button
             onClick={handleAnalyze}
             disabled={loading}
-            className="w-full mt-4 py-3 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold rounded-xl hover:from-violet-500 hover:to-indigo-500 disabled:opacity-50 transition-all"
+            className="w-full mt-4 py-3 bg-gradient-to-r from-violet-600 to-indigo-600 text-slate-900 font-semibold rounded-xl hover:from-violet-500 hover:to-indigo-500 disabled:opacity-50 transition-all"
           >
             {loading ? "Analyzing..." : "Analyze Resume"}
           </button>
         </div>
 
-        <div className="p-6 bg-slate-900/60 border border-slate-800 rounded-2xl min-h-[400px]">
+        <div className="p-6 bg-white/60 border border-slate-200 rounded-2xl min-h-[400px]">
           {loading ? (
             <LoadingSkeleton />
           ) : result ? (
             <div className="space-y-6">
               <div className="flex flex-col items-center">
                 <ScoreGauge score={result.strengthScore} />
-                <p className="mt-3 text-lg font-semibold text-white">Resume Strength Score</p>
-                <p className="text-sm text-slate-400">Target: {result.targetRole}</p>
+                <p className="mt-3 text-lg font-semibold text-slate-900">Resume Strength Score</p>
+                <p className="text-sm text-slate-500">Target: {result.targetRole}</p>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 {Object.entries(result.scoreBreakdown || {}).map(([key, value]) => (
-                  <div key={key} className="p-3 bg-slate-950/50 border border-slate-800 rounded-xl">
+                  <div key={key} className="p-3 bg-slate-50/50 border border-slate-200 rounded-xl">
                     <p className="text-xs text-slate-500 uppercase">{breakdownLabels[key] || key}</p>
-                    <p className="text-xl font-bold text-white">{value}%</p>
+                    <p className="text-xl font-bold text-slate-900">{value}%</p>
                   </div>
                 ))}
               </div>
@@ -218,7 +218,7 @@ const ResumeUpload = () => {
                   <h3 className="text-sm font-semibold text-violet-400 mb-2">Suggestions</h3>
                   <ul className="space-y-2">
                     {result.improvementSuggestions.map((s, i) => (
-                      <li key={i} className="text-sm text-slate-300 flex gap-2">
+                      <li key={i} className="text-sm text-slate-600 flex gap-2">
                         <span className="text-violet-400">•</span> {s}
                       </li>
                     ))}
@@ -236,13 +236,13 @@ const ResumeUpload = () => {
       </div>
 
       {history.length > 0 && (
-        <div className="p-6 bg-slate-900/60 border border-slate-800 rounded-2xl">
-          <h2 className="text-lg font-semibold text-white mb-4">Analysis History</h2>
+        <div className="p-6 bg-white/60 border border-slate-200 rounded-2xl">
+          <h2 className="text-lg font-semibold text-slate-900 mb-4">Analysis History</h2>
           <div className="space-y-2">
             {history.slice(0, 5).map((item) => (
-              <div key={item._id} className="flex items-center justify-between p-3 bg-slate-950/50 rounded-xl border border-slate-800">
+              <div key={item._id} className="flex items-center justify-between p-3 bg-slate-50/50 rounded-xl border border-slate-200">
                 <div>
-                  <p className="text-sm font-medium text-white">{item.fileName}</p>
+                  <p className="text-sm font-medium text-slate-900">{item.fileName}</p>
                   <p className="text-xs text-slate-500">{new Date(item.createdAt).toLocaleDateString()} · {item.targetRole}</p>
                 </div>
                 <span className="text-lg font-bold text-violet-400">{item.strengthScore}</span>

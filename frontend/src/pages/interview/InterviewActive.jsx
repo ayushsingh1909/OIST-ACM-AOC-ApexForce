@@ -184,7 +184,7 @@ const InterviewActive = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[80vh] px-4">
         <div className="w-12 h-12 border-4 border-violet-500/20 border-t-violet-500 rounded-full animate-spin mb-4"></div>
-        <p className="text-slate-400">Loading interview session details...</p>
+        <p className="text-slate-500">Loading interview session details...</p>
       </div>
     );
   }
@@ -193,9 +193,9 @@ const InterviewActive = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[80vh] px-4 text-center">
         <FiAlertCircle className="w-12 h-12 text-rose-500 mb-4" />
-        <h2 className="text-xl font-bold text-white mb-2">Session Not Found</h2>
-        <p className="text-slate-400 mb-4">The requested interview session could not be fetched.</p>
-        <button onClick={() => navigate("/interview")} className="px-6 py-2 rounded-xl bg-violet-600 text-white font-semibold">
+        <h2 className="text-xl font-bold text-slate-900 mb-2">Session Not Found</h2>
+        <p className="text-slate-500 mb-4">The requested interview session could not be fetched.</p>
+        <button onClick={() => navigate("/interview")} className="px-6 py-2 rounded-xl bg-gradient-to-r from-[#4F46E5] to-[#00D2C4] text-white shadow-[#4F46E5]/25 font-semibold">
           Return to Onboarding
         </button>
       </div>
@@ -218,11 +218,11 @@ const InterviewActive = () => {
     <div className="max-w-4xl mx-auto px-4 py-8">
       {/* Top Session Progress Bar */}
       <div className="mb-8">
-        <div className="flex justify-between items-center text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">
+        <div className="flex justify-between items-center text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
           <span>Simulation Progress</span>
           <span>Question {session.currentQuestionIndex + 1} of {session.questions.length}</span>
         </div>
-        <div className="w-full h-1.5 bg-slate-900 border border-slate-800 rounded-full overflow-hidden">
+        <div className="w-full h-1.5 bg-white border border-slate-200 rounded-full overflow-hidden">
           <div
             className="h-full bg-gradient-to-r from-violet-500 to-indigo-500 rounded-full transition-all duration-500"
             style={{ width: `${progressPercent === 0 ? 10 : progressPercent}%` }}
@@ -234,7 +234,7 @@ const InterviewActive = () => {
         {/* Main Work Area */}
         <div className="lg:col-span-3 space-y-6">
           {/* Question Card */}
-          <div className="p-6 bg-slate-900/60 backdrop-blur-xl border border-slate-850 rounded-2xl shadow-xl space-y-4">
+          <div className="p-6 bg-white/60 backdrop-blur-xl border border-slate-200 rounded-2xl shadow-xl space-y-4">
             <div className="flex flex-wrap items-center justify-between gap-2">
               <span className="px-3 py-1 rounded-full text-xs font-bold bg-violet-500/10 text-violet-300 border border-violet-500/20">
                 {activeQuestion.vertical} Category
@@ -247,15 +247,15 @@ const InterviewActive = () => {
                 {activeQuestion.difficulty}
               </span>
             </div>
-            <h3 className="text-lg md:text-xl font-bold text-white leading-relaxed">
+            <h3 className="text-lg md:text-xl font-bold text-slate-900 leading-relaxed">
               {activeQuestion.questionText}
             </h3>
           </div>
 
           {/* Textarea Answer Pad */}
-          <div className="relative p-6 bg-slate-900/40 backdrop-blur-xl border border-slate-850 rounded-2xl shadow-xl flex flex-col min-h-[350px]">
+          <div className="relative p-6 bg-slate-50 backdrop-blur-xl border border-slate-200 rounded-2xl shadow-xl flex flex-col min-h-[350px]">
             <div className="flex justify-between items-center mb-3">
-              <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">
                 Answer Input Pad
               </label>
               <span className={`text-xs transition-colors ${saveStatus === "Saving..." ? "text-violet-400" : "text-slate-500"}`}>
@@ -268,11 +268,11 @@ const InterviewActive = () => {
               onChange={(e) => setAnswerText(e.target.value)}
               disabled={submitting}
               placeholder="Provide your detailed conceptual or architectural response here. Include code keywords, method parameters, and explanations where applicable..."
-              className="flex-1 w-full bg-transparent border-0 resize-none text-slate-100 placeholder-slate-650 text-sm md:text-base leading-relaxed focus:ring-0 focus:outline-none min-h-[220px]"
+              className="flex-1 w-full bg-transparent border-0 resize-none text-slate-900 placeholder-slate-650 text-sm md:text-base leading-relaxed focus:ring-0 focus:outline-none min-h-[220px]"
             />
 
             {/* Bottom Bar inside Textarea */}
-            <div className="border-t border-slate-850 pt-4 flex flex-wrap items-center justify-between gap-4 mt-4">
+            <div className="border-t border-slate-200 pt-4 flex flex-wrap items-center justify-between gap-4 mt-4">
               <div className="flex gap-4 text-xs font-semibold text-slate-500">
                 <span>Words: <strong className="text-slate-350">{wordCount}</strong></span>
                 <span>Characters: <strong className="text-slate-350">{charCount}</strong></span>
@@ -280,7 +280,7 @@ const InterviewActive = () => {
               <button
                 onClick={() => submitCurrentAnswer(false)}
                 disabled={submitting}
-                className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 disabled:bg-violet-600/40 text-white text-sm font-bold shadow-lg shadow-violet-600/10 transition-all cursor-pointer group"
+                className="flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-violet-600 hover:bg-violet-500 disabled:bg-violet-600/40 text-slate-900 text-sm font-bold shadow-lg shadow-violet-600/10 transition-all cursor-pointer group"
               >
                 {submitting ? (
                   <>
@@ -301,13 +301,13 @@ const InterviewActive = () => {
         {/* Sidebar Info & Timer */}
         <div className="space-y-6">
           {/* Timer Card */}
-          <div className="p-6 bg-slate-900/60 backdrop-blur-xl border border-slate-800 rounded-2xl text-center shadow-xl">
+          <div className="p-6 bg-white/60 backdrop-blur-xl border border-slate-200 rounded-2xl text-center shadow-xl">
             <FiClock className="w-7 h-7 text-violet-400 mx-auto mb-3" />
-            <div className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
+            <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
               {timeLimitRef.current > 0 ? "Remaining Time" : "Time Elapsed"}
             </div>
             <div className={`text-2xl md:text-3xl font-extrabold font-mono tracking-tight transition-colors ${
-              timeLimitRef.current > 0 && timeLeft < 20 ? "text-rose-500 animate-pulse" : "text-white"
+              timeLimitRef.current > 0 && timeLeft < 20 ? "text-rose-500 animate-pulse" : "text-slate-900"
             }`}>
               {timeLimitRef.current > 0 ? formatTime(timeLeft) : formatTime(timeSpent)}
             </div>
@@ -319,11 +319,11 @@ const InterviewActive = () => {
           </div>
 
           {/* Tips Card */}
-          <div className="p-5 bg-slate-900/30 border border-slate-850 rounded-2xl text-xs text-slate-455 space-y-3 leading-relaxed">
+          <div className="p-5 bg-slate-50 border border-slate-200 rounded-2xl text-xs text-slate-455 space-y-3 leading-relaxed">
             <h4 className="font-bold text-slate-350 flex items-center gap-1">
               <FiCheckSquare className="text-violet-400" /> Evaluation Tips
             </h4>
-            <ul className="list-disc pl-4 space-y-1.5 text-slate-400">
+            <ul className="list-disc pl-4 space-y-1.5 text-slate-500">
               <li>Use domain-specific vocabulary associated with the question.</li>
               <li>Address structural details, methods, and trade-offs to boost depth scores.</li>
               <li>Ensure clear formatting by breaking your answer into logical paragraphs.</li>

@@ -98,17 +98,18 @@ const App = () => {
             position="top-right"
             toastOptions={{
               style: {
-                background: "#1e1f2e",
-                color: "#e2e8f0",
-                border: "1px solid #334155",
-                borderRadius: "12px",
+                background: "#FFFFFF",
+                color: "#1e293b",
+                border: "1px solid #e2e8f0",
+                borderRadius: "16px",
                 fontSize: "14px",
+                boxShadow: "0 4px 20px rgba(0,0,0,0.08)"
               },
               success: {
-                iconTheme: { primary: "#8b5cf6", secondary: "#1e1f2e" },
+                iconTheme: { primary: "#4F46E5", secondary: "#FFFFFF" },
               },
               error: {
-                iconTheme: { primary: "#f43f5e", secondary: "#1e1f2e" },
+                iconTheme: { primary: "#f43f5e", secondary: "#FFFFFF" },
               },
             }}
           />

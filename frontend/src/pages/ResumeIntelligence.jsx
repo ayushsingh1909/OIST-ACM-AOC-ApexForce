@@ -146,10 +146,10 @@ const ResumeIntelligence = () => {
     <div className="max-w-7xl mx-auto px-4 py-8 md:px-6 lg:py-12">
       {/* Header */}
       <div className="text-center mb-10 max-w-2xl mx-auto">
-        <h1 className="text-3xl md:text-4xl font-extrabold text-white tracking-tight bg-gradient-to-r from-violet-400 via-indigo-300 to-cyan-400 bg-clip-text text-transparent">
+        <h1 className="text-3xl md:text-4xl font-extrabold text-transparent tracking-tight bg-gradient-to-r from-[#4F46E5] via-indigo-500 to-[#00D2C4] bg-clip-text text-transparent">
           Resume Intelligence Module
         </h1>
-        <p className="text-slate-400 mt-2 text-sm md:text-base">
+        <p className="text-slate-500 mt-2 text-sm md:text-base">
           Evaluate your resume strength, map your skills to target roles, and discover critical gaps to boost your interview readiness.
         </p>
       </div>
@@ -160,20 +160,20 @@ const ResumeIntelligence = () => {
         <div className="lg:col-span-1 space-y-6">
           
           {/* Target Role & Selection */}
-          <div className="bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-800 p-6 shadow-xl">
-            <h2 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+          <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-outcrowd">
+            <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center gap-2">
               <svg className="w-5 h-5 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
               </svg>
               Select Target Role
             </h2>
             <div className="space-y-3">
-              <label htmlFor="role-select" className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Target Job Category</label>
+              <label htmlFor="role-select" className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Target Job Category</label>
               <select
                 id="role-select"
                 value={targetRole}
                 onChange={(e) => setTargetRole(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 text-slate-100 rounded-xl px-4 py-3 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all font-medium"
+                className="w-full bg-slate-50 border border-slate-200 text-slate-900 rounded-xl px-4 py-3 focus:outline-none focus:border-violet-500 focus:ring-1 focus:ring-violet-500 transition-all font-medium"
               >
                 {TARGET_ROLES.map((role) => (
                   <option key={role} value={role}>{role}</option>
@@ -183,8 +183,8 @@ const ResumeIntelligence = () => {
           </div>
 
           {/* Upload and Paste Area */}
-          <div className="bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-800 p-6 shadow-xl space-y-5">
-            <h2 className="text-lg font-bold text-white flex items-center gap-2">
+          <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-outcrowd space-y-5">
+            <h2 className="text-lg font-bold text-slate-900 flex items-center gap-2">
               <svg className="w-5 h-5 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
               </svg>
@@ -198,7 +198,7 @@ const ResumeIntelligence = () => {
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
                 className={`border-2 border-dashed rounded-xl p-6 text-center cursor-pointer transition-all ${
-                  isDragOver ? "border-violet-400 bg-violet-500/10" : "border-slate-800 bg-slate-950/40 hover:border-slate-700"
+                  isDragOver ? "border-violet-400 bg-violet-500/10" : "border-slate-200 bg-slate-50 hover:border-slate-300"
                 }`}
               >
                 <input
@@ -209,14 +209,14 @@ const ResumeIntelligence = () => {
                   className="hidden"
                 />
                 <label htmlFor="resume-file" className="cursor-pointer space-y-3 block">
-                  <div className="mx-auto w-12 h-12 bg-slate-900/80 rounded-xl border border-slate-800 flex items-center justify-center text-slate-400">
+                  <div className="mx-auto w-12 h-12 bg-white rounded-xl border border-slate-200 flex items-center justify-center text-slate-500">
                     <svg className="w-6 h-6 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                     </svg>
                   </div>
                   <div>
-                    <span className="text-sm font-semibold text-white">Drag & drop resume PDF</span>
-                    <p className="text-xs text-slate-400 mt-1">or click to browse from device</p>
+                    <span className="text-sm font-semibold text-slate-900">Drag & drop resume PDF</span>
+                    <p className="text-xs text-slate-500 mt-1">or click to browse from device</p>
                   </div>
                 </label>
                 
@@ -241,7 +241,7 @@ const ResumeIntelligence = () => {
                   onChange={(e) => setResumeText(e.target.value)}
                   placeholder="Paste your plain text resume here (include Education, Skills, Projects, and Work Experience)..."
                   rows={8}
-                  className="w-full bg-slate-950 border border-slate-800 text-slate-200 rounded-xl p-3 focus:outline-none focus:border-violet-500 text-xs transition-all font-mono leading-relaxed"
+                  className="w-full bg-slate-50 border border-slate-200 text-slate-900 rounded-xl p-3 focus:outline-none focus:border-violet-500 text-xs transition-all font-mono leading-relaxed"
                 />
                 {resumeText && (
                   <button
@@ -275,8 +275,8 @@ const ResumeIntelligence = () => {
               disabled={loading || (!uploadedFile && !resumeText.trim())}
               className={`w-full py-3.5 rounded-xl font-bold text-sm tracking-wide transition-all shadow-lg ${
                 loading || (!uploadedFile && !resumeText.trim())
-                  ? "bg-slate-800 text-slate-500 cursor-not-allowed border border-slate-700/50"
-                  : "bg-gradient-to-r from-violet-500 to-indigo-600 hover:from-violet-600 hover:to-indigo-700 text-white shadow-violet-500/20 active:scale-[0.98]"
+                  ? "bg-slate-100 text-slate-500 cursor-not-allowed border border-slate-200"
+                  : "bg-gradient-to-r from-[#4F46E5] to-[#00D2C4] text-white shadow-lg shadow-[#4F46E5]/25 shadow-violet-500/20 active:scale-[0.98]"
               }`}
             >
               {loading ? (
@@ -291,8 +291,8 @@ const ResumeIntelligence = () => {
           </div>
 
           {/* History Sidebar */}
-          <div className="bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-800 p-6 shadow-xl">
-            <h2 className="text-lg font-bold text-white mb-4 flex items-center justify-between">
+          <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-outcrowd">
+            <h2 className="text-lg font-bold text-slate-900 mb-4 flex items-center justify-between">
               <span className="flex items-center gap-2">
                 <svg className="w-5 h-5 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -307,7 +307,7 @@ const ResumeIntelligence = () => {
                 <div className="w-6 h-6 border-2 border-violet-500 border-t-transparent rounded-full animate-spin"></div>
               </div>
             ) : history.length === 0 ? (
-              <div className="text-center py-6 border border-dashed border-slate-800/80 rounded-xl">
+              <div className="text-center py-6 border border-dashed border-slate-200 rounded-2xl">
                 <p className="text-xs text-slate-500">No previous resume analysis scans</p>
               </div>
             ) : (
@@ -316,10 +316,10 @@ const ResumeIntelligence = () => {
                   <div
                     key={item._id}
                     onClick={() => handleSelectHistoryItem(item)}
-                    className="p-3 bg-slate-950 border border-slate-800/80 hover:border-violet-500/50 rounded-xl cursor-pointer transition-all flex items-center justify-between group"
+                    className="p-3 bg-slate-50 border border-slate-200 hover:border-violet-500/50 rounded-xl cursor-pointer transition-all flex items-center justify-between group"
                   >
                     <div className="min-w-0 pr-2">
-                      <p className="text-xs font-semibold text-white truncate">{item.fileName || "Plain Text Scan"}</p>
+                      <p className="text-xs font-semibold text-slate-900 truncate">{item.fileName || "Plain Text Scan"}</p>
                       <span className="text-[10px] text-slate-500 block mt-0.5">{item.targetRole}</span>
                     </div>
                     <div className="flex items-center gap-2">
@@ -330,7 +330,7 @@ const ResumeIntelligence = () => {
                       }`}>
                         {item.strengthScore}
                       </span>
-                      <svg className="w-3.5 h-3.5 text-slate-500 group-hover:text-white transition-all transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <svg className="w-3.5 h-3.5 text-slate-500 group-hover:text-slate-900 transition-all transform group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                       </svg>
                     </div>
@@ -347,20 +347,20 @@ const ResumeIntelligence = () => {
           
           {/* Loading Scanner Screen */}
           {loading && (
-            <div className="bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-800 p-12 text-center shadow-xl min-h-[450px] flex flex-col justify-center items-center space-y-6">
+            <div className="bg-white backdrop-blur-md rounded-2xl border border-slate-200 p-12 text-center shadow-xl min-h-[450px] flex flex-col justify-center items-center space-y-6">
               <div className="relative w-28 h-28 flex items-center justify-center">
                 {/* Scanner ring */}
                 <div className="absolute inset-0 rounded-full border-4 border-violet-500/20 border-t-violet-400 animate-spin"></div>
                 {/* Dynamic radar scanner */}
                 <div className="w-20 h-20 bg-gradient-to-tr from-violet-500 to-indigo-500/10 rounded-full flex items-center justify-center animate-pulse">
-                  <svg className="w-10 h-10 text-white animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <svg className="w-10 h-10 text-slate-900 animate-bounce" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
                   </svg>
                 </div>
               </div>
               <div className="space-y-2">
-                <h3 className="text-lg font-bold text-white animate-pulse">Running Resume Analyzer</h3>
-                <p className="text-xs text-slate-400 max-w-sm mx-auto">
+                <h3 className="text-lg font-bold text-slate-900 animate-pulse">Running Resume Analyzer</h3>
+                <p className="text-xs text-slate-500 max-w-sm mx-auto">
                   Extracting text buffers, matching keywords against target dictionary, evaluating project complexity and structure scores...
                 </p>
               </div>
@@ -369,14 +369,14 @@ const ResumeIntelligence = () => {
 
           {/* Normal State: Welcome / Request Scan */}
           {!loading && !analysisResult && (
-            <div className="bg-slate-900/30 rounded-2xl border border-slate-800/80 p-12 text-center shadow-xl min-h-[500px] flex flex-col justify-center items-center space-y-4">
-              <div className="w-16 h-16 bg-slate-900 rounded-2xl border border-slate-800 flex items-center justify-center text-slate-500">
+            <div className="bg-white rounded-3xl border border-slate-100 p-12 text-center shadow-outcrowd min-h-[500px] flex flex-col justify-center items-center space-y-4">
+              <div className="w-16 h-16 bg-white rounded-2xl border border-slate-200 flex items-center justify-center text-slate-500">
                 <svg className="w-8 h-8 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                 </svg>
               </div>
-              <h3 className="text-xl font-bold text-white">No Resume Loaded</h3>
-              <p className="text-sm text-slate-400 max-w-sm">
+              <h3 className="text-xl font-bold text-slate-900">No Resume Loaded</h3>
+              <p className="text-sm text-slate-500 max-w-sm">
                 Stage a PDF resume or input plain text on the left, then trigger the scanner to see your comprehensive strength breakdown dashboard.
               </p>
             </div>
@@ -387,11 +387,11 @@ const ResumeIntelligence = () => {
             <div className="space-y-6">
               
               {/* Score Meter & Breakdown */}
-              <div className="bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-800 p-6 shadow-xl">
+              <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-outcrowd">
                 <div className="flex flex-col md:flex-row items-center gap-8">
                   
                   {/* Radial Progress Score */}
-                  <div className="flex flex-col items-center justify-center p-4 bg-slate-950/60 rounded-2xl border border-slate-800/50 min-w-[180px]">
+                  <div className="flex flex-col items-center justify-center p-4 bg-slate-50 rounded-3xl border border-slate-200 min-w-[180px]">
                     <div className="relative w-36 h-36 flex items-center justify-center">
                       <svg className="w-full h-full transform -rotate-90">
                         {/* Background track circle */}
@@ -399,7 +399,7 @@ const ResumeIntelligence = () => {
                           cx="72"
                           cy="72"
                           r={radius}
-                          className="stroke-slate-800"
+                          className="stroke-slate-100"
                           strokeWidth="8"
                           fill="transparent"
                         />
@@ -426,13 +426,13 @@ const ResumeIntelligence = () => {
                       </svg>
                       {/* Text in the center */}
                       <div className="absolute text-center">
-                        <span className="text-4xl font-extrabold text-white tracking-tight">
+                        <span className="text-4xl font-extrabold text-slate-900 tracking-tight">
                           {analysisResult.strengthScore}
                         </span>
                         <span className="text-[10px] text-slate-500 uppercase font-bold tracking-wider block">Strength</span>
                       </div>
                     </div>
-                    <span className="mt-3 text-xs text-slate-400 text-center font-medium">
+                    <span className="mt-3 text-xs text-slate-500 text-center font-medium">
                       Target Role: <br />
                       <strong className="text-violet-400">{analysisResult.targetRole}</strong>
                     </span>
@@ -440,15 +440,15 @@ const ResumeIntelligence = () => {
 
                   {/* Score Breakdown (Weights formula bars) */}
                   <div className="flex-1 w-full space-y-4">
-                    <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-2">Metrics Breakdown</h3>
+                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-2">Metrics Breakdown</h3>
                     
                     {/* Skill Relevance */}
                     <div className="space-y-1">
                       <div className="flex justify-between text-xs font-semibold">
-                        <span className="text-slate-400">Skill Relevance (40%)</span>
+                        <span className="text-slate-500">Skill Relevance (40%)</span>
                         <span className="text-violet-400">{analysisResult.scoreBreakdown?.skillRelevance || 0}%</span>
                       </div>
-                      <div className="w-full bg-slate-950 rounded-full h-2 border border-slate-800">
+                      <div className="w-full bg-slate-100 rounded-full h-2">
                         <div
                           className="bg-gradient-to-r from-violet-400 to-indigo-400 h-full rounded-full transition-all duration-1000"
                           style={{ width: `${analysisResult.scoreBreakdown?.skillRelevance || 0}%` }}
@@ -459,10 +459,10 @@ const ResumeIntelligence = () => {
                     {/* Project Depth */}
                     <div className="space-y-1">
                       <div className="flex justify-between text-xs font-semibold">
-                        <span className="text-slate-400">Project Depth (30%)</span>
+                        <span className="text-slate-500">Project Depth (30%)</span>
                         <span className="text-violet-400">{analysisResult.scoreBreakdown?.projectDepth || 0}%</span>
                       </div>
-                      <div className="w-full bg-slate-950 rounded-full h-2 border border-slate-800">
+                      <div className="w-full bg-slate-100 rounded-full h-2">
                         <div
                           className="bg-gradient-to-r from-violet-400 to-indigo-400 h-full rounded-full transition-all duration-1000"
                           style={{ width: `${analysisResult.scoreBreakdown?.projectDepth || 0}%` }}
@@ -473,10 +473,10 @@ const ResumeIntelligence = () => {
                     {/* Experience Indicators */}
                     <div className="space-y-1">
                       <div className="flex justify-between text-xs font-semibold">
-                        <span className="text-slate-400">Experience Indicators (20%)</span>
+                        <span className="text-slate-500">Experience Indicators (20%)</span>
                         <span className="text-violet-400">{analysisResult.scoreBreakdown?.experienceIndicators || 0}%</span>
                       </div>
-                      <div className="w-full bg-slate-950 rounded-full h-2 border border-slate-800">
+                      <div className="w-full bg-slate-100 rounded-full h-2">
                         <div
                           className="bg-gradient-to-r from-violet-400 to-indigo-400 h-full rounded-full transition-all duration-1000"
                           style={{ width: `${analysisResult.scoreBreakdown?.experienceIndicators || 0}%` }}
@@ -487,10 +487,10 @@ const ResumeIntelligence = () => {
                     {/* Structure Score */}
                     <div className="space-y-1">
                       <div className="flex justify-between text-xs font-semibold">
-                        <span className="text-slate-400">Structure Score (10%)</span>
+                        <span className="text-slate-500">Structure Score (10%)</span>
                         <span className="text-violet-400">{analysisResult.scoreBreakdown?.structureScore || 0}%</span>
                       </div>
-                      <div className="w-full bg-slate-950 rounded-full h-2 border border-slate-800">
+                      <div className="w-full bg-slate-100 rounded-full h-2">
                         <div
                           className="bg-gradient-to-r from-violet-400 to-indigo-400 h-full rounded-full transition-all duration-1000"
                           style={{ width: `${analysisResult.scoreBreakdown?.structureScore || 0}%` }}
@@ -507,8 +507,8 @@ const ResumeIntelligence = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
                 {/* Extracted Skills */}
-                <div className="bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-800 p-6 shadow-xl">
-                  <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+                <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-outcrowd">
+                  <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-emerald-500"></span>
                     Extracted Skills ({analysisResult.extractedSkills?.length || 0})
                   </h3>
@@ -529,8 +529,8 @@ const ResumeIntelligence = () => {
                 </div>
 
                 {/* Missing Skills Warning Block */}
-                <div className="bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-800 p-6 shadow-xl">
-                  <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+                <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-outcrowd">
+                  <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
                     <span className="w-2 h-2 rounded-full bg-rose-500"></span>
                     Missing Skills Gaps ({analysisResult.missingSkills?.length || 0})
                   </h3>
@@ -555,8 +555,8 @@ const ResumeIntelligence = () => {
               </div>
 
               {/* Recommendations & Dynamic Suggestions */}
-              <div className="bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-800 p-6 shadow-xl">
-                <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+              <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-outcrowd">
+                <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
                   <svg className="w-5 h-5 text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 01-2 2h0a2 2 0 01-2-2v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
                   </svg>
@@ -564,7 +564,7 @@ const ResumeIntelligence = () => {
                 </h3>
                 <ul className="space-y-3">
                   {analysisResult.improvementSuggestions?.map((suggestion, index) => (
-                    <li key={index} className="flex gap-3 text-xs md:text-sm text-slate-300 leading-relaxed items-start p-3 bg-slate-950/50 rounded-xl border border-slate-850">
+                    <li key={index} className="flex gap-3 text-xs md:text-sm text-slate-600 leading-relaxed items-start p-3 bg-slate-50/50 rounded-xl border border-slate-200">
                       <span className="flex-shrink-0 w-5 h-5 rounded-lg bg-amber-500/10 text-amber-400 flex items-center justify-center font-bold">
                         !
                       </span>
@@ -578,8 +578,8 @@ const ResumeIntelligence = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 
                 {/* Detected Projects Card list */}
-                <div className="bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-800 p-6 shadow-xl">
-                  <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+                <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-outcrowd">
+                  <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
                     <svg className="w-4 h-4 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
                     </svg>
@@ -590,11 +590,11 @@ const ResumeIntelligence = () => {
                   ) : (
                     <ul className="space-y-2.5">
                       {analysisResult.detectedProjects?.map((proj, idx) => (
-                        <li key={idx} className="p-3 bg-slate-950/80 border border-slate-800/80 rounded-xl flex items-center gap-3">
+                        <li key={idx} className="p-3 bg-slate-50/80 border border-slate-200 rounded-2xl flex items-center gap-3">
                           <span className="w-6 h-6 bg-violet-500/10 text-violet-400 rounded-lg flex items-center justify-center text-xs font-bold">
                             {idx + 1}
                           </span>
-                          <span className="text-xs md:text-sm font-semibold text-slate-200">{proj}</span>
+                          <span className="text-xs md:text-sm font-semibold text-slate-700">{proj}</span>
                         </li>
                       ))}
                     </ul>
@@ -602,22 +602,22 @@ const ResumeIntelligence = () => {
                 </div>
 
                 {/* Experience Indicators detail */}
-                <div className="bg-slate-900/50 backdrop-blur-md rounded-2xl border border-slate-800 p-6 shadow-xl flex flex-col justify-between">
+                <div className="bg-white rounded-3xl border border-slate-100 p-6 shadow-outcrowd flex flex-col justify-between">
                   <div>
-                    <h3 className="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+                    <h3 className="text-sm font-bold text-slate-900 uppercase tracking-wider mb-4 flex items-center gap-2">
                       <svg className="w-4 h-4 text-violet-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                       </svg>
                       Experience Indicators
                     </h3>
-                    <div className="p-4 bg-slate-950/80 border border-slate-800/80 rounded-2xl text-center space-y-2">
+                    <div className="p-4 bg-slate-50/80 border border-slate-200 rounded-2xl text-center space-y-2">
                       <div className="text-3xl font-extrabold text-violet-400">
                         {analysisResult.detectedExperienceYears} {analysisResult.detectedExperienceYears === 1 ? 'Year' : 'Years'}
                       </div>
                       <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold">Extracted Experience Duration</p>
                     </div>
                   </div>
-                  <div className="text-xs text-slate-400 mt-4 leading-relaxed bg-slate-950/30 p-3 rounded-xl border border-slate-800/40">
+                  <div className="text-xs text-slate-500 mt-4 leading-relaxed bg-slate-50/30 p-3 rounded-xl border border-slate-200/40">
                     Calculated by parsing career history, dates, or direct experience declarations. Max indicator points are achieved at 5+ years of experience.
                   </div>
                 </div>

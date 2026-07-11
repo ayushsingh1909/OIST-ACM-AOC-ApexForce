@@ -44,7 +44,7 @@ const AssignmentFeedback = () => {
     <div className="max-w-3xl mx-auto px-4 py-8">
       <button
         onClick={() => navigate("/assignments")}
-        className="flex items-center gap-1 text-sm text-slate-400 hover:text-white mb-6 transition-all"
+        className="flex items-center gap-1 text-sm text-slate-500 hover:text-slate-900 mb-6 transition-all"
       >
         <FiArrowLeft /> Back to Assignments
       </button>
@@ -55,14 +55,14 @@ const AssignmentFeedback = () => {
             {evaluation.overallScore}%
           </span>
         </div>
-        <h1 className="text-2xl font-bold text-white">{title}</h1>
-        <p className="text-slate-400 text-sm mt-1">Automated evaluation complete</p>
+        <h1 className="text-2xl font-bold text-slate-900">{title}</h1>
+        <p className="text-slate-500 text-sm mt-1">Automated evaluation complete</p>
       </div>
 
       {evaluation.masteryDelta !== undefined && (
-        <div className="flex items-center justify-center gap-2 mb-6 p-3 bg-slate-900/60 border border-slate-800 rounded-xl">
+        <div className="flex items-center justify-center gap-2 mb-6 p-3 bg-white border border-slate-100 rounded-3xl shadow-outcrowd">
           <FiTrendingUp className={`w-5 h-5 ${evaluation.masteryDelta >= 0 ? "text-emerald-400" : "text-rose-400"}`} />
-          <span className="text-sm text-slate-300">
+          <span className="text-sm text-slate-600">
             Topic mastery {evaluation.masteryDelta >= 0 ? "increased" : "decreased"} by{" "}
             <span className={evaluation.masteryDelta >= 0 ? "text-emerald-400" : "text-rose-400"}>
               {Math.abs(evaluation.masteryDelta)} points
@@ -71,21 +71,21 @@ const AssignmentFeedback = () => {
         </div>
       )}
 
-      <div className="p-6 bg-slate-900/60 border border-slate-800 rounded-2xl mb-6">
-        <h2 className="text-lg font-semibold text-white mb-4">Concept Coverage</h2>
+      <div className="p-6 bg-white border border-slate-100 rounded-3xl shadow-outcrowd mb-6">
+        <h2 className="text-lg font-semibold text-slate-900 mb-4">Concept Coverage</h2>
         <div className="space-y-3">
           {evaluation.conceptCoverage?.map((cc) => (
-            <div key={cc.concept} className="flex items-center gap-3 p-3 bg-slate-950/50 rounded-xl">
+            <div key={cc.concept} className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl">
               {cc.covered ? (
                 <FiCheck className="w-5 h-5 text-emerald-400 shrink-0" />
               ) : (
                 <FiX className="w-5 h-5 text-rose-400 shrink-0" />
               )}
               <div className="flex-1">
-                <p className="text-sm font-medium text-white">{cc.concept}</p>
+                <p className="text-sm font-medium text-slate-900">{cc.concept}</p>
                 <p className="text-xs text-slate-500">{cc.coveragePercent}% coverage</p>
               </div>
-              <div className="w-20 h-2 bg-slate-800 rounded-full overflow-hidden">
+              <div className="w-20 h-2 bg-slate-100 rounded-full overflow-hidden">
                 <div
                   className={`h-full rounded-full ${cc.covered ? "bg-emerald-500" : "bg-rose-500"}`}
                   style={{ width: `${cc.coveragePercent}%` }}
@@ -97,11 +97,11 @@ const AssignmentFeedback = () => {
       </div>
 
       {evaluation.feedback?.length > 0 && (
-        <div className="p-6 bg-slate-900/60 border border-slate-800 rounded-2xl mb-6">
-          <h2 className="text-lg font-semibold text-white mb-3">Feedback</h2>
+        <div className="p-6 bg-white border border-slate-100 rounded-3xl shadow-outcrowd mb-6">
+          <h2 className="text-lg font-semibold text-slate-900 mb-3">Feedback</h2>
           <ul className="space-y-2">
             {evaluation.feedback.map((f, i) => (
-              <li key={i} className="text-sm text-slate-300 flex gap-2">
+              <li key={i} className="text-sm text-slate-600 flex gap-2">
                 <span className="text-emerald-400">✓</span> {f}
               </li>
             ))}
@@ -110,11 +110,11 @@ const AssignmentFeedback = () => {
       )}
 
       {evaluation.suggestions?.length > 0 && (
-        <div className="p-6 bg-slate-900/60 border border-slate-800 rounded-2xl">
-          <h2 className="text-lg font-semibold text-white mb-3">Suggestions for Improvement</h2>
+        <div className="p-6 bg-white border border-slate-100 rounded-3xl shadow-outcrowd">
+          <h2 className="text-lg font-semibold text-slate-900 mb-3">Suggestions for Improvement</h2>
           <ul className="space-y-2">
             {evaluation.suggestions.map((s, i) => (
-              <li key={i} className="text-sm text-slate-300 flex gap-2">
+              <li key={i} className="text-sm text-slate-600 flex gap-2">
                 <span className="text-violet-400">→</span> {s}
               </li>
             ))}

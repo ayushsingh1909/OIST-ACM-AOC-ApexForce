@@ -17,13 +17,13 @@ const CustomTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
 
   return (
-    <div className="bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 shadow-2xl">
-      <p className="text-xs text-slate-400 mb-2">{label}</p>
+    <div className="bg-white border border-slate-200 rounded-xl px-4 py-3 shadow-2xl">
+      <p className="text-xs text-slate-500 mb-2">{label}</p>
       {payload.map((entry) => (
         <div key={entry.dataKey} className="flex items-center gap-2 text-sm">
           <span className="w-2 h-2 rounded-full" style={{ backgroundColor: entry.color }} />
-          <span className="text-slate-300">{entry.name}:</span>
-          <span className="font-semibold text-white">{entry.value}</span>
+          <span className="text-slate-600">{entry.name}:</span>
+          <span className="font-semibold text-slate-900">{entry.value}</span>
         </div>
       ))}
     </div>
@@ -36,13 +36,13 @@ const CustomTooltip = ({ active, payload, label }) => {
 const StatCard = ({ label, value, change, suffix = "" }) => {
   const isUp   = change > 0;
   const isDown = change < 0;
-  const color  = isUp ? "text-emerald-400" : isDown ? "text-rose-400" : "text-slate-400";
+  const color  = isUp ? "text-emerald-400" : isDown ? "text-rose-400" : "text-slate-500";
   const Icon   = isUp ? FiArrowUp : isDown ? FiArrowDown : FiMinus;
 
   return (
-    <div className="bg-slate-900 border border-slate-800 rounded-2xl p-5">
+    <div className="bg-white border border-slate-200 rounded-2xl p-5">
       <p className="text-xs text-slate-500 mb-1">{label}</p>
-      <p className="text-2xl font-black text-white">
+      <p className="text-2xl font-black text-slate-900">
         {value}{suffix}
       </p>
       {change !== null && (
@@ -112,14 +112,14 @@ const GrowthTrend = () => {
     : null;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 px-4 py-8 max-w-6xl mx-auto">
+    <div className="min-h-screen bg-slate-50 text-slate-900 px-4 py-8 max-w-6xl mx-auto">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <div>
           <h1 className="text-3xl font-black bg-gradient-to-r from-violet-400 to-indigo-400 bg-clip-text text-transparent">
             Growth Trend
           </h1>
-          <p className="text-slate-400 mt-1 text-sm">
+          <p className="text-slate-500 mt-1 text-sm">
             Track your IRS, CCI, and CRS score evolution over time.
           </p>
         </div>
@@ -127,12 +127,12 @@ const GrowthTrend = () => {
           <select
             value={limit}
             onChange={(e) => setLimit(Number(e.target.value))}
-            className="px-3 py-2 bg-slate-800 border border-slate-700 rounded-xl text-sm text-slate-300 focus:outline-none focus:border-violet-500"
+            className="px-3 py-2 bg-slate-100 border border-slate-200 rounded-xl text-sm text-slate-600 focus:outline-none focus:border-violet-500"
           >
             {LIMIT_OPTIONS.map(o => <option key={o} value={o}>Last {o} sessions</option>)}
           </select>
           <button onClick={fetchTrend}
-            className="flex items-center gap-2 px-4 py-2 text-sm border border-slate-700 text-slate-300 hover:bg-slate-800 rounded-xl transition-colors">
+            className="flex items-center gap-2 px-4 py-2 text-sm border border-slate-200 text-slate-600 hover:bg-slate-100 rounded-xl transition-colors">
             <FiRefreshCw className="w-4 h-4" /> Refresh
           </button>
         </div>
@@ -152,13 +152,13 @@ const GrowthTrend = () => {
         <div className="space-y-5">
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
             {[...Array(4)].map((_, i) => (
-              <div key={i} className="bg-slate-900 border border-slate-800 rounded-2xl p-5 animate-pulse">
-                <div className="h-3 w-20 bg-slate-800 rounded mb-3" />
-                <div className="h-7 w-16 bg-slate-800 rounded" />
+              <div key={i} className="bg-white border border-slate-200 rounded-2xl p-5 animate-pulse">
+                <div className="h-3 w-20 bg-slate-100 rounded mb-3" />
+                <div className="h-7 w-16 bg-slate-100 rounded" />
               </div>
             ))}
           </div>
-          <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 h-72 animate-pulse" />
+          <div className="bg-white border border-slate-200 rounded-2xl p-6 h-72 animate-pulse" />
         </div>
       )}
 
@@ -170,8 +170,8 @@ const GrowthTrend = () => {
               <div className="w-16 h-16 rounded-full bg-violet-500/10 flex items-center justify-center mb-4">
                 <FiTrendingUp className="w-8 h-8 text-violet-400" />
               </div>
-              <h3 className="text-lg font-semibold text-white mb-2">No trend data yet</h3>
-              <p className="text-slate-400 text-sm max-w-sm">
+              <h3 className="text-lg font-semibold text-slate-900 mb-2">No trend data yet</h3>
+              <p className="text-slate-500 text-sm max-w-sm">
                 Complete your first interview assessment on the Career Dashboard to start tracking your progress.
               </p>
             </div>
@@ -202,8 +202,8 @@ const GrowthTrend = () => {
               </div>
 
               {/* Area Chart — all three scores */}
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 mb-5">
-                <h2 className="text-sm font-semibold text-white mb-4">Score Progression — IRS / CCI / CRS</h2>
+              <div className="bg-white border border-slate-200 rounded-2xl p-6 mb-5">
+                <h2 className="text-sm font-semibold text-slate-900 mb-4">Score Progression — IRS / CCI / CRS</h2>
                 <ResponsiveContainer width="100%" height={300}>
                   <AreaChart data={trend} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
                     <defs>
@@ -233,8 +233,8 @@ const GrowthTrend = () => {
               </div>
 
               {/* Line Chart — stability view */}
-              <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6">
-                <h2 className="text-sm font-semibold text-white mb-4">Performance Stability — Line View</h2>
+              <div className="bg-white border border-slate-200 rounded-2xl p-6">
+                <h2 className="text-sm font-semibold text-slate-900 mb-4">Performance Stability — Line View</h2>
                 <ResponsiveContainer width="100%" height={220}>
                   <LineChart data={trend} margin={{ top: 5, right: 10, left: -20, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />

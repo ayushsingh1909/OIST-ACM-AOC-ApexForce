@@ -19,22 +19,22 @@ const HeroScoreCard = ({
   // Status mapping to technical ochre/forest/oxide theme
   const statusColors = {
     ready: {
-      text: "text-black",
-      bg: "bg-[#FFFFFF]",
-      border: "border border-black",
-      accent: "#000000"
+      text: "text-[#00D2C4]",
+      bg: "bg-teal-50",
+      border: "border-0",
+      accent: "#00D2C4"
     },
     developing: {
-      text: "text-black",
-      bg: "bg-[#FFFFFF]",
-      border: "border border-black",
-      accent: "#000000"
+      text: "text-[#4F46E5]",
+      bg: "bg-indigo-50",
+      border: "border-0",
+      accent: "#4F46E5"
     },
     risk: {
-      text: "text-black",
-      bg: "bg-[#FFFFFF]",
-      border: "border border-black",
-      accent: "#000000"
+      text: "text-rose-500",
+      bg: "bg-rose-50",
+      border: "border-0",
+      accent: "#f43f5e"
     }
   };
 
@@ -65,17 +65,17 @@ const HeroScoreCard = ({
   }, [score, isReduced]);
 
   return (
-    <div className="bg-[#FFFFFF] border border-black/10 p-8 flex flex-col justify-between h-[340px] relative overflow-hidden">
+    <div className="bg-white rounded-3xl shadow-outcrowd hover:shadow-outcrowd-hover border border-slate-100 p-8 flex flex-col justify-between h-[340px] relative overflow-hidden transition-all duration-300">
       
       {/* Top Header */}
       <div className="flex justify-between items-start">
-        <div className="space-y-1.5">
-          <span className="text-[10px] font-bold text-[#000000] uppercase tracking-widest block font-sans">
+        <div className="space-y-2">
+          <span className="text-xs font-bold text-slate-500 uppercase tracking-widest block font-sans">
             {title}
           </span>
           <span
             ref={badgeRef}
-            className={`inline-block text-[10px] font-bold px-3 py-1 uppercase tracking-widest font-sans ${currentTheme.text} ${currentTheme.bg} ${currentTheme.border}`}
+            className={`inline-block text-[11px] font-bold px-3 py-1 rounded-full uppercase tracking-wider font-sans ${currentTheme.text} ${currentTheme.bg} ${currentTheme.border}`}
           >
             {classification}
           </span>
@@ -84,38 +84,40 @@ const HeroScoreCard = ({
 
       {/* Numerical Metric Display */}
       <div className="my-auto">
-        <div className="flex items-baseline text-[#000000]">
-          <span ref={countRef} className="text-8xl font-bold tracking-tighter font-sans leading-none">0</span>
-          <span className="text-4xl font-bold ml-1 font-sans">%</span>
+        <div className="flex items-baseline text-slate-900">
+          <span ref={countRef} className="text-[5.5rem] font-bold tracking-tight font-heading leading-none">0</span>
+          <span className="text-3xl font-bold ml-1 font-heading text-slate-500">%</span>
         </div>
 
-        {/* Calibration Slide Dial (Direction A Signature element) */}
-        <div className="mt-6 relative w-full h-8 flex flex-col justify-end">
+        {/* Calibration Slide Dial */}
+        <div className="mt-8 relative w-full h-8 flex flex-col justify-end">
           {/* Diagnostic tick markings */}
-          <div className="absolute inset-x-0 bottom-3 h-2 flex justify-between select-none">
+          <div className="absolute inset-x-0 bottom-4 h-2 flex justify-between select-none px-1">
             {[...Array(11)].map((_, i) => (
-              <span key={i} className="w-[1px] h-full bg-black/20 font-sans font-bold text-[8px] text-black flex flex-col justify-between items-center">
-                <span className="w-[1px] h-1.5 bg-black/20" />
+              <span key={i} className="w-[1px] h-full bg-slate-200 font-sans font-semibold text-[9px] text-slate-500 flex flex-col justify-between items-center">
+                <span className="w-[1px] h-1.5 bg-slate-200" />
                 <span className="mt-1">{i * 10}</span>
               </span>
             ))}
           </div>
           {/* Main gauge track */}
-          <div className="w-full h-[2px] bg-black/10 absolute bottom-3" />
+          <div className="w-full h-[6px] bg-slate-100 rounded-full absolute bottom-[10px] overflow-hidden">
+             <div className="absolute top-0 left-0 h-full bg-gradient-to-r from-[#4F46E5] to-[#00D2C4]" style={{ width: `${score}%` }}></div>
+          </div>
           
           {/* Slider Pip */}
           <div
             ref={indicatorRef}
             style={{ left: "0%" }}
-            className="absolute bottom-[9px] w-2.5 h-2.5 bg-[#000000] border-2 border-white -ml-1.25"
+            className="absolute bottom-[6px] w-4 h-4 bg-white border-[3px] border-[#4F46E5] rounded-full shadow-md -ml-2 z-10"
           />
         </div>
       </div>
 
       {/* Footer Info */}
-      <div className="flex justify-between items-center border-t border-black/10 pt-4 text-[10px] text-[#000000] font-bold uppercase tracking-widest font-sans">
+      <div className="flex justify-between items-center border-t border-slate-100/60 pt-4 text-[11px] text-slate-500 font-semibold uppercase tracking-wider font-sans">
         <span>{subtitle}</span>
-        <span>{rankText}</span>
+        <span className="text-[#4F46E5]">{rankText}</span>
       </div>
 
     </div>

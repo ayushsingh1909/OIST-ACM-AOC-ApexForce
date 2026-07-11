@@ -108,24 +108,24 @@ const QuizTaking = () => {
     <div className="max-w-3xl mx-auto px-4 py-6">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-2">
-          <FiClock className={`w-5 h-5 ${isUrgent ? "text-rose-400" : "text-slate-400"}`} />
-          <span className={`text-xl font-mono font-bold ${isUrgent ? "text-rose-400" : "text-white"}`}>
+          <FiClock className={`w-5 h-5 ${isUrgent ? "text-rose-500" : "text-slate-500"}`} />
+          <span className={`text-xl font-mono font-bold ${isUrgent ? "text-rose-500" : "text-slate-900"}`}>
             {String(minutes).padStart(2, "0")}:{String(seconds).padStart(2, "0")}
           </span>
         </div>
-        <span className="text-sm text-slate-400">
+        <span className="text-sm text-slate-500">
           Question {currentIndex + 1} of {attempt.questions.length}
         </span>
       </div>
 
-      <div className="h-1.5 bg-slate-800 rounded-full mb-6 overflow-hidden">
+      <div className="h-1.5 bg-slate-100 rounded-full mb-6 overflow-hidden">
         <div
-          className="h-full bg-gradient-to-r from-violet-600 to-indigo-600 transition-all"
+          className="h-full bg-gradient-to-r from-[#4F46E5] to-[#00D2C4] transition-all"
           style={{ width: `${((currentIndex + 1) / attempt.questions.length) * 100}%` }}
         />
       </div>
 
-      <div className="p-6 bg-slate-900/60 border border-slate-800 rounded-2xl mb-6">
+      <div className="p-6 bg-white border border-slate-100 rounded-3xl shadow-lg mb-6">
         <div className="flex items-center justify-between mb-4">
           <span className="px-2 py-1 text-xs font-semibold bg-violet-500/10 text-violet-400 border border-violet-500/20 rounded-lg">
             {question.topic} · {question.difficulty}
@@ -143,7 +143,7 @@ const QuizTaking = () => {
           </button>
         </div>
 
-        <p className="text-lg text-white mb-6 leading-relaxed">{question.questionText}</p>
+        <p className="text-lg text-slate-900 mb-6 leading-relaxed">{question.questionText}</p>
 
         {question.type === "short-answer" ? (
           <input
@@ -151,7 +151,7 @@ const QuizTaking = () => {
             value={answers[question.questionId] || ""}
             onChange={(e) => handleAnswerChange(question.questionId, e.target.value)}
             placeholder="Type your answer..."
-            className="w-full px-4 py-3 bg-slate-950 border border-slate-800 rounded-xl text-slate-100 focus:outline-none focus:ring-2 focus:ring-violet-500/50"
+            className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-xl text-slate-900 focus:outline-none focus:ring-2 focus:ring-[#4F46E5]/30"
           />
         ) : (
           <div className="space-y-2">
@@ -161,8 +161,8 @@ const QuizTaking = () => {
                 onClick={() => handleAnswerChange(question.questionId, opt)}
                 className={`w-full text-left px-4 py-3 rounded-xl border transition-all ${
                   answers[question.questionId] === opt
-                    ? "border-violet-500 bg-violet-500/10 text-white"
-                    : "border-slate-800 bg-slate-950/50 text-slate-300 hover:border-slate-700"
+                    ? "border-[#4F46E5] bg-[#4F46E5]/10 text-slate-900"
+                    : "border-slate-200 bg-slate-50 text-slate-600 hover:border-slate-300"
                 }`}
               >
                 {opt}
@@ -179,12 +179,12 @@ const QuizTaking = () => {
             onClick={() => setCurrentIndex(i)}
             className={`w-8 h-8 text-xs font-semibold rounded-lg transition-all ${
               i === currentIndex
-                ? "bg-violet-600 text-white"
+                ? "bg-[#4F46E5] text-slate-900"
                 : answers[q.questionId]
-                  ? "bg-emerald-500/20 text-emerald-400 border border-emerald-500/30"
+                  ? "bg-emerald-500/10 text-emerald-600 border border-emerald-500/20"
                   : flagged[q.questionId]
-                    ? "bg-amber-500/20 text-amber-400 border border-amber-500/30"
-                    : "bg-slate-800 text-slate-500"
+                    ? "bg-amber-500/10 text-amber-600 border border-amber-500/20"
+                    : "bg-slate-100 text-slate-500"
             }`}
           >
             {i + 1}
@@ -196,7 +196,7 @@ const QuizTaking = () => {
         <button
           onClick={() => setCurrentIndex((i) => Math.max(0, i - 1))}
           disabled={currentIndex === 0}
-          className="flex items-center gap-1 px-4 py-2 text-slate-400 hover:text-white disabled:opacity-30 transition-all"
+          className="flex items-center gap-1 px-4 py-2 text-slate-500 hover:text-slate-900 disabled:opacity-30 transition-all"
         >
           <FiChevronLeft /> Previous
         </button>
@@ -204,7 +204,7 @@ const QuizTaking = () => {
         {currentIndex < attempt.questions.length - 1 ? (
           <button
             onClick={() => setCurrentIndex((i) => i + 1)}
-            className="flex items-center gap-1 px-6 py-2 bg-slate-800 text-white rounded-xl hover:bg-slate-700 transition-all"
+            className="flex items-center gap-1 px-6 py-2 bg-slate-100 text-slate-700 rounded-xl hover:bg-slate-200 transition-all"
           >
             Next <FiChevronRight />
           </button>
@@ -212,7 +212,7 @@ const QuizTaking = () => {
           <button
             onClick={handleSubmit}
             disabled={submitting}
-            className="px-6 py-2 bg-gradient-to-r from-violet-600 to-indigo-600 text-white font-semibold rounded-xl hover:from-violet-500 hover:to-indigo-500 disabled:opacity-50 transition-all"
+            className="px-6 py-2 bg-gradient-to-r from-[#4F46E5] to-[#00D2C4] text-white font-semibold rounded-2xl shadow-lg shadow-[#4F46E5]/25 hover:shadow-xl hover:shadow-[#4F46E5]/30 disabled:opacity-50 transition-all"
           >
             {submitting ? "Submitting..." : "Submit Quiz"}
           </button>
